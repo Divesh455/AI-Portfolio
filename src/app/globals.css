@@ -185,46 +185,6 @@ html.lenis {
   animation: pulse-slow 8s ease-in-out infinite;
 }
 
-/* Custom Floating Animations for Social Bubbles */
-@keyframes bubbleFloat1 {
-  0% { transform: translate(0px, 0px); }
-  20% { transform: translate(180px, 120px); }
-  40% { transform: translate(-120px, -100px); }
-  60% { transform: translate(220px, 180px); }
-  80% { transform: translate(-100px, -60px); }
-  100% { transform: translate(0px, 0px); }
-}
 
-@keyframes bubbleFloat2 {
-  0% { transform: translate(0px, 0px); }
-  20% { transform: translate(-220px, -120px); }
-  40% { transform: translate(160px, 180px); }
-  60% { transform: translate(-150px, -90px); }
-  80% { transform: translate(180px, 140px); }
-  100% { transform: translate(0px, 0px); }
-}
-
-@keyframes bubbleFloat3 {
-  0% { transform: translate(0px, 0px); }
-  20% { transform: translate(-250px, -200px); }
-  40% { transform: translate(140px, 140px); }
-  60% { transform: translate(-180px, -160px); }
-  80% { transform: translate(150px, 100px); }
-  100% { transform: translate(0px, 0px); }
-}
-
-.animate-bubble-float-1 {
-  animation: bubbleFloat1 24s ease-in-out infinite;
-}
-.animate-bubble-float-2 {
-  animation: bubbleFloat2 28s ease-in-out infinite;
-}
-.animate-bubble-float-3 {
-  animation: bubbleFloat3 26s ease-in-out infinite;
-}
-
-.pause-hover:hover {
-  animation-play-state: paused !important;
-}
 
 
