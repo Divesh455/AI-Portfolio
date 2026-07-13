@@ -573,88 +573,82 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
         </motion.div>
       )}
 
-      {/* Floating Social Bubbles (Drifting across entire screen) */}
+      {/* Floating Social Bubbles (Drifting across entire screen with hover pause) */}
       <div className="absolute inset-0 z-25 pointer-events-none overflow-hidden">
         {/* LinkedIn Bubble */}
-        <motion.a
-          href="https://www.linkedin.com/in/divesh-matkar"
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ 
-            opacity: isActivated ? 1 : 0, 
-            scale: isActivated ? 1 : 0,
-            x: [0, 180, -120, 220, -100, 0],
-            y: [0, 120, -100, 180, -60, 0]
-          }}
-          transition={{
-            opacity: { duration: 0.8, delay: 0.8 },
-            scale: { duration: 0.8, delay: 0.8 },
-            x: { duration: 24, repeat: Infinity, ease: "easeInOut" },
-            y: { duration: 26, repeat: Infinity, ease: "easeInOut" }
-          }}
-          whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
-          className="absolute left-[15%] top-[20%] lg:left-[25%] lg:top-[30%] group w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 pointer-events-auto cursor-pointer"
-        >
-          <FaLinkedin className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-[#F6C453] transition-colors" />
-          <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-[#D4A017]/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
-            LinkedIn
-          </span>
-        </motion.a>
+        <div className="absolute left-[15%] top-[20%] lg:left-[25%] lg:top-[30%] pointer-events-auto animate-bubble-float-1 pause-hover">
+          <motion.a
+            href="https://www.linkedin.com/in/divesh-matkar"
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ 
+              opacity: isActivated ? 1 : 0, 
+              scale: isActivated ? 1 : 0,
+            }}
+            transition={{
+              opacity: { duration: 0.8, delay: 0.8 },
+              scale: { duration: 0.8, delay: 0.8 },
+            }}
+            whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
+            className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 cursor-pointer"
+          >
+            <FaLinkedin className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-[#F6C453] transition-colors" />
+            <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-[#D4A017]/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
+              LinkedIn
+            </span>
+          </motion.a>
+        </div>
 
         {/* LeetCode Bubble */}
-        <motion.a
-          href="https://leetcode.com/u/divesh_001/"
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ 
-            opacity: isActivated ? 1 : 0, 
-            scale: isActivated ? 1 : 0,
-            x: [0, -220, 160, -150, 180, 0],
-            y: [0, -120, 180, -90, 140, 0]
-          }}
-          transition={{
-            opacity: { duration: 0.8, delay: 1.0 },
-            scale: { duration: 0.8, delay: 1.0 },
-            x: { duration: 28, repeat: Infinity, ease: "easeInOut", delay: 0.3 },
-            y: { duration: 30, repeat: Infinity, ease: "easeInOut", delay: 0.3 }
-          }}
-          whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
-          className="absolute left-[50%] top-[45%] lg:left-[55%] lg:top-[45%] group w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 pointer-events-auto cursor-pointer"
-        >
-          <SiLeetcode className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-[#F6C453] transition-colors" />
-          <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-[#D4A017]/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
-            LeetCode
-          </span>
-        </motion.a>
+        <div className="absolute left-[50%] top-[45%] lg:left-[55%] lg:top-[45%] pointer-events-auto animate-bubble-float-2 pause-hover">
+          <motion.a
+            href="https://leetcode.com/u/divesh_001/"
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ 
+              opacity: isActivated ? 1 : 0, 
+              scale: isActivated ? 1 : 0,
+            }}
+            transition={{
+              opacity: { duration: 0.8, delay: 1.0 },
+              scale: { duration: 0.8, delay: 1.0 },
+            }}
+            whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
+            className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 cursor-pointer"
+          >
+            <SiLeetcode className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-[#F6C453] transition-colors" />
+            <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-[#D4A017]/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
+              LeetCode
+            </span>
+          </motion.a>
+        </div>
 
         {/* GitHub Bubble */}
-        <motion.a
-          href="https://github.com/Divesh455"
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ 
-            opacity: isActivated ? 1 : 0, 
-            scale: isActivated ? 1 : 0,
-            x: [0, -250, 140, -180, 150, 0],
-            y: [0, -200, 140, -160, 100, 0]
-          }}
-          transition={{
-            opacity: { duration: 0.8, delay: 1.2 },
-            scale: { duration: 0.8, delay: 1.2 },
-            x: { duration: 26, repeat: Infinity, ease: "easeInOut", delay: 0.6 },
-            y: { duration: 24, repeat: Infinity, ease: "easeInOut", delay: 0.6 }
-          }}
-          whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
-          className="absolute left-[80%] top-[70%] lg:left-[75%] lg:top-[65%] group w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 pointer-events-auto cursor-pointer"
-        >
-          <FaGithub className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-[#F6C453] transition-colors" />
-          <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-[#D4A017]/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
-            GitHub
-          </span>
-        </motion.a>
+        <div className="absolute left-[80%] top-[70%] lg:left-[75%] lg:top-[65%] pointer-events-auto animate-bubble-float-3 pause-hover">
+          <motion.a
+            href="https://github.com/Divesh455"
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ 
+              opacity: isActivated ? 1 : 0, 
+              scale: isActivated ? 1 : 0,
+            }}
+            transition={{
+              opacity: { duration: 0.8, delay: 1.2 },
+              scale: { duration: 0.8, delay: 1.2 },
+            }}
+            whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
+            className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 pointer-events-auto cursor-pointer"
+          >
+            <FaGithub className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-[#F6C453] transition-colors" />
+            <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-[#D4A017]/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
+              GitHub
+            </span>
+          </motion.a>
+        </div>
       </div>
     </section>
   );
