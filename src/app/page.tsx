@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AILanding from "@/components/AILanding";
 import Hero from "@/components/Hero";
 import TechStack from "@/components/TechStack";
@@ -17,6 +17,35 @@ export default function Home() {
   const [bootState, setBootState] = useState<"loading" | "transitioning" | "ready">("loading");
 
   const [heroActivated, setHeroActivated] = useState(false);
+  const [mountBelowFold, setMountBelowFold] = useState(false);
+
+  useEffect(() => {
+    if (bootState !== "ready") return;
+
+    // Stagger below-fold mounting to ensure the Hero entrance animations are silky smooth.
+    // 2.5s is enough time for the GSAP entrance animations to complete.
+    const timer = setTimeout(() => {
+      setMountBelowFold(true);
+    }, 2500);
+
+    // If the user scrolls or interacts, mount immediately
+    const triggerMount = () => {
+      setMountBelowFold(true);
+    };
+
+    window.addEventListener("scroll", triggerMount, { passive: true });
+    window.addEventListener("wheel", triggerMount, { passive: true });
+    window.addEventListener("touchmove", triggerMount, { passive: true });
+    window.addEventListener("keydown", triggerMount, { passive: true });
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", triggerMount);
+      window.removeEventListener("wheel", triggerMount);
+      window.removeEventListener("touchmove", triggerMount);
+      window.removeEventListener("keydown", triggerMount);
+    };
+  }, [bootState]);
 
   return (
     <div className="relative min-h-screen bg-[#0B0F19] text-[#F9FAFB] selection:bg-[#D4A017]/35 selection:text-white font-sans antialiased overflow-hidden">
@@ -39,42 +68,45 @@ export default function Home() {
       )}
 
       {/* Main Content Sections */}
-      <main className={
-        bootState === "ready" 
-          ? "opacity-100" 
-          : bootState === "transitioning"
-            ? "opacity-100 transition-opacity duration-1000"
-            : "opacity-0 pointer-events-none"
-      }>
-        {/* Fullscreen Hero */}
-        <Hero isActivated={heroActivated} />
+    {bootState === "ready" && (
+      <main className="opacity-100 animate-fade-in">
 
-        {/* Floating Tech Stack Cards Grid */}
-        <TechStack />
+      {/* Fullscreen Hero */}
+      <Hero isActivated={heroActivated} />
 
-        {/* Dynamic AI Labs Dashboard Playground */}
-        <AIShowcase />
+      {mountBelowFold && (
+        <>
+          {/* Floating Tech Stack Cards Grid */}
+          <TechStack />
 
-        {/* Journey Timeline Stories */}
-        <About />
+          {/* Dynamic AI Labs Dashboard Playground */}
+          <AIShowcase />
 
-        {/* Skills rating tabs */}
-        <Skills />
+          {/* Journey Timeline Stories */}
+          <About />
 
-        {/* Project tilt cards showcase */}
-        <Projects />
+          {/* Skills rating tabs */}
+          <Skills />
 
-        {/* Vertical Experience Timeline */}
-        <Experience />
+          {/* Project tilt cards showcase */}
+          <Projects />
 
-        {/* Certification grids */}
-        <Certificates />
+          {/* Vertical Experience Timeline */}
+          <Experience />
 
-        {/* Contact Form */}
-        <Contact />
-      </main>
+          {/* Certification grids */}
+          <Certificates />
+
+          {/* Contact Form */}
+          <Contact />
+        </>
+      )}
+
+    </main>
+  )}
 
       {/* Premium Luxury Footer */}
+      {bootState === "ready" && mountBelowFold && (
       <footer className="relative bg-[#0B0F19] border-t border-[#D4A017]/10 py-16 overflow-hidden select-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[100px] rounded-full bg-[#D4A017] opacity-[0.03] blur-[80px] pointer-events-none" />
 
@@ -107,6 +139,7 @@ export default function Home() {
 
         </div>
       </footer>
+    )}
     </div>
   );
 }

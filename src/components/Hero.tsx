@@ -127,6 +127,8 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
   // Neural Network Canvas Animation (Covering background overlay)
   useEffect(() => {
+    if (!isActivated) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -135,12 +137,23 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
     let animationFrameId: number;
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
+    let isVisible = true;
 
     const handleResize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     };
     window.addEventListener("resize", handleResize);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
 
     class Particle {
       x: number;
@@ -208,27 +221,29 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
     document.addEventListener("mouseleave", handleMouseLeave);
 
     const animate = () => {
-      ctx.clearRect(0, 0, width, height);
+      if (isVisible) {
+        ctx.clearRect(0, 0, width, height);
 
-      ctx.lineWidth = 0.5;
-      for (let i = 0; i < particles.length; i++) {
-        const p1 = particles[i];
-        p1.update(mouse.x, mouse.y);
-        p1.draw(ctx);
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < particles.length; i++) {
+          const p1 = particles[i];
+          p1.update(mouse.x, mouse.y);
+          p1.draw(ctx);
 
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 150) {
-            const alpha = ((150 - dist) / 150) * 0.06;
-            ctx.strokeStyle = `rgba(212, 160, 23, ${alpha})`;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
+            if (dist < 150) {
+              const alpha = ((150 - dist) / 150) * 0.06;
+              ctx.strokeStyle = `rgba(212, 160, 23, ${alpha})`;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
           }
         }
       }
@@ -243,8 +258,9 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
       window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
     };
-  }, []);
+  }, [isActivated]);
 
   // Play and unmute video when activated (due to user interaction)
   useEffect(() => {
@@ -258,27 +274,33 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
         return;
     }
 
-    const timer = setTimeout(() => {
+    const playVideo = async () => {
+        try {
+            video.currentTime = 0;
+            video.muted = false;
+            video.volume = 1;
 
-        video.currentTime = 0;
-        video.muted = false;
-        video.volume = 1;
+            await video.play();
 
-        video.play()
-            .then(() => {
-                setIsMuted(false);
-                setShowUnmutePrompt(false);
-            })
-            .catch(console.error);
+            setIsMuted(false);
+            setShowUnmutePrompt(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-    },3000);
+    playVideo();
 
-    return () => clearTimeout(timer);
+    return () => {
+        video.pause();
+    };
 
-},[isActivated]);
+}, [isActivated]);
 
   // Intersection Observer to pause/play video based on viewport visibility
   useEffect(() => {
+    if (!isActivated) return;
+    
     const section = containerRef.current;
     const video = videoRef.current;
     if (!section || !video) return;

@@ -157,6 +157,7 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
+          style={{ willChange: "opacity" }}
           className="fixed inset-0 w-full h-[100dvh] bg-[#0B0F19] z-[9999] flex flex-col items-center justify-center overflow-hidden select-none font-sans"
         >
           {/* Subtle noise texture overlay */}
@@ -188,6 +189,7 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
                 opacity: state === "transitioning" ? { duration: 0.6 } : { duration: 4, repeat: Infinity, ease: "easeInOut" },
                 rotate: { duration: 25, repeat: Infinity, ease: "linear" },
               }}
+              style={{ willChange: "transform, opacity" }}
               className="absolute w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] rounded-full border border-dashed border-[#D4A017]/30 bg-gradient-to-r from-transparent via-[#D4A017]/5 to-transparent shadow-[0_0_40px_rgba(212,160,23,0.15)]"
             />
 
@@ -203,6 +205,7 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
                 opacity: state === "transitioning" ? { duration: 0.5 } : { duration: 3.2, repeat: Infinity, ease: "easeInOut" },
                 rotate: { duration: 18, repeat: Infinity, ease: "linear" },
               }}
+              style={{ willChange: "transform, opacity" }}
               className="absolute w-[170px] h-[170px] sm:w-[210px] sm:h-[210px] rounded-full border border-[#D4A017]/15 bg-[conic-gradient(from_0deg,rgba(212,160,23,0.08)_0%,transparent_50%,rgba(212,160,23,0.08)_100%)]"
             />
 
@@ -210,7 +213,10 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
             <motion.div
               animate={state === "transitioning" ? { scale: 22, opacity: 0 } : {}}
               transition={{ duration: 1.4, ease: [0.76, 0, 0.24, 1] }}
-              className="relative w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] rounded-full glass border border-[#D4A017]/35 flex flex-col items-center justify-center shadow-[inset_0_4px_30px_rgba(255,255,255,0.05),0_15px_45px_rgba(0,0,0,0.7),0_0_35px_rgba(212,160,23,0.25)] overflow-hidden group"
+              style={{ willChange: "transform, opacity" }}
+              className={`relative w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] rounded-full border border-[#D4A017]/35 flex flex-col items-center justify-center shadow-[inset_0_4px_30px_rgba(255,255,255,0.05),0_15px_45px_rgba(0,0,0,0.7),0_0_35px_rgba(212,160,23,0.25)] overflow-hidden group ${
+                state === "transitioning" ? "bg-[#111827]/90" : "glass"
+              }`}
             >
               {/* Spherical Reflection Highlight Overlay */}
               <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent rounded-t-full pointer-events-none" />

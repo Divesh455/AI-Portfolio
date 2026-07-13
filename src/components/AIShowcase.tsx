@@ -301,6 +301,17 @@ function NeuralGraph() {
     let animFrame: number;
     const width = (canvas.width = canvas.parentElement?.clientWidth || 600);
     const height = (canvas.height = 360);
+    let isVisible = true;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
 
     const layers = [4, 6, 6, 4];
     const nodes: { x: number; y: number; val: number; targetVal: number }[][] = [];
@@ -323,78 +334,80 @@ function NeuralGraph() {
 
     let pulseX = 0;
     const animate = () => {
-      ctx.clearRect(0, 0, width, height);
+      if (isVisible) {
+        ctx.clearRect(0, 0, width, height);
 
-      // Advance signal pulse
-      pulseX += 3.5;
-      if (pulseX > width + 50) {
-        pulseX = 0;
-        // Randomize target activations
-        nodes.forEach(layer =>
+        // Advance signal pulse
+        pulseX += 3.5;
+        if (pulseX > width + 50) {
+          pulseX = 0;
+          // Randomize target activations
+          nodes.forEach(layer =>
+            layer.forEach(n => {
+              n.targetVal = Math.random();
+            })
+          );
+        }
+
+        // Smooth node values towards target values
+        nodes.forEach(layer => {
           layer.forEach(n => {
-            n.targetVal = Math.random();
-          })
-        );
-      }
-
-      // Smooth node values towards target values
-      nodes.forEach(layer => {
-        layer.forEach(n => {
-          n.val += (n.targetVal - n.val) * 0.1;
-        });
-      });
-
-      // Draw Connections (weights)
-      ctx.lineWidth = 0.5;
-      for (let l = 0; l < nodes.length - 1; l++) {
-        const currLayer = nodes[l];
-        const nextLayer = nodes[l + 1];
-        
-        currLayer.forEach(n1 => {
-          nextLayer.forEach(n2 => {
-            // Weight strength base representation
-            const strength = (n1.val + n2.val) / 2;
-            
-            // Highlight connections that the pulse is passing over
-            const pulseDist = Math.abs(n1.x - pulseX);
-            const pulseGlow = pulseDist < 40 ? (40 - pulseDist) / 40 : 0;
-            
-            ctx.strokeStyle = `rgba(212, 160, 23, ${strength * 0.1 + pulseGlow * 0.25})`;
-            ctx.lineWidth = 0.5 + pulseGlow * 1.5;
-            ctx.beginPath();
-            ctx.moveTo(n1.x, n1.y);
-            ctx.lineTo(n2.x, n2.y);
-            ctx.stroke();
+            n.val += (n.targetVal - n.val) * 0.1;
           });
         });
-      }
 
-      // Draw Nodes
-      nodes.forEach((layer) => {
-        layer.forEach((n) => {
-          // Draw outer gold glow ring
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, 8 + n.val * 6, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(212, 160, 23, ${n.val * 0.15})`;
-          ctx.fill();
+        // Draw Connections (weights)
+        ctx.lineWidth = 0.5;
+        for (let l = 0; l < nodes.length - 1; l++) {
+          const currLayer = nodes[l];
+          const nextLayer = nodes[l + 1];
+          
+          currLayer.forEach(n1 => {
+            nextLayer.forEach(n2 => {
+              // Weight strength base representation
+              const strength = (n1.val + n2.val) / 2;
+              
+              // Highlight connections that the pulse is passing over
+              const pulseDist = Math.abs(n1.x - pulseX);
+              const pulseGlow = pulseDist < 40 ? (40 - pulseDist) / 40 : 0;
+              
+              ctx.strokeStyle = `rgba(212, 160, 23, ${strength * 0.1 + pulseGlow * 0.25})`;
+              ctx.lineWidth = 0.5 + pulseGlow * 1.5;
+              ctx.beginPath();
+              ctx.moveTo(n1.x, n1.y);
+              ctx.lineTo(n2.x, n2.y);
+              ctx.stroke();
+            });
+          });
+        }
 
-          // Draw center node core
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, 4, 0, Math.PI * 2);
-          ctx.fillStyle = n.val > 0.5 ? "#F6C453" : "#D4A017";
-          ctx.shadowBlur = n.val * 10;
-          ctx.shadowColor = "#D4A017";
-          ctx.fill();
-          ctx.shadowBlur = 0; // reset
+        // Draw Nodes
+        nodes.forEach((layer) => {
+          layer.forEach((n) => {
+            // Draw outer gold glow ring
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, 8 + n.val * 6, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(212, 160, 23, ${n.val * 0.15})`;
+            ctx.fill();
+
+            // Draw center node core
+            ctx.beginPath();
+            ctx.arc(n.x, n.y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = n.val > 0.5 ? "#F6C453" : "#D4A017";
+            ctx.shadowBlur = n.val * 10;
+            ctx.shadowColor = "#D4A017";
+            ctx.fill();
+            ctx.shadowBlur = 0; // reset
+          });
         });
-      });
 
-      // Terminal text overlay
-      ctx.fillStyle = "rgba(156, 163, 175, 0.4)";
-      ctx.font = "10px JetBrains Mono, monospace";
-      ctx.fillText(`EPOCH: ${Math.floor(Date.now() / 2000) % 9999}`, 20, 20);
-      ctx.fillText(`LEARNING_RATE: 0.0003`, 20, 35);
-      ctx.fillText(`ACT: GELU`, 20, 50);
+        // Terminal text overlay
+        ctx.fillStyle = "rgba(156, 163, 175, 0.4)";
+        ctx.font = "10px JetBrains Mono, monospace";
+        ctx.fillText(`EPOCH: ${Math.floor(Date.now() / 2000) % 9999}`, 20, 20);
+        ctx.fillText(`LEARNING_RATE: 0.0003`, 20, 35);
+        ctx.fillText(`ACT: GELU`, 20, 50);
+      }
 
       animFrame = requestAnimationFrame(animate);
     };
@@ -403,6 +416,7 @@ function NeuralGraph() {
 
     return () => {
       cancelAnimationFrame(animFrame);
+      observer.disconnect();
     };
   }, []);
 
