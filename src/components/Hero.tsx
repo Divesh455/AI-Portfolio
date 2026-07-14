@@ -22,6 +22,13 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const isActivatedRef = useRef(isActivated);
+
+  // Sync isActivated state to ref to avoid observer re-registrations
+  useEffect(() => {
+    isActivatedRef.current = isActivated;
+  }, [isActivated]);
+
   // Parallax Scroll Animation
   const { scrollY } = useScroll();
   const yBg = useTransform(scrollY, [0, 800], [0, 180]);
@@ -508,8 +515,6 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
   // Intersection Observer to pause/play video based on viewport visibility
   useEffect(() => {
-    if (!isActivated) return;
-    
     const section = containerRef.current;
     const video = videoRef.current;
     if (!section || !video) return;
@@ -517,19 +522,21 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
-            // Hero section is visible, play the video
-            video.play().catch((err) => {
-              console.log("Play failed on scroll resume:", err);
-            });
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+            // Hero section is visible (at least 20%), play the video if activated
+            if (isActivatedRef.current) {
+              video.play().catch((err) => {
+                console.log("Play failed on scroll resume:", err);
+              });
+            }
           } else {
-            // Hero section is scrolled out of view, pause the video
+            // Hero section is 80% invisible (visible < 20%), pause the video
             video.pause();
           }
         });
       },
       {
-        threshold: [0.0, 0.3], // Trigger when visibility crosses 30%
+        threshold: [0.0, 0.2], // Trigger when visibility crosses 20% (80% invisible)
       }
     );
 
