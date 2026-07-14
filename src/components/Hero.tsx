@@ -35,33 +35,162 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
   const [isMuted, setIsMuted] = useState(false);
   const [showUnmutePrompt, setShowUnmutePrompt] = useState(false);
 
-  // Floating Social Bubbles Random Walk States
-  const [bubbleTargets, setBubbleTargets] = useState([
-    { x: 0, y: 0, duration: 10 },
-    { x: 0, y: 0, duration: 12 },
-    { x: 0, y: 0, duration: 11 }
-  ]);
-  const [isHovered, setIsHovered] = useState([false, false, false]);
+  // Floating Social Bubbles Random Walk with GSAP
+  const tweenRefs = useRef<(gsap.core.Tween | null)[]>([]);
+  const bubbleRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lastDirection = useRef<number[]>([1, -1, 1]); // alternate initial directions
 
-  const generateRandomTarget = (index: number) => {
-    const range = 240; // Max drift distance in pixels
-    const randomX = (Math.random() - 0.5) * 2 * range;
-    const randomY = (Math.random() - 0.5) * 2 * range;
-    const randomDuration = 9 + Math.random() * 5; // Slow, 9s to 14s
-    setBubbleTargets(prev => {
-      const next = [...prev];
-      next[index] = { x: randomX, y: randomY, duration: randomDuration };
-      return next;
+  const animateBubble = (index: number) => {
+    const el = bubbleRefs.current[index];
+    if (!el || !isActivated) return;
+
+    // Get screen-size adapted drift bounds to keep them on screen
+    const isMobile = window.innerWidth < 768;
+    const isTablet = window.innerWidth < 1024;
+    const range = isMobile ? 65 : (isTablet ? 140 : 250);
+    
+    // Generate completely independent random targets in 2D space for true random walk
+    const targetX = (Math.random() - 0.5) * 2 * range;
+    const targetY = (Math.random() - 0.5) * 2 * range;
+    const duration = 9 + Math.random() * 5; // Slow, 9s to 14s
+
+    if (tweenRefs.current[index]) {
+      tweenRefs.current[index]?.kill();
+    }
+
+    tweenRefs.current[index] = gsap.to(el, {
+      x: targetX,
+      y: targetY,
+      duration: duration,
+      ease: "power1.inOut",
+      onComplete: () => {
+        animateBubble(index);
+      }
+    });
+  };
+
+  const bounceBubble = (index: number, nx: number, ny: number) => {
+    const el = bubbleRefs.current[index];
+    if (!el || !isActivated) return;
+
+    // Get screen-size adapted drift bounds to keep them on screen
+    const isMobile = window.innerWidth < 768;
+    const isTablet = window.innerWidth < 1024;
+    const range = isMobile ? 65 : (isTablet ? 140 : 250);
+    const minRange = isMobile ? 25 : (isTablet ? 50 : 80);
+    
+    const signX = nx > 0 ? 1 : -1;
+    const signY = ny > 0 ? 1 : -1;
+
+    lastDirection.current[index] = signX;
+
+    const targetX = signX * (minRange + Math.random() * (range - minRange));
+    const targetY = signY * (minRange + Math.random() * (range - minRange));
+    const duration = 7 + Math.random() * 4; // Faster bounce response
+
+    if (tweenRefs.current[index]) {
+      tweenRefs.current[index]?.kill();
+    }
+
+    tweenRefs.current[index] = gsap.to(el, {
+      x: targetX,
+      y: targetY,
+      duration: duration,
+      ease: "power2.out",
+      onComplete: () => {
+        animateBubble(index);
+      }
     });
   };
 
   useEffect(() => {
     if (isActivated) {
-      generateRandomTarget(0);
-      generateRandomTarget(1);
-      generateRandomTarget(2);
+      animateBubble(0);
+      animateBubble(1);
+      animateBubble(2);
+    } else {
+      tweenRefs.current.forEach(t => t?.kill());
     }
+
+    return () => {
+      tweenRefs.current.forEach(t => t?.kill());
+    };
   }, [isActivated]);
+
+  // Bubble-to-Bubble Collision Checker Loop (60 FPS)
+  useEffect(() => {
+    if (!isActivated) return;
+
+    let active = true;
+    const lastCollisionTime = [0, 0, 0];
+
+    const checkCollisions = () => {
+      if (!active) return;
+
+      const now = Date.now();
+      const rects = bubbleRefs.current.map(el => el?.getBoundingClientRect() || null);
+      const pairs = [
+        [0, 1],
+        [0, 2],
+        [1, 2]
+      ];
+
+      pairs.forEach(([i, j]) => {
+        const elI = bubbleRefs.current[i];
+        const elJ = bubbleRefs.current[j];
+        const rectI = rects[i];
+        const rectJ = rects[j];
+
+        if (elI && elJ && rectI && rectJ) {
+          const cxI = rectI.left + rectI.width / 2;
+          const cyI = rectI.top + rectI.height / 2;
+          const cxJ = rectJ.left + rectJ.width / 2;
+          const cyJ = rectJ.top + rectJ.height / 2;
+
+          const dx = cxI - cxJ;
+          const dy = cyI - cyJ;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const minDistance = (rectI.width / 2) + (rectJ.width / 2);
+
+          // Bounce if overlapping and cooldown has expired
+          if (distance < minDistance && now - lastCollisionTime[i] > 1000 && now - lastCollisionTime[j] > 1000) {
+            lastCollisionTime[i] = now;
+            lastCollisionTime[j] = now;
+
+            const nx = distance > 0 ? dx / distance : (Math.random() > 0.5 ? 1 : -1);
+            const ny = distance > 0 ? dy / distance : (Math.random() > 0.5 ? 1 : -1);
+
+            // Bounce both in opposite directions away from each other
+            bounceBubble(i, nx, ny);
+            bounceBubble(j, -nx, -ny);
+          }
+        }
+      });
+
+      requestAnimationFrame(checkCollisions);
+    };
+
+    const timer = setTimeout(() => {
+      requestAnimationFrame(checkCollisions);
+    }, 1500);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
+  }, [isActivated]);
+
+  const handleMouseEnter = (index: number) => {
+    if (tweenRefs.current[index]) {
+      tweenRefs.current[index]?.pause();
+    }
+  };
+
+  const handleMouseLeave = (index: number) => {
+    if (tweenRefs.current[index]) {
+      tweenRefs.current[index]?.play();
+    }
+  };
 
   // Typewriter Effect
   useEffect(() => {
@@ -450,7 +579,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full">
           
           {/* Left Column Content (42% width / lg:col-span-5 on desktop, centered on mobile) */}
-          <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left select-none max-w-[620px] mx-auto lg:mx-0 pointer-events-auto">
+          <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left select-none max-w-[620px] mx-auto lg:mx-0">
 
             {/* Greeting */}
             <h2 className="hero-title-first opacity-0 font-sans text-[#9CA3AF] text-[16px] md:text-[20px] font-light tracking-[0.25em] uppercase mb-[10px] md:mb-[16px]">
@@ -474,7 +603,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
               {/* Gold Filled Button 1 */}
               <a
                 href="#projects"
-                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-[260px] h-[52px] md:w-auto md:h-[64px] rounded-[18px] md:rounded-[20px] text-[15px] md:text-[16px] font-heading font-semibold tracking-wide text-[#0B0F19] bg-gradient-to-r from-[#D4A017] to-[#F6C453] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.4)] overflow-hidden active:scale-95 md:px-8"
+                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-[260px] h-[52px] md:w-auto md:h-[64px] rounded-[18px] md:rounded-[20px] text-[15px] md:text-[16px] font-heading font-semibold tracking-wide text-[#0B0F19] bg-gradient-to-r from-[#D4A017] to-[#F6C453] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.4)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto"
               >
                 Explore Projects
                 <ArrowUpRight className="w-4.5 h-4.5 md:w-3.5 md:h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -486,7 +615,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                 href="https://drive.google.com/file/d/1Nc6eFIxnU_Tfue6jWEVgOu_Vxi6SeAvW/view?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-[260px] h-[52px] md:w-auto md:h-[64px] rounded-[18px] md:rounded-[20px] text-[15px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8"
+                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-[260px] h-[52px] md:w-auto md:h-[64px] rounded-[18px] md:rounded-[20px] text-[15px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto"
               >
                 <FileText className="w-4.5 h-4.5 text-[#D4A017]" />
                 Download Resume
@@ -498,7 +627,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                 href="#contact"
                 // target="_blank"
                 rel="noopener noreferrer"
-                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-[260px] h-[52px] md:w-auto md:h-auto md:text-xs md:px-6 md:py-3.5 rounded-[18px] md:rounded-[20px] text-[15px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8"
+                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-[260px] h-[52px] md:w-auto md:h-auto md:text-xs md:px-6 md:py-3.5 rounded-[18px] md:rounded-[20px] text-[15px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto"
               >
                 {/* <FaGithub className="w-4.5 h-4.5 text-[#D4A017]" /> */}
                 Contact Me
@@ -581,54 +710,25 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
         </div>
       </div>
 
-      {/* Floating Social Bubbles (Drifting across entire screen with hover pause) */}
+      {/* Floating Social Bubbles (Drifting across entire screen with hover pause using GSAP) */}
       <div className="absolute inset-0 z-15 pointer-events-none overflow-hidden">
         {/* LinkedIn Bubble */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ 
-            opacity: isActivated ? 1 : 0, 
-            scale: isActivated ? 1 : 0,
-            x: bubbleTargets[0].x,
-            y: bubbleTargets[0].y
-          }}
-          transition={{
-            opacity: { duration: 0.8, delay: 0.8 },
-            scale: { duration: 0.8, delay: 0.8 },
-            x: { 
-              duration: isHovered[0] ? 9999999 : bubbleTargets[0].duration, 
-              ease: "easeInOut"
-            },
-            y: { 
-              duration: isHovered[0] ? 9999999 : bubbleTargets[0].duration, 
-              ease: "easeInOut"
-            }
-          }}
-          onAnimationComplete={() => {
-            if (!isHovered[0]) {
-              generateRandomTarget(0);
-            }
-          }}
-          onMouseEnter={() => {
-            setIsHovered(prev => {
-              const next = [...prev];
-              next[0] = true;
-              return next;
-            });
-          }}
-          onMouseLeave={() => {
-            setIsHovered(prev => {
-              const next = [...prev];
-              next[0] = false;
-              return next;
-            });
-          }}
+        <div
+          ref={el => { bubbleRefs.current[0] = el; }}
+          onMouseEnter={() => handleMouseEnter(0)}
+          onMouseLeave={() => handleMouseLeave(0)}
           className="absolute left-[15%] top-[20%] lg:left-[25%] lg:top-[30%] pointer-events-auto"
         >
           <motion.a
             href="https://www.linkedin.com/in/divesh-matkar"
             target="_blank"
             rel="noopener noreferrer"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ 
+              opacity: isActivated ? 1 : 0, 
+              scale: isActivated ? 1 : 0,
+            }}
+            transition={{ duration: 0.8, delay: 0.8 }}
             whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
             className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 cursor-pointer"
           >
@@ -637,54 +737,25 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
               LinkedIn
             </span>
           </motion.a>
-        </motion.div>
+        </div>
 
         {/* LeetCode Bubble */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ 
-            opacity: isActivated ? 1 : 0, 
-            scale: isActivated ? 1 : 0,
-            x: bubbleTargets[1].x,
-            y: bubbleTargets[1].y
-          }}
-          transition={{
-            opacity: { duration: 0.8, delay: 1.0 },
-            scale: { duration: 0.8, delay: 1.0 },
-            x: { 
-              duration: isHovered[1] ? 9999999 : bubbleTargets[1].duration, 
-              ease: "easeInOut"
-            },
-            y: { 
-              duration: isHovered[1] ? 9999999 : bubbleTargets[1].duration, 
-              ease: "easeInOut"
-            }
-          }}
-          onAnimationComplete={() => {
-            if (!isHovered[1]) {
-              generateRandomTarget(1);
-            }
-          }}
-          onMouseEnter={() => {
-            setIsHovered(prev => {
-              const next = [...prev];
-              next[1] = true;
-              return next;
-            });
-          }}
-          onMouseLeave={() => {
-            setIsHovered(prev => {
-              const next = [...prev];
-              next[1] = false;
-              return next;
-            });
-          }}
+        <div
+          ref={el => { bubbleRefs.current[1] = el; }}
+          onMouseEnter={() => handleMouseEnter(1)}
+          onMouseLeave={() => handleMouseLeave(1)}
           className="absolute left-[50%] top-[45%] lg:left-[55%] lg:top-[45%] pointer-events-auto"
         >
           <motion.a
             href="https://leetcode.com/u/divesh_001/"
             target="_blank"
             rel="noopener noreferrer"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ 
+              opacity: isActivated ? 1 : 0, 
+              scale: isActivated ? 1 : 0,
+            }}
+            transition={{ duration: 0.8, delay: 1.0 }}
             whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
             className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 cursor-pointer"
           >
@@ -693,54 +764,25 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
               LeetCode
             </span>
           </motion.a>
-        </motion.div>
+        </div>
 
         {/* GitHub Bubble */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ 
-            opacity: isActivated ? 1 : 0, 
-            scale: isActivated ? 1 : 0,
-            x: bubbleTargets[2].x,
-            y: bubbleTargets[2].y
-          }}
-          transition={{
-            opacity: { duration: 0.8, delay: 1.2 },
-            scale: { duration: 0.8, delay: 1.2 },
-            x: { 
-              duration: isHovered[2] ? 9999999 : bubbleTargets[2].duration, 
-              ease: "easeInOut"
-            },
-            y: { 
-              duration: isHovered[2] ? 9999999 : bubbleTargets[2].duration, 
-              ease: "easeInOut"
-            }
-          }}
-          onAnimationComplete={() => {
-            if (!isHovered[2]) {
-              generateRandomTarget(2);
-            }
-          }}
-          onMouseEnter={() => {
-            setIsHovered(prev => {
-              const next = [...prev];
-              next[2] = true;
-              return next;
-            });
-          }}
-          onMouseLeave={() => {
-            setIsHovered(prev => {
-              const next = [...prev];
-              next[2] = false;
-              return next;
-            });
-          }}
+        <div
+          ref={el => { bubbleRefs.current[2] = el; }}
+          onMouseEnter={() => handleMouseEnter(2)}
+          onMouseLeave={() => handleMouseLeave(2)}
           className="absolute left-[80%] top-[70%] lg:left-[75%] lg:top-[65%] pointer-events-auto"
         >
           <motion.a
             href="https://github.com/Divesh455"
             target="_blank"
             rel="noopener noreferrer"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ 
+              opacity: isActivated ? 1 : 0, 
+              scale: isActivated ? 1 : 0,
+            }}
+            transition={{ duration: 0.8, delay: 1.2 }}
             whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
             className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 cursor-pointer"
           >
@@ -749,7 +791,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
               GitHub
             </span>
           </motion.a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
