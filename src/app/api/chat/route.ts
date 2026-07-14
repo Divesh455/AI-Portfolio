@@ -74,7 +74,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid request payload" }, { status: 400 });
     }
 
-    const lastMessage = messages[messages.length - 1]?.content || "";
     const fallbackReply = `Hi, I'm DM.AI. I'm currently experiencing a temporary connection issue and can't process your request right now. Please try again shortly. If you need to get in touch with Divesh immediately, you can use the contact details provided in his portfolio.`
     
     // Retrieve and sanitize the API key to strip quotes and spaces
