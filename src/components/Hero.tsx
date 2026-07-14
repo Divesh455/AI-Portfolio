@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, FileText, ChevronDown, Volume2, VolumeX, MessageSquare } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { ArrowUpRight, FileText, ChevronDown, Volume2, VolumeX, Bot, X, Send } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 import gsap from "gsap";
@@ -34,6 +34,57 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
   // Video and audio states
   const [isMuted, setIsMuted] = useState(false);
   const [showUnmutePrompt, setShowUnmutePrompt] = useState(false);
+
+  // Chatbot Assistant states
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState<Array<{ role: "user" | "assistant"; content: string }>>([
+    {
+      role: "assistant",
+      content: "Hello! I am DM.AI, Divesh's virtual assistant. Ask me anything about his skills, experience, projects, or how to connect with him!"
+    }
+  ]);
+  const [chatInput, setChatInput] = useState("");
+  const [isSending, setIsSending] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const handleSendMessage = async (e?: React.FormEvent, customText?: string) => {
+    if (e) e.preventDefault();
+    const text = customText || chatInput;
+    if (!text.trim() || isSending) return;
+
+    const newMsg = { role: "user" as const, content: text };
+    const updatedMsgs = [...chatMessages, newMsg];
+    setChatMessages(updatedMsgs);
+    if (!customText) setChatInput("");
+    setIsSending(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updatedMsgs })
+      });
+
+      if (!res.ok) throw new Error("Failed to get response");
+      const data = await res.json();
+      setChatMessages((prev) => [...prev, { role: "assistant", content: data.content }]);
+    } catch (err) {
+      console.error("Chat error:", err);
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "Sorry, I had trouble connecting. Please ask again in a moment!"
+        }
+      ]);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chatMessages, isSending]);
 
   // Floating Social Bubbles Random Walk with GSAP
   const tweenRefs = useRef<(gsap.core.Tween | null)[]>([]);
@@ -663,10 +714,10 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
            }}>
         <button
           className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 bg-black/80 border border-white/10 text-[#9CA3AF] hover:border-[#D4A017]/50 hover:text-white backdrop-blur-md cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
-          aria-label="Chat (Coming Soon)"
-          onClick={() => alert("Chat functionality coming soon!")}
+          aria-label="Chat with DM.AI"
+          onClick={() => setIsChatOpen(true)}
         >
-          <MessageSquare className="w-4.5 h-4.5" />
+          <Bot className="w-4.5 h-4.5 text-[#D4A017]" />
         </button>
       </div>
 
@@ -793,6 +844,121 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
           </motion.a>
         </div>
       </div>
+
+      {/* Chat Dialog Modal Overlay */}
+      <AnimatePresence>
+        {isChatOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <div 
+              className="absolute inset-0 cursor-default" 
+              onClick={() => setIsChatOpen(false)} 
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="relative w-full max-w-lg h-[500px] flex flex-col rounded-3xl border border-[#D4A017]/30 bg-[#111827]/90 backdrop-blur-lg shadow-[0_0_50px_rgba(212,160,23,0.25)] overflow-hidden z-10"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 py-4 border-[#D4A017]/10 bg-black/45 border-b">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-[#D4A017]/10 border border-[#D4A017]/30 flex items-center justify-center text-[#D4A017]">
+                    <Bot className="w-4.5 h-4.5 animate-pulse" />
+                  </div>
+                  <div>
+                    <h3 className="font-heading text-sm font-bold text-[#F9FAFB] tracking-wide">
+                      DM.AI
+                    </h3>
+                    <span className="flex items-center gap-1.5 text-[10px] text-[#9CA3AF]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      Online Assistant
+                    </span>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => setIsChatOpen(false)}
+                  className="w-8 h-8 rounded-full flex items-center justify-center border border-white/10 text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Messages Scroll Area */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-4 font-sans text-xs scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#D4A017]/20 hover:scrollbar-thumb-[#D4A017]/40">
+                {chatMessages.map((msg, i) => (
+                  <div
+                    key={i}
+                    className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`max-w-[85%] rounded-2xl px-4 py-3 whitespace-pre-line leading-relaxed shadow-sm ${
+                        msg.role === "user"
+                          ? "bg-[#D4A017] text-[#0B0F19] font-medium rounded-tr-none"
+                          : "bg-[#1F2937]/85 text-[#F9FAFB] border border-white/5 rounded-tl-none"
+                      }`}
+                    >
+                      {msg.content}
+                    </div>
+                  </div>
+                ))}
+                {isSending && (
+                  <div className="flex justify-start">
+                    <div className="bg-[#1F2937]/85 text-[#9CA3AF] border border-white/5 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-bounce" style={{ animationDelay: '300ms' }} />
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Suggestion Chips */}
+              {chatMessages.length === 1 && (
+                <div className="px-6 py-2.5 flex flex-wrap gap-2 justify-center bg-black/10 border-t border-[#D4A017]/5">
+                  {[
+                    "What are Divesh's skills?",
+                    "Show me his projects",
+                    "How to contact Divesh?"
+                  ].map((chip, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => handleSendMessage(undefined, chip)}
+                      className="text-[10px] text-[#D4A017] border border-[#D4A017]/30 bg-black/40 hover:bg-[#D4A017] hover:text-[#0B0F19] px-3 py-1.5 rounded-full font-mono transition-all cursor-pointer"
+                    >
+                      {chip}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Input Footer */}
+              <form
+                onSubmit={handleSendMessage}
+                className="p-4 border-t border-[#D4A017]/10 bg-black/35 flex items-center gap-2"
+              >
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  placeholder="Ask me about Divesh..."
+                  className="flex-1 px-4 py-2.5 rounded-xl border border-white/10 bg-[#0B0F19]/90 text-white text-xs font-sans placeholder-white/35 focus:outline-none focus:border-[#D4A017]/50 focus:ring-1 focus:ring-[#D4A017]/50 transition-all"
+                />
+                <button
+                  type="submit"
+                  disabled={!chatInput.trim() || isSending}
+                  className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#D4A017] to-[#F6C453] text-[#0B0F19] flex items-center justify-center hover:scale-105 transition-all disabled:opacity-50 disabled:scale-100 disabled:pointer-events-none cursor-pointer"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
