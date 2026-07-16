@@ -7,31 +7,30 @@ interface Certificate {
   title: string;
   issuer: string;
   date: string;
-  id: string;
+  id?: string;
   link: string;
 }
 
 const certificatesList: Certificate[] = [
   {
-    title: "TensorFlow Developer Certificate",
-    issuer: "Google",
-    date: "Aug 2023",
-    id: "TF-8849-DM",
-    link: "https://google.com",
+    title: "The Ultimate Job Ready Data Science Course",
+    issuer: "Code With Harry",
+    date: "Dec 2025",
+    id: "CWH-THE-ULTIMATE-JOB-READY-DATA-SCIENCE-COURSE-34QTDGAX",
+    link: "https://drive.google.com/file/d/13QNwB4X7vru8xeyuG4NoZ9UlTofr_0G4/view?usp=sharing",
   },
   {
-    title: "Generative AI & LLM Systems Specialization",
-    issuer: "DeepLearning.AI",
-    date: "Dec 2023",
-    id: "DL-AI-993-DM",
-    link: "https://deeplearning.ai",
+    title: "Introduction to Generative AI Studio",
+    issuer: "Simplilearn",
+    date: "Jun 2026",
+    id: "10343153",
+    link: "https://drive.google.com/file/d/1NmkGCUOeH3kCjAzrbqMOfa4X47UkHCKD/view?usp=sharing",
   },
   {
-    title: "AWS Certified Machine Learning - Specialty",
-    issuer: "Amazon Web Services (AWS)",
-    date: "Mar 2024",
-    id: "AWS-MLS-2024-DM",
-    link: "https://aws.amazon.com",
+    title: "Confluence 2.0 Hackathon",
+    issuer: "Confluence 2.0 - Beyond The Edge of Possibility",
+    date: "Jun 2026",
+    link: "https://drive.google.com/file/d/1THdBgMZvIqUw9-aHELjCdPGZfsDZ3lf1/view?usp=sharing",
   },
 ];
 

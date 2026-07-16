@@ -3,13 +3,18 @@
 import { useState } from "react";
 
 import { Mail, FileText, Send, CheckCircle, AlertCircle } from "lucide-react";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 
 export default function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [deliveryMethod, setDeliveryMethod] = useState<"email" | "whatsapp">("email");
+
+  // Configuration: Customize these parameters as needed
+  const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+  const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,13 +25,58 @@ export default function Contact() {
 
     setStatus("sending");
 
-    // Simulate API request
-    setTimeout(() => {
+    if (deliveryMethod === "whatsapp") {
+      const text = `*New Portfolio Message*\n\n*Name:* ${name}\n*Email:* ${email}\n\n*Message:*\n${message}`;
+      const encodedText = encodeURIComponent(text);
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`;
+      window.open(whatsappUrl, "_blank");
+      
       setStatus("success");
       setName("");
       setEmail("");
       setMessage("");
-    }, 1800);
+    } else {
+      // Email submission via Web3Forms API with client-side mailto fallback
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_ACCESS_KEY,
+            name,
+            email,
+            message,
+            subject: `Portfolio Message from ${name}`,
+          }),
+        });
+        const data = await response.json();
+        if (data.success) {
+          setStatus("success");
+          setName("");
+          setEmail("");
+          setMessage("");
+        } else {
+          // Fallback to mailto link
+          const mailtoUrl = `mailto:matkardivesh26@gmail.com?subject=Portfolio Message from ${encodeURIComponent(name)}&body=Name: ${encodeURIComponent(name)}%0D%0AEmail: ${encodeURIComponent(email)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(message)}`;
+          window.location.href = mailtoUrl;
+          setStatus("success");
+          setName("");
+          setEmail("");
+          setMessage("");
+        }
+      } catch {
+        // Fallback to mailto link
+        const mailtoUrl = `mailto:matkardivesh26@gmail.com?subject=Portfolio Message from ${encodeURIComponent(name)}&body=Name: ${encodeURIComponent(name)}%0D%0AEmail: ${encodeURIComponent(email)}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(message)}`;
+        window.location.href = mailtoUrl;
+        setStatus("success");
+        setName("");
+        setEmail("");
+        setMessage("");
+      }
+    }
   };
 
   return (
@@ -69,8 +119,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <span className="block text-[10px] text-[#9CA3AF]/50 uppercase tracking-widest font-semibold">Email Me</span>
-                    <a href="mailto:divesh.matkar@example.com" className="text-[#F9FAFB] hover:text-[#D4A017] transition-colors">
-                      divesh.matkar@example.com
+                    <a href="mailto:matkardivesh26@gmail.com" className="text-[#F9FAFB] hover:text-[#D4A017] transition-colors">
+                      matkardivesh26@gmail.com
                     </a>
                   </div>
                 </div>
@@ -80,7 +130,7 @@ export default function Contact() {
             {/* Social Grid */}
             <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-white/5">
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/divesh-matkar/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0B0F19] border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-all duration-300 hover:scale-[1.02]"
@@ -90,7 +140,7 @@ export default function Contact() {
               </a>
 
               <a
-                href="https://github.com"
+                href="https://github.com/Divesh455"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0B0F19] border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-all duration-300 hover:scale-[1.02]"
@@ -100,7 +150,7 @@ export default function Contact() {
               </a>
 
               <a
-                href="mailto:divesh.matkar@example.com"
+                href="mailto:matkardivesh26@gmail.com"
                 className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0B0F19] border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-all duration-300 hover:scale-[1.02]"
               >
                 <Mail className="w-4 h-4 text-[#D4A017]" />
@@ -108,7 +158,7 @@ export default function Contact() {
               </a>
 
               <a
-                href="#contact"
+                href="./src/assets/divesh_matkar_resume.pdf"
                 className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0B0F19] border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-all duration-300 hover:scale-[1.02]"
               >
                 <FileText className="w-4 h-4 text-[#D4A017]" />
@@ -120,6 +170,33 @@ export default function Contact() {
           {/* Right panel: Form Panel */}
           <div className="lg:col-span-7 glass rounded-3xl p-6 md:p-8 flex flex-col justify-between">
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Delivery Method Segment Control */}
+              <div className="flex gap-2 p-1 rounded-xl bg-[#111827] border border-white/5 mb-6">
+                <button
+                  type="button"
+                  onClick={() => setDeliveryMethod("email")}
+                  className={`flex-1 py-2.5 rounded-lg text-xs font-heading font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                    deliveryMethod === "email"
+                      ? "bg-[#D4A017] text-[#0B0F19] shadow-lg shadow-[#D4A017]/10"
+                      : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#1F2937]/50"
+                  }`}
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                  Send via Email
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setDeliveryMethod("whatsapp")}
+                  className={`flex-1 py-2.5 rounded-lg text-xs font-heading font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                    deliveryMethod === "whatsapp"
+                      ? "bg-[#D4A017] text-[#0B0F19] shadow-lg shadow-[#D4A017]/10"
+                      : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#1F2937]/50"
+                  }`}
+                >
+                  <FaWhatsapp className="w-4 h-4" />
+                  Send via WhatsApp
+                </button>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {/* Name */}
                 <div className="flex flex-col gap-1.5">
@@ -168,7 +245,11 @@ export default function Contact() {
               {status === "success" && (
                 <div className="flex items-center gap-2 p-4 rounded-xl border border-green-500/20 bg-green-500/5 text-xs text-green-400">
                   <CheckCircle className="w-4 h-4 shrink-0" />
-                  <span>Message sent successfully! I will reach back to you shortly.</span>
+                  <span>
+                    {deliveryMethod === "whatsapp"
+                      ? "Opening WhatsApp chat to send message..."
+                      : "Message sent successfully! I will reach back to you shortly."}
+                  </span>
                 </div>
               )}
 
