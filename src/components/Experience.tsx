@@ -14,38 +14,39 @@ interface ExperienceItem {
 
 const experiences: ExperienceItem[] = [
   {
-    company: "Autonomous Intelligence Lab",
-    role: "Lead AI Systems Architect",
-    location: "San Francisco, CA (Remote)",
-    dates: "Jan 2024 - Present",
-    logoLetter: "A",
+    company: "Xlofy AI",
+    role: "Data Science Intern",
+    location: "Thane, Maharashtra (Remote)",
+    dates: "June 2026 - July 2026",
+    logoLetter: "X",
     details: [
-      "Architected enterprise-level Retrieval-Augmented Generation (RAG) search workflows, reducing token retrieval query latency by 45%.",
-      "Designed and deployed stateful agentic execution pipelines using FastAPI and LangChain, supporting 10,000+ daily conversational operations.",
-      "Fine-tuned custom Llama-3 models for domain-specific NLP queries using LoRA adapters, outperforming base GPT-3.5 on targeted task scores.",
+      "Developed end-to-end Machine Learning solutions for house price prediction, employee attrition analysis, and sales forecasting using Python, Scikit-learn, and XGBoost.",
+      "Built interactive Streamlit dashboards featuring sales forecasting, anomaly detection, demand segmentation, and business insights to support data-driven decision-making.",
+      "Implemented data preprocessing, feature engineering, time series forecasting, and model evaluation by comparing multiple ML models to deliver accurate and deployable AI solutions.",
     ],
   },
   {
-    company: "Cognitive Systems Corp",
-    role: "Senior Machine Learning Developer",
-    location: "New York, NY",
-    dates: "Jul 2022 - Jan 2024",
+    company: "Code: Automata Ver 2.1 Hackathon",
+    role: "AI Lead Developer",
+    location: "Panvel, Maharashtra,(in",
+    dates: "July 2026",
+    logoLetter: "H",
+    details: [
+      "Project Concept: Designed and developed an automated lecture video transcript and semantic Q&A RAG assistant during a 36-hour coding sprint.",
+      "Technical Implementation: Built FastAPI backend integrated with Google Gemini API, sentence-transformers, and ChromaDB vector store for semantic context retrieval.",
+      "Results & Leadership: Led a team of 4 to secure a Top-5 Finalist rank out of 100+ participating teams, presenting a working prototype to the jury panel.",
+    ],
+  },
+  {
+    company: "Confluence 2.0 Hackathon",
+    role: "AI Lead Developer",
+    location: "Online",
+    dates: "June 2026",
     logoLetter: "C",
     details: [
-      "Trained and productionized PyTorch computer vision networks for real-time bounding box detection, reducing inference edge processor load.",
-      "Optimized data ingestion scripts, scaling PostgreSQL read operations and streamlining offline text embedding indices creation.",
-      "Dockerized 15+ microservice components, automating deployment pipelines using Github Actions.",
-    ],
-  },
-  {
-    company: "Innova Tech Research",
-    role: "Deep Learning Engineer",
-    location: "Boston, MA",
-    dates: "Jun 2021 - Jul 2022",
-    logoLetter: "I",
-    details: [
-      "Developed baseline LSTM text parsers for classification workflows, achieving 94% categorical F1-scores on test sets.",
-      "Collaborated with hardware departments to validate CUDA compilation parameters, maximizing GPU utilization during batch trainings.",
+      "Architected an AI-powered coaching management platform featuring personalized study plans, performance prediction, AI-generated mock tests, and intelligent student assistance for coaching institutes.",
+      "Developed Generative AI features using FastAPI, LangChain, and Gemini/Groq APIs, enabling AI study assistance, automated question generation, and parent-focused performance insights.",
+      "Designed an intelligent ecosystem with Student, Teacher, and Parent portals, integrating predictive analytics, at-risk student detection, automated reporting, and real-time academic insights.",
     ],
   },
 ];
@@ -66,7 +67,8 @@ export default function Experience() {
             Career
           </div>
           <h2 className="font-heading text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-[#F9FAFB]">
-            Professional Experience
+            
+            Experience
           </h2>
           <p className="font-sans text-sm md:text-base text-[#9CA3AF] max-w-xl mx-auto font-light">
             A history of deploying high-performance intelligence tools and robust backend services.
