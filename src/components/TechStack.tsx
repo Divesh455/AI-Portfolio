@@ -16,8 +16,16 @@ import {
   SiTailwindcss,
   SiFramer,
   SiGoogle,
+  SiHuggingface,
+  SiMysql,
+  SiJupyter,
+  SiScikitlearn,
+  SiNumpy,
+  SiPandas,
 } from "react-icons/si";
 import { BsOpenai } from "react-icons/bs";
+import { TbChartDots } from "react-icons/tb";
+import { FaChartLine } from "react-icons/fa";
 import { Cpu, Brain, Network, Database, Layers } from "lucide-react";
 
 interface TechItem {
@@ -30,15 +38,22 @@ interface TechItem {
 const techItems: TechItem[] = [
   { name: "Python", category: "Core", icon: SiPython, color: "#3776AB" },
   { name: "FastAPI", category: "Backend", icon: SiFastapi, color: "#009688" },
+  { name: "Numpy", category: "Data Science", icon: SiNumpy, color: "#c0a418ff" },
+  { name: "Pandas", category: "Data Science", icon: SiPandas, color: "#c0a418ff" },
+  { name: "Seaborn", category: "Data Science", icon: TbChartDots, color: "#c0a418ff" },
+  { name: "Matplotlib", category: "Data Science", icon: FaChartLine, color: "#c0a418ff" },
+  { name: "Jupyter", category: "AI", icon: SiJupyter, color: "#FF6F00" },
+  { name: "Sklearn", category: "AI", icon: SiScikitlearn, color: "#c0a418ff" },
   { name: "TensorFlow", category: "AI", icon: SiTensorflow, color: "#FF6F00" },
   { name: "PyTorch", category: "AI", icon: SiPytorch, color: "#EE4C2C" },
   { name: "LangChain", category: "AI", icon: Network, color: "#13C2C2" },
   { name: "Gemini AI", category: "AI", icon: SiGoogle, color: "#1A73E8" },
   { name: "OpenAI API", category: "AI", icon: BsOpenai, color: "#412991" },
-  { name: "Groq", category: "Hardware", icon: Cpu, color: "#F6C453" },
+  { name: "Groq", category: "AI", icon: Cpu, color: "#F6C453" },
+  { name: "Hugging Face", category: "AI", icon: SiHuggingface, color: "#06B6D4" },
   { name: "RAG Systems", category: "AI Architectures", icon: Brain, color: "#D4A017" },
   { name: "Vector DBs", category: "Database", icon: Database, color: "#F6C453" },
-  { name: "PostgreSQL", category: "Database", icon: SiPostgresql, color: "#4169E1" },
+  { name: "My SQL", category: "Database", icon: SiMysql, color: "#4169E1" },
   { name: "Docker", category: "DevOps", icon: SiDocker, color: "#2496ED" },
   { name: "GitHub", category: "DevOps", icon: SiGithub, color: "#F9FAFB" },
   { name: "Tailwind CSS", category: "Frontend", icon: SiTailwindcss, color: "#06B6D4" },
@@ -125,7 +140,7 @@ export default function TechStack() {
       </div>
 
       {/* Injecting Float Keyframes */}
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes float-anim-0 {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-7px); }
@@ -142,7 +157,7 @@ export default function TechStack() {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-6px); }
         }
-      `}</style>
+      `}} />
     </section>
   );
 }

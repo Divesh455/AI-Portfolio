@@ -2,91 +2,140 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Code,
-  BrainCircuit,
-  Server,
-  Database,
-  Cloud,
-  Wrench,
-  Sparkles,
-} from "lucide-react";
+import { Sparkles, Network } from "lucide-react";
 
-type SkillCategory = "Programming" | "AI" | "Backend" | "Database" | "Cloud" | "Tools";
-
-interface SkillItem {
+interface Category {
   name: string;
-  level: number; // percentage
   description: string;
+  score: number;
+  skills: string[];
 }
 
-const skillsData: Record<SkillCategory, SkillItem[]> = {
-  Programming: [
-    { name: "Python", level: 98, description: "Dynamic modeling, algorithmic scriptings, data parsing" },
-    { name: "TypeScript", level: 85, description: "Structured application frontends and type-safe systems" },
-    { name: "Rust", level: 75, description: "Performant system binaries and extensions integration" },
-    { name: "C++", level: 80, description: "Low-level model computation optimization" },
-    { name: "JavaScript", level: 90, description: "Web interactivity, responsive layouts, API bindings" },
-  ],
-  AI: [
-    { name: "PyTorch", level: 95, description: "Neural layers definition, custom loss optimization" },
-    { name: "TensorFlow", level: 85, description: "Deep modeling, Keras wrappers, production deployment" },
-    { name: "LangChain", level: 92, description: "Agent orchestration, tool binds, memory wrappers" },
-    { name: "RAG & Vector Search", level: 95, description: "Cosine math indexes, chunk hierarchies, hybrid ranks" },
-    { name: "LLM Fine-Tuning", level: 88, description: "LoRA adapters, QLoRA quantization, dataset masks" },
-    { name: "Hugging Face", level: 90, description: "Pipeline deployment, tokenizer custom configurations" },
-  ],
-  Backend: [
-    { name: "FastAPI", level: 98, description: "Asynchronous router definitions, Pydantic type validation" },
-    { name: "Django", level: 80, description: "Monolithic database tools, custom session handlers" },
-    { name: "Flask", level: 85, description: "Microservices design, rapid application prototype mocks" },
-    { name: "RESTful APIs", level: 95, description: "JSON routing payloads, auth headers, rate limits" },
-    { name: "WebSockets", level: 88, description: "Bi-directional sockets, real-time message relays" },
-  ],
-  Database: [
-    { name: "PostgreSQL", level: 90, description: "Relational table schemas, index strategies, transaction queries" },
-    { name: "MongoDB", level: 88, description: "NoSQL document mappings, aggregations pipeline indexes" },
-    { name: "Redis", level: 92, description: "Caching layers, distributed sessions store, pub/sub relays" },
-    { name: "Pinecone", level: 95, description: "Cloud vector database indexes, namespace isolation partitions" },
-    { name: "Qdrant", level: 90, description: "Local payload filters, vector metrics similarities search" },
-  ],
-  Cloud: [
-    { name: "AWS", level: 85, description: "EC2 instances, S3 storage buckets, Lambda compute functions" },
-    { name: "Google Cloud (GCP)", level: 88, description: "Compute engines, Vertex AI modeling platforms" },
-    { name: "Docker", level: 92, description: "Containerized Dockerfiles, network bridges, volume mounts" },
-    { name: "Kubernetes", level: 78, description: "Pods deployments, service loaders, namespace managers" },
-    { name: "CI/CD & Actions", level: 90, description: "Continuous integration tests, build automation triggers" },
-  ],
-  Tools: [
-    { name: "Git & Versioning", level: 95, description: "Branch merging pipelines, pull requests, merge conflict resolutions" },
-    { name: "Linux / Bash", level: 90, description: "Server administration commands, automation shell scripts" },
-    { name: "Weights & Biases", level: 85, description: "Hyperparameter tuning tracking, loss plots logs" },
-    { name: "Poetry / Pyproject", level: 92, description: "Python project dependency lock, isolated venv managers" },
-    { name: "Postman", level: 90, description: "API endpoints mocks, request runner test suites" },
-  ],
-};
+const categories: Category[] = [
+  {
+    name: "AI & Generative AI",
+    description: "Designing generative content ecosystems. Expert in Large Language Models (LLMs), Natural Language Processing (NLP), custom RAG workflows, prompt engineering modules, and embedding architectures.",
+    score: 0.96,
+    skills: ["LLMs", "NLP", "RAG", "Prompt Engineering", "Embedding Models"]
+  },
+  {
+    name: "Data Science & Machine Learning",
+    description: "Analyzing large technical datasets. Proficient in tabular transformations (Pandas, NumPy), data profiling, engineering optimal features, statistical models, and validation diagnostics.",
+    score: 0.92,
+    skills: ["Pandas", "NumPy", "Data Analysis", "Feature Engineering", "Model Evaluation", "Matplotlib", "Seaborn"]
+  },
+  {
+    name: "AI Frameworks",
+    description: "Building production modeling workflows. Skilled in Langchain agents, Hugging Face transformers pipelines, and standard Scikit-learn estimation pipelines.",
+    score: 0.90,
+    skills: ["Langchain", "Hugging Face", "Scikit-learn"]
+  },
+  {
+    name: "Programming and backend",
+    description: "Engineering performant server microservices and algorithmic endpoints. Strong foundations in Python, JavaScript, C++, C, FastAPI routers, and Pydantic validation.",
+    score: 0.95,
+    skills: ["Python", "JavaScript", "C++", "C", "FastAPI", "Pydantic"]
+  },
+  {
+    name: "Database & Data Management",
+    description: "Configuring robust index caches and vectors stores. Practical experience with MySQL relational databases, real-time data processing, and custom vector indexes.",
+    score: 0.88,
+    skills: ["MySQL", "Data Processing", "Vector Store"]
+  },
+  {
+    name: "Developer Tools",
+    description: "Maintaining automated, scalable developer environments. Everyday usage of Git version systems, GitHub branches, Jupyter Notebooks, Google AI Studio, VS Code, and Google Colab.",
+    score: 0.94,
+    skills: ["Git", "GitHub", "Jupyter Notebook", "Google AI Studio", "VS Code", "Google Colab"]
+  }
+];
 
-const categoryIcons: Record<SkillCategory, React.ComponentType<{ className?: string }>> = {
-  Programming: Code,
-  AI: BrainCircuit,
-  Backend: Server,
-  Database: Database,
-  Cloud: Cloud,
-  Tools: Wrench,
-};
+interface SkillBadge {
+  name: string;
+  category: string;
+  x: number;
+  y: number;
+}
+
+const skillBadges: SkillBadge[] = [
+  // AI & Generative AI (Vertex 0: 0, -150)
+  { name: "LLMs", category: "AI & Generative AI", x: 0, y: -200 },
+  { name: "NLP", category: "AI & Generative AI", x: -85, y: -185 },
+  { name: "RAG", category: "AI & Generative AI", x: 85, y: -185 },
+  { name: "Prompt Engineering", category: "AI & Generative AI", x: -125, y: -150 },
+  { name: "Embedding Models", category: "AI & Generative AI", x: 125, y: -150 },
+
+  // Data Science & ML (Vertex 1: 130, -75)
+  { name: "Pandas", category: "Data Science & Machine Learning", x: 165, y: -140 },
+  { name: "NumPy", category: "Data Science & Machine Learning", x: 210, y: -90 },
+  { name: "Data Analysis", category: "Data Science & Machine Learning", x: 215, y: -35 },
+  { name: "Feature Engineering", category: "Data Science & Machine Learning", x: 140, y: -175 },
+  { name: "Model Evaluation", category: "Data Science & Machine Learning", x: 210, y: 20 },
+  { name: "Matplotlib", category: "Data Science & Machine Learning", x: 95, y: -200 },
+  { name: "Seaborn", category: "Data Science & Machine Learning", x: 175, y: 80 },
+
+  // AI Frameworks (Vertex 2: 130, 75)
+  { name: "Langchain", category: "AI Frameworks", x: 195, y: 125 },
+  { name: "Hugging Face", category: "AI Frameworks", x: 145, y: 165 },
+  { name: "Scikit-learn", category: "AI Frameworks", x: 90, y: 205 },
+
+  // Programming and backend (Vertex 3: 0, 150)
+  { name: "Python", category: "Programming and backend", x: 0, y: 220 },
+  { name: "FastAPI", category: "Programming and backend", x: 80, y: 190 },
+  { name: "Pydantic", category: "Programming and backend", x: -80, y: 190 },
+  { name: "JavaScript", category: "Programming and backend", x: 140, y: 155 },
+  { name: "C++", category: "Programming and backend", x: -140, y: 155 },
+  { name: "C", category: "Programming and backend", x: 0, y: 170 },
+
+  // Database & Data Management (Vertex 4: -130, 75)
+  { name: "MySQL", category: "Database & Data Management", x: -175, y: 110 },
+  { name: "Data Processing", category: "Database & Data Management", x: -210, y: 60 },
+  { name: "Vector Store", category: "Database & Data Management", x: -215, y: 10 },
+
+  // Developer Tools (Vertex 5: -130, -75)
+  { name: "Git", category: "Developer Tools", x: -195, y: -45 },
+  { name: "GitHub", category: "Developer Tools", x: -210, y: -95 },
+  { name: "Jupyter Notebook", category: "Developer Tools", x: -130, y: -175 },
+  { name: "Google AI Studio", category: "Developer Tools", x: -110, y: -210 },
+  { name: "VS Code", category: "Developer Tools", x: -60, y: -210 },
+  { name: "Google Colab", category: "Developer Tools", x: -180, y: -135 },
+];
 
 export default function Skills() {
-  const [activeCategory, setActiveCategory] = useState<SkillCategory>("Programming");
+  const [activeCategory, setActiveCategory] = useState<string>("AI & Generative AI");
 
-  const categories = Object.keys(skillsData) as SkillCategory[];
+  // Hexagon math parameters (center of 500x500 is 250, 250)
+  const cx = 250;
+  const cy = 250;
+  const maxR = 155;
+
+  // 6 vertices directions (x, y offsets on a unit circle)
+  const vertices = [
+    { name: "AI & Generative AI", dx: 0, dy: -1 },
+    { name: "Data Science & Machine Learning", dx: 0.866, dy: -0.5 },
+    { name: "AI Frameworks", dx: 0.866, dy: 0.5 },
+    { name: "Programming and backend", dx: 0, dy: 1 },
+    { name: "Database & Data Management", dx: -0.866, dy: 0.5 },
+    { name: "Developer Tools", dx: -0.866, dy: -0.5 }
+  ];
+
+  const selectedCategoryData = categories.find(c => c.name === activeCategory) || categories[0];
+
+  // Calculate polygon points based on category scores
+  const radarPoints = categories.map((cat) => {
+    const vIndex = vertices.findIndex(v => v.name === cat.name);
+    const v = vertices[vIndex];
+    const r = cat.score * maxR;
+    return `${cx + v.dx * r},${cy + v.dy * r}`;
+  }).join(" ");
 
   return (
-    <section id="skills" className="relative py-32 bg-[#0B0F19] overflow-hidden">
+    <section id="skills" className="relative py-28 bg-[#0B0F19] overflow-hidden border-t border-white/5">
       {/* Background Ornaments */}
-      <div className="absolute top-[20%] right-[-10%] w-[350px] h-[350px] rounded-full bg-[#D4A017] opacity-[0.03] blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[-10%] w-[350px] h-[350px] rounded-full bg-[#D4A017] opacity-[0.02] blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[20%] left-[-10%] w-[350px] h-[350px] rounded-full bg-[#F6C453] opacity-[0.02] blur-[120px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         
         {/* Title Block */}
         <div className="text-center mb-16">
@@ -98,86 +147,258 @@ export default function Skills() {
             Technical Competencies
           </h2>
           <p className="font-sans text-sm md:text-base text-[#9CA3AF] max-w-xl mx-auto font-light">
-            An extensive breakdown of technical methodologies, architectures, and deployment paradigms.
+            Interactive constellation radar mapping my core technical ecosystems. Click on any node vertex to inspect related skillsets.
           </p>
         </div>
 
-        {/* Tab Selection Row */}
-        <div className="flex flex-wrap justify-center gap-3 mb-16 max-w-4xl mx-auto">
-          {categories.map((category) => {
-            const Icon = categoryIcons[category];
-            const isActive = activeCategory === category;
-            return (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`flex items-center gap-2 px-5 py-3 rounded-full border text-xs font-heading font-semibold tracking-wider uppercase transition-all duration-300 ${
-                  isActive
-                    ? "bg-gradient-to-r from-[#D4A017] to-[#F6C453] border-transparent text-[#0B0F19] shadow-md shadow-[#D4A017]/15 hover:opacity-95"
-                    : "bg-[#1F2937]/20 border-[#D4A017]/10 text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/35"
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                {category}
-              </button>
-            );
-          })}
-        </div>
+        {/* Two-Column Responsive Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Left Column: Interactive Radar Constellation */}
+          <div className="lg:col-span-7 flex justify-center relative w-full aspect-square max-w-[320px] min-[400px]:max-w-[400px] sm:max-w-[460px] lg:max-w-[500px] mx-auto select-none">
+            
+            {/* SVG Hexagonal Radar Graph */}
+            <svg viewBox="0 0 500 500" className="w-full h-full relative z-0">
+              <defs>
+                <radialGradient id="radarGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#D4A017" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="#F6C453" stopOpacity="0.03" />
+                </radialGradient>
+              </defs>
 
-        {/* Dynamic Skill Cards Grid */}
-        <div className="min-h-[300px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeCategory}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {skillsData[activeCategory].map((skill, index) => (
+              {/* Concentric grid lines (hexagons representing score thresholds) */}
+              {[0.2, 0.4, 0.6, 0.8, 1.0].map((scale) => {
+                const r = maxR * scale;
+                const points = vertices.map(v => `${cx + v.dx * r},${cy + v.dy * r}`).join(" ");
+                return (
+                  <polygon
+                    key={scale}
+                    points={points}
+                    fill="none"
+                    stroke="rgba(212, 160, 23, 0.15)"
+                    strokeWidth="1.2"
+                  />
+                );
+              })}
+
+              {/* Spoke lines from center to vertices */}
+              {vertices.map((v, i) => (
+                <g key={i}>
+                  {/* Base Solid Spoke line */}
+                  <line
+                    x1={cx}
+                    y1={cy}
+                    x2={cx + v.dx * maxR}
+                    y2={cy + v.dy * maxR}
+                    stroke="rgba(212, 160, 23, 0.12)"
+                    strokeWidth="1"
+                  />
+                  {/* Animated Light Tracer moving outward */}
+                  <line
+                    x1={cx}
+                    y1={cy}
+                    x2={cx + v.dx * maxR}
+                    y2={cy + v.dy * maxR}
+                    stroke="#F6C453"
+                    strokeWidth="1.2"
+                    strokeDasharray="30, 120"
+                    className="animate-spoke-trace opacity-65"
+                  />
+                </g>
+              ))}
+
+              {/* Dynamic filled competency area */}
+              <polygon
+                points={radarPoints}
+                fill="url(#radarGrad)"
+                stroke="#D4A017"
+                strokeWidth="1.5"
+                className="transition-all duration-700 ease-out"
+              />
+
+              {/* Interactive clickable node handles at vertices */}
+              {categories.map((cat) => {
+                const vIndex = vertices.findIndex(v => v.name === cat.name);
+                const v = vertices[vIndex];
+                const r = cat.score * maxR;
+                const vx = cx + v.dx * r;
+                const vy = cy + v.dy * r;
+                const isActive = cat.name === activeCategory;
+
+                return (
+                  <g
+                    key={cat.name}
+                    className="cursor-pointer group"
+                    onClick={() => setActiveCategory(cat.name)}
+                  >
+                    {/* Hover invisible target area */}
+                    <circle cx={vx} cy={vy} r="18" fill="transparent" />
+                    
+                    {/* Ring aura */}
+                    <circle
+                      cx={vx}
+                      cy={vy}
+                      r={isActive ? "7" : "5"}
+                      fill={isActive ? "#FFFFFF" : "#111827"}
+                      stroke={isActive ? "#F6C453" : "#D4A017"}
+                      strokeWidth={isActive ? "2.5" : "1.8"}
+                      className="transition-all duration-300"
+                    />
+                    
+                    {/* Pulsing glow removed in favor of border trace */}
+                  </g>
+                );
+              })}
+
+              {/* Central hub node badge */}
+              <circle cx={cx} cy={cy} r="24" fill="#0B0F19" stroke="rgba(212, 160, 23, 0.3)" strokeWidth="1.5" />
+              <g transform={`translate(${cx - 10}, ${cy - 10})`}>
+                <Network className="w-5 h-5 text-[#D4A017] opacity-80" />
+              </g>
+            </svg>
+
+            {/* Floating skill constellation (HTML elements mapped dynamically) */}
+            {skillBadges.map((badge, idx) => {
+              const isActive = badge.category === activeCategory;
+              const isOtherActive = activeCategory && badge.category !== activeCategory;
+
+              // Assign float duration offsets
+              const floatDur = 4 + (idx % 3) * 0.8;
+              const floatDel = (idx % 4) * 0.3;
+
+              return (
                 <div
-                  key={skill.name}
-                  className="group relative rounded-2xl p-6 bg-[#1F2937]/20 border border-[#D4A017]/10 hover:border-[#D4A017]/40 hover:bg-[#1F2937]/35 transition-all duration-300 flex flex-col justify-between h-44 overflow-hidden"
+                  key={badge.name}
+                  style={{
+                    position: "absolute",
+                    left: `${50 + (badge.x / 500) * 100}%`,
+                    top: `${50 + (badge.y / 500) * 100}%`,
+                    transform: "translate(-50%, -50%)",
+                  }}
+                  className="z-10"
                 >
-                  {/* Subtle hover glow ring inside the card */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#D4A017]/5 to-[#F6C453]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  <motion.button
+                    onClick={() => setActiveCategory(badge.category)}
+                    animate={{
+                      scale: isActive ? 1.08 : 0.95,
+                      opacity: isActive ? 1.0 : isOtherActive ? 0.25 : 0.85,
+                    }}
+                    transition={{ type: "spring", stiffness: 150, damping: 15 }}
+                    style={{
+                      animation: `skills-float-${idx % 3} ${floatDur}s ease-in-out ${floatDel}s infinite`,
+                    }}
+                    className={`px-2 py-1 min-[400px]:px-2.5 min-[400px]:py-1.2 sm:px-3 sm:py-1.5 rounded-xl border text-[8px] min-[400px]:text-[10px] sm:text-xs font-mono tracking-wide uppercase transition-all duration-300 whitespace-nowrap cursor-pointer ${
+                      isActive
+                        ? "bg-[#D4A017]/15 border-[#F6C453] text-[#F9FAFB] shadow-[0_0_15px_rgba(246,196,83,0.22)]"
+                        : "bg-[#111827]/70 border-white/5 text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/30"
+                    }`}
+                  >
+                    {badge.name}
+                  </motion.button>
+                </div>
+              );
+            })}
+          </div>
 
-                  <div>
-                    {/* Header: Skill Name & Level */}
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-heading text-base font-bold text-[#F9FAFB]">
-                        {skill.name}
-                      </h3>
-                      <span className="font-mono text-xs text-[#D4A017] font-semibold">
-                        {skill.level}%
-                      </span>
-                    </div>
+          {/* Right Column: Skill Details Info Panel */}
+          <div className="lg:col-span-5 w-full flex flex-col gap-6">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className="p-8 rounded-3xl border border-[#D4A017]/10 bg-[#1F2937]/15 backdrop-blur-md shadow-2xl relative overflow-hidden"
+              >
+                {/* Gold header decorator */}
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#D4A017] to-transparent" />
 
-                    {/* Paragraph description */}
-                    <p className="font-sans text-xs text-[#9CA3AF] leading-relaxed font-light mb-4">
-                      {skill.description}
-                    </p>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[10px] font-mono tracking-widest text-[#D4A017] uppercase font-semibold">
+                    Core Category Ecosystem
+                  </span>
+                  <span className="font-mono text-xs text-[#F6C453] font-bold">
+                    {Math.round(selectedCategoryData.score * 100)}% Proficiency
+                  </span>
+                </div>
+
+                <h3 className="font-heading text-2xl font-extrabold text-[#F9FAFB] mb-4">
+                  {selectedCategoryData.name}
+                </h3>
+
+                <p className="font-sans text-sm text-[#9CA3AF] leading-relaxed font-light mb-6">
+                  {selectedCategoryData.description}
+                </p>
+
+                {/* Level Gauge Bar */}
+                <div className="space-y-2 mb-6">
+                  <div className="flex items-center justify-between font-mono text-[10px] text-[#9CA3AF]/60">
+                    <span>COMPETENCY SCALE</span>
+                    <span>EXPERT ARCHITECT</span>
                   </div>
-
-                  {/* Level Indicator Vector */}
-                  <div>
-                    <div className="w-full h-1 bg-[#0B0F19] rounded-full overflow-hidden border border-white/5">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${skill.level}%` }}
-                        transition={{ duration: 0.8, delay: index * 0.05 }}
-                        className="h-full bg-gradient-to-r from-[#D4A017] to-[#F6C453] rounded-full"
-                      />
-                    </div>
+                  <div className="w-full h-1.5 bg-[#0B0F19] rounded-full overflow-hidden border border-white/5">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${selectedCategoryData.score * 100}%` }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      className="h-full bg-gradient-to-r from-[#D4A017] to-[#F6C453]"
+                    />
                   </div>
                 </div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        </div>
 
+                {/* Associated Technologies */}
+                <div>
+                  <h4 className="font-mono text-[10px] uppercase tracking-wider text-[#F9FAFB]/75 mb-3">
+                    Featured Stack Tools
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedCategoryData.skills.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2.5 py-1 rounded-lg bg-[#0B0F19]/50 border border-white/5 text-[10px] font-mono text-[#D4A017] font-semibold"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+        </div>
       </div>
+
+      {/* Floating Keyframes definitions */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes hexagon-trace-anim {
+          0% { stroke-dashoffset: 0; }
+          100% { stroke-dashoffset: -440; }
+        }
+        .animate-hexagon-trace {
+          animation: hexagon-trace-anim 6s linear infinite;
+        }
+        @keyframes spoke-trace-anim {
+          0% { stroke-dashoffset: 150; }
+          100% { stroke-dashoffset: 0; }
+        }
+        .animate-spoke-trace {
+          animation: spoke-trace-anim 3s linear infinite;
+        }
+        @keyframes skills-float-0 {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-6px) rotate(0.5deg); }
+        }
+        @keyframes skills-float-1 {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-9px) rotate(-0.5deg); }
+        }
+        @keyframes skills-float-2 {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-7px) rotate(0.3deg); }
+        }
+      `}} />
     </section>
   );
 }
