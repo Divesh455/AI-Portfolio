@@ -44,12 +44,38 @@ export default function Navbar({ isActivated = true }: { isActivated?: boolean }
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isMobile = false) => {
+    e.preventDefault();
+    if (isMobile) {
+      setMobileMenuOpen(false);
+    }
+
+    const targetId = href.slice(1);
+    const element = document.getElementById(targetId);
+    if (element) {
+      const globalWindow = window as unknown as { lenis?: { scrollTo: (el: HTMLElement, opts?: { offset?: number }) => void } };
+      if (globalWindow.lenis) {
+        globalWindow.lenis.scrollTo(element, { offset: -80 });
+      } else {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = element.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }
+  };
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
       animate={isActivated ? { y: 0, opacity: 1 } : { y: -100, opacity: 0 }}
       transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? "bg-[#0B0F19]/80 backdrop-blur-md border-b border-[#D4A017]/10 py-4 shadow-lg shadow-black/20"
           : "bg-transparent py-6 max-md:bg-[#0B0F19]/65 max-md:backdrop-blur-md max-md:border-b max-md:border-[#D4A017]/10 max-md:py-4 max-md:shadow-lg max-md:shadow-black/10"
@@ -75,7 +101,8 @@ export default function Navbar({ isActivated = true }: { isActivated?: boolean }
               <a
                 key={item.name}
                 href={item.href}
-                className={`relative font-sans text-sm tracking-wide transition-colors duration-300 py-1 ${
+                onClick={(e) => scrollToSection(e, item.href)}
+                className={`relative font-sans text-sm tracking-wide transition-colors duration-300 py-1 cursor-pointer ${
                   isActive ? "text-[#D4A017] font-semibold" : "text-[#9CA3AF] hover:text-[#F9FAFB]"
                 }`}
               >
@@ -92,11 +119,12 @@ export default function Navbar({ isActivated = true }: { isActivated?: boolean }
           })}
         </nav>
 
-        {/* CTA Button */}
+        {/* Desktop CTA Button */}
         <div className="hidden lg:block">
           <a
             href="#contact"
-            className="relative inline-flex items-center justify-center px-5 py-2.5 rounded-full text-xs font-heading font-semibold tracking-wider text-[#0B0F19] bg-gradient-to-r from-[#D4A017] to-[#F6C453] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.4)] group overflow-hidden"
+            onClick={(e) => scrollToSection(e, "#contact")}
+            className="relative inline-flex items-center justify-center px-5 py-2.5 rounded-full text-xs font-heading font-semibold tracking-wider text-[#0B0F19] bg-gradient-to-r from-[#D4A017] to-[#F6C453] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.4)] group overflow-hidden cursor-pointer"
           >
             <span className="relative z-10">Hire Me</span>
             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
@@ -128,8 +156,8 @@ export default function Navbar({ isActivated = true }: { isActivated?: boolean }
                 <a
                   key={item.name}
                   href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`font-sans text-base py-2 border-b border-white/5 transition-colors ${
+                  onClick={(e) => scrollToSection(e, item.href, true)}
+                  className={`font-sans text-base py-2 border-b border-white/5 transition-colors cursor-pointer ${
                     activeSection === item.href.slice(1)
                       ? "text-[#D4A017] font-semibold pl-2 border-l-2 border-l-[#D4A017]"
                       : "text-[#9CA3AF] hover:text-[#F9FAFB]"
@@ -140,8 +168,8 @@ export default function Navbar({ isActivated = true }: { isActivated?: boolean }
               ))}
               <a
                 href="#contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="mt-4 w-full text-center py-3 rounded-full text-sm font-heading font-semibold text-[#0B0F19] bg-gradient-to-r from-[#D4A017] to-[#F6C453]"
+                onClick={(e) => scrollToSection(e, "#contact", true)}
+                className="mt-4 w-full text-center py-3 rounded-full text-sm font-heading font-semibold text-[#0B0F19] bg-gradient-to-r from-[#D4A017] to-[#F6C453] cursor-pointer"
               >
                 Hire Me
               </a>

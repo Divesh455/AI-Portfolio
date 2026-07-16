@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import AILanding from "@/components/AILanding";
 import Hero from "@/components/Hero";
+import Navbar from "@/components/Navbar";
 import TechStack from "@/components/TechStack";
 import AIShowcase from "@/components/AIShowcase";
 import About from "@/components/About";
@@ -68,11 +69,12 @@ export default function Home() {
       )}
 
       {/* Main Content Sections */}
-    {bootState === "ready" && (
-      <main className="opacity-100 animate-fade-in">
+      {bootState === "ready" && (
+        <main className="opacity-100 animate-fade-in">
+          <Navbar isActivated={heroActivated} />
 
-      {/* Fullscreen Hero */}
-      <Hero isActivated={heroActivated} />
+          {/* Fullscreen Hero */}
+          <Hero isActivated={heroActivated} />
 
       {mountBelowFold && (
         <>

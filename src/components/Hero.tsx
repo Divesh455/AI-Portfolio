@@ -6,7 +6,7 @@ import { ArrowUpRight, FileText, ChevronDown, Volume2, VolumeX, Bot, X, Send } f
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 import gsap from "gsap";
-import Navbar from "./Navbar";
+
 
 const roles = [
   "Machine Learning",
@@ -570,7 +570,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
       ref={containerRef}
       className="relative h-[100dvh] md:h-screen w-full flex items-center justify-center overflow-hidden bg-[#0B0F19]"
     >
-      <Navbar isActivated={isActivated} />
+
 
       {/* 
         Full-Screen Video Background:
