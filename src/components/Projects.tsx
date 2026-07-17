@@ -278,7 +278,7 @@ export default function Projects() {
               key={project.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: false, margin: "-100px" }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
             >
               <TiltCard className="group relative rounded-3xl bg-[#1F2937]/30 border border-[#D4A017]/10 hover:border-[#D4A017]/35 overflow-hidden flex flex-col justify-between h-[480px] shadow-lg hover:shadow-[0_15px_40px_-15px_rgba(212,160,23,0.15)] transition-all duration-300">

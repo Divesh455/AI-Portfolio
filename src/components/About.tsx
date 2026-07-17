@@ -28,7 +28,7 @@ export default function About() {
           <motion.div 
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: false, margin: "-100px" }}
             transition={{ duration: 0.6 }}
             className="lg:col-span-7 flex flex-col gap-6"
           >
@@ -52,7 +52,7 @@ export default function About() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.96 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: false, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-5 w-full"
           >
@@ -70,7 +70,7 @@ export default function About() {
                     key={index}
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false }}
                     transition={{ duration: 0.4, delay: index * 0.08 }}
                     className="flex items-center gap-4 py-3.5 border-b border-white/5 last:border-0 hover:translate-x-1 transition-transform duration-300 group/item"
                   >

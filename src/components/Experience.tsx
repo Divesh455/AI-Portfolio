@@ -81,7 +81,7 @@ export default function Experience() {
               key={exp.company}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: false, margin: "-100px" }}
               transition={{ duration: 0.7, delay: index * 0.15 }}
               className="relative pl-8 md:pl-12"
             >
