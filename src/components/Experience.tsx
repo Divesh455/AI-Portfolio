@@ -30,11 +30,11 @@ const experiences: ExperienceItem[] = [
     role: "AI Lead Developer",
     location: "Panvel, Maharashtra,(in",
     dates: "July 2026",
-    logoLetter: "H",
+    logoLetter: "C",
     details: [
-      "Project Concept: Designed and developed an automated lecture video transcript and semantic Q&A RAG assistant during a 36-hour coding sprint.",
-      "Technical Implementation: Built FastAPI backend integrated with Google Gemini API, sentence-transformers, and ChromaDB vector store for semantic context retrieval.",
-      "Results & Leadership: Led a team of 4 to secure a Top-5 Finalist rank out of 100+ participating teams, presenting a working prototype to the jury panel.",
+      "Developed an LLM-powered AI assistant to provide context-aware emotional guidance, enabling supportive and personalized interactions based on user input.",
+      "Designed and integrated AI-driven mental wellness features, including emotion-aware conversations and intelligent guidance workflows, enhancing user engagement and emotional support",
+      "Collaborated on the AI architecture by integrating LLM capabilities into the platform, delivering scalable AI-powered assistance for a secure mental wellness ecosystem.",
     ],
   },
   {
@@ -67,11 +67,10 @@ export default function Experience() {
             Career
           </div>
           <h2 className="font-heading text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-[#F9FAFB]">
-            
-            Experience
+            Work & Hackathons
           </h2>
           <p className="font-sans text-sm md:text-base text-[#9CA3AF] max-w-xl mx-auto font-light">
-            A history of deploying high-performance intelligence tools and robust backend services.
+            A chronological timeline of my Data Science internship and leading AI development in competitive hackathons.
           </p>
         </div>
 

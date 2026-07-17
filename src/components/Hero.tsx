@@ -742,9 +742,12 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
         </motion.div>
       </div>
 
-      {/* Floating Audio Button (Bottom Right - responsive position) */}
-      <div className="absolute bottom-8 right-8 md:bottom-50 md:right-24 z-30"
-           style={{ bottom: "calc(env(safe-area-inset-bottom) + 16px)" }}>
+      {/* Floating Audio Button (Bottom Right) */}
+      <div className="absolute z-30 pointer-events-auto"
+           style={{
+             bottom: "calc(env(safe-area-inset-bottom) + 16px)",
+             right: "24px"
+           }}>
         <div className="group relative">
           <button
             onClick={handleToggleMute}

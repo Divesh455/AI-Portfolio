@@ -74,10 +74,10 @@ export default function TechStack() {
             Core Stack
           </div>
           <h2 className="font-heading text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-[#F9FAFB]">
-            Showcase Tech Stack
+            AI & Engineering Stack
           </h2>
           <p className="font-sans text-sm md:text-base text-[#9CA3AF] max-w-xl mx-auto font-light">
-            Cutting-edge libraries, architectures, and infrastructures powering next-generation artificial intelligence solutions.
+            The core libraries, frameworks, and intelligence architectures I use to design and deploy scalable AI solutions.
           </p>
         </div>
 

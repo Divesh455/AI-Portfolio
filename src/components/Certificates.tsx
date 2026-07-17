@@ -53,7 +53,7 @@ export default function Certificates() {
             Certifications
           </h2>
           <p className="font-sans text-sm md:text-base text-[#9CA3AF] max-w-xl mx-auto font-light">
-            Verified proof of mathematical understanding, framework fluency, and architectural capacity.
+            Verified credentials validating my expertise in data science, generative AI, and hackathon milestones.
           </p>
         </div>
 

@@ -267,7 +267,7 @@ export default function Projects() {
             Featured Projects
           </h2>
           <p className="font-sans text-sm md:text-base text-[#9CA3AF] max-w-xl mx-auto font-light">
-            Explore premium software systems delivering production artificial intelligence capabilities.
+            A curated collection of my data science pipelines, time-series forecasting engines, and LLM-powered applications.
           </p>
         </div>
 

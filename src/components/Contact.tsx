@@ -35,6 +35,11 @@ export default function Contact() {
       setName("");
       setEmail("");
       setMessage("");
+
+      // Auto-reset status after 3 seconds for WhatsApp
+      setTimeout(() => {
+        setStatus((prev) => (prev === "success" ? "idle" : prev));
+      }, 3000);
     } else {
       // Email submission via Web3Forms API with client-side mailto fallback
       try {
@@ -158,7 +163,10 @@ export default function Contact() {
               </a>
 
               <a
-                href="./src/assets/divesh_matkar_resume.pdf"
+                href="/assets/Resume 4.pdf"
+                target="_blank"
+                download="Divesh_Matkar_Resume.pdf" 
+                rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0B0F19] border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-all duration-300 hover:scale-[1.02]"
               >
                 <FileText className="w-4 h-4 text-[#D4A017]" />
@@ -204,9 +212,12 @@ export default function Contact() {
                   <input
                     type="text"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      if (status === "success" || status === "error") setStatus("idle");
+                    }}
                     placeholder="John Doe"
-                    disabled={status === "sending" || status === "success"}
+                    disabled={status === "sending"}
                     className="w-full px-4 py-3 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/30 focus:outline-none focus:border-[#D4A017] transition-all disabled:opacity-50"
                     required
                   />
@@ -218,9 +229,12 @@ export default function Contact() {
                   <input
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (status === "success" || status === "error") setStatus("idle");
+                    }}
                     placeholder="john@example.com"
-                    disabled={status === "sending" || status === "success"}
+                    disabled={status === "sending"}
                     className="w-full px-4 py-3 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/30 focus:outline-none focus:border-[#D4A017] transition-all disabled:opacity-50"
                     required
                   />
@@ -232,10 +246,13 @@ export default function Contact() {
                 <label className="text-xs font-heading font-semibold text-[#F9FAFB] tracking-wide uppercase">Message</label>
                 <textarea
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={(e) => {
+                    setMessage(e.target.value);
+                    if (status === "success" || status === "error") setStatus("idle");
+                  }}
                   placeholder="Describe your project, timeline, and goals..."
                   rows={5}
-                  disabled={status === "sending" || status === "success"}
+                  disabled={status === "sending"}
                   className="w-full px-4 py-3 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/30 focus:outline-none focus:border-[#D4A017] transition-all disabled:opacity-50 resize-none"
                   required
                 />
@@ -263,7 +280,7 @@ export default function Contact() {
               {/* Submit CTA */}
               <button
                 type="submit"
-                disabled={status === "sending" || status === "success"}
+                disabled={status === "sending"}
                 className="w-full py-4 rounded-xl bg-gradient-to-r from-[#D4A017] to-[#F6C453] text-[#0B0F19] text-sm font-heading font-bold tracking-wide uppercase transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 {status === "sending" ? "Processing..." : "Send Message"}

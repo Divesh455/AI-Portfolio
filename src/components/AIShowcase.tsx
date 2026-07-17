@@ -324,11 +324,66 @@ export default function AIShowcase() {
   );
 }
 
+type ModelType = "mlp" | "cnn" | "lstm" | "transformer";
+
+const modelConfigs: Record<ModelType, {
+  name: string;
+  layers: number[];
+  lr: string;
+  activation: string;
+  maxEpochs: number;
+  lossBase: number;
+  time: string;
+  speed: number;
+}> = {
+  mlp: {
+    name: "MLP (Dense)",
+    layers: [6, 6, 4],
+    lr: "0.003 (Adam)",
+    activation: "ReLU",
+    maxEpochs: 100,
+    lossBase: 0.054,
+    time: "1.2s",
+    speed: 1.25,
+  },
+  cnn: {
+    name: "CNN (Spatial)",
+    layers: [6, 8, 8, 6],
+    lr: "0.001 (AdamW)",
+    activation: "GELU",
+    maxEpochs: 150,
+    lossBase: 0.018,
+    time: "2.4s",
+    speed: 0.85,
+  },
+  lstm: {
+    name: "LSTM (Temporal)",
+    layers: [5, 6, 6, 5],
+    lr: "0.0005 (RMSprop)",
+    activation: "Tanh",
+    maxEpochs: 120,
+    lossBase: 0.076,
+    time: "1.8s",
+    speed: 1.0,
+  },
+  transformer: {
+    name: "Transformer (Attention)",
+    layers: [4, 8, 8, 8, 4],
+    lr: "0.0001 (AdamW + Cosine)",
+    activation: "SwiGLU",
+    maxEpochs: 200,
+    lossBase: 0.008,
+    time: "4.5s",
+    speed: 0.55,
+  }
+};
+
 // Subcomponent: Neural Activation Grid Canvas
 function NeuralGraph() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [trainStatus, setTrainStatus] = useState<"idle" | "training" | "complete">("idle");
   const trainStatusRef = useRef(trainStatus);
+  const [selectedModel, setSelectedModel] = useState<ModelType>("cnn");
 
   useEffect(() => {
     trainStatusRef.current = trainStatus;
@@ -370,7 +425,8 @@ function NeuralGraph() {
     canvas.addEventListener("mousemove", handleMouseMove);
     canvas.addEventListener("mouseleave", handleMouseLeave);
 
-    const layers = [6, 8, 8, 6];
+    const config = modelConfigs[selectedModel];
+    const layers = config.layers;
     const nodes: { x: number; y: number; val: number; targetVal: number }[][] = [];
 
     // Calculate node coordinates
@@ -400,21 +456,22 @@ function NeuralGraph() {
         const status = trainStatusRef.current;
         if (status === "training") {
           pulseX += 8.5; // Fast sweep speed to show compute activity
-          currentEpoch += 0.55; // Increment epoch count
-          if (currentEpoch >= 150) {
-            currentEpoch = 150;
+          currentEpoch += config.speed; // Increment epoch count
+          if (currentEpoch >= config.maxEpochs) {
+            currentEpoch = config.maxEpochs;
             setTimeout(() => setTrainStatus("complete"), 0);
           }
           // Exponential decay mapping for loss convergence
-          currentLoss = 0.83 * Math.pow(Math.E, -currentEpoch * 0.035) + 0.02 + Math.random() * 0.004;
+          const progress = currentEpoch / config.maxEpochs;
+          currentLoss = (0.83 - config.lossBase) * Math.pow(Math.E, -progress * 5) + config.lossBase + Math.random() * 0.004;
         } else if (status === "idle") {
           pulseX += 4.5;
           currentEpoch = 0;
           currentLoss = 0.854;
         } else {
           pulseX += 4.5;
-          currentEpoch = 150;
-          currentLoss = 0.021 + Math.random() * 0.001;
+          currentEpoch = config.maxEpochs;
+          currentLoss = config.lossBase + Math.random() * 0.001;
         }
 
         if (pulseX > width + 100) {
@@ -509,9 +566,9 @@ function NeuralGraph() {
         ctx.fillStyle = "rgba(156, 163, 175, 0.4)";
         ctx.font = "10px JetBrains Mono, monospace";
         ctx.fillText(`TASK_STATUS: ${status.toUpperCase()}`, 20, 20);
-        ctx.fillText(`EPOCH: ${Math.floor(currentEpoch)} / 150`, 20, 35);
-        ctx.fillText(`LEARNING_RATE: 0.0003 (AdamW)`, 20, 50);
-        ctx.fillText(`ACT: GELU`, 20, 65);
+        ctx.fillText(`EPOCH: ${Math.floor(currentEpoch)} / ${config.maxEpochs}`, 20, 35);
+        ctx.fillText(`LEARNING_RATE: ${config.lr}`, 20, 50);
+        ctx.fillText(`ACT: ${config.activation}`, 20, 65);
         ctx.fillText(`LOSS: ${currentLoss.toFixed(5)}`, 20, 80);
       }
 
@@ -526,7 +583,9 @@ function NeuralGraph() {
       canvas.removeEventListener("mouseleave", handleMouseLeave);
       observer.disconnect();
     };
-  }, []);
+  }, [selectedModel]);
+
+  const config = modelConfigs[selectedModel];
 
   return (
     <motion.div
@@ -550,23 +609,49 @@ function NeuralGraph() {
         )}
         {trainStatus === "training" && (
           <span className="text-xs font-mono text-[#F6C453] animate-pulse">
-            Training ML Model Task...
+            Training {config.name}...
           </span>
         )}
         {trainStatus === "complete" && (
           <div className="flex items-center gap-2">
             <span className="text-xs font-mono text-green-400 font-semibold">
-              Accuracy: 98.4% (Complete)
+              Time Taken: {config.time} (Complete)
             </span>
             <button
               onClick={() => setTrainStatus("idle")}
-              className="font-sans text-[10px] text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
+              className="font-sans text-[10px] text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors cursor-pointer"
             >
               Reset Task
             </button>
           </div>
         )}
       </div>
+
+      {/* Model Selection Tabs */}
+      <div className="flex flex-wrap gap-2">
+        {(Object.keys(modelConfigs) as ModelType[]).map((key) => {
+          const mConfig = modelConfigs[key];
+          const isSelected = selectedModel === key;
+          return (
+            <button
+              key={key}
+              disabled={trainStatus === "training"}
+              onClick={() => {
+                setSelectedModel(key);
+                setTrainStatus("idle");
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs font-heading font-semibold transition-all border disabled:opacity-40 cursor-pointer ${
+                isSelected
+                  ? "bg-[#D4A017]/10 border-[#D4A017]/30 text-[#D4A017] shadow-[0_0_15px_rgba(212,160,23,0.15)]"
+                  : "bg-[#111827]/40 border-white/5 text-[#9CA3AF] hover:border-[#D4A017]/20 hover:text-[#F9FAFB]"
+              }`}
+            >
+              {mConfig.name}
+            </button>
+          );
+        })}
+      </div>
+
       <div className="flex-1 bg-[#0B0F19]/50 rounded-2xl border border-white/5 flex items-center justify-center overflow-hidden min-h-[300px]">
         <canvas ref={canvasRef} className="w-full h-full" />
       </div>
