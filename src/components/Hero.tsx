@@ -670,8 +670,9 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
               {/* Glass Button 2 (Download Resume) */}
               <a
-                href="https://drive.google.com/file/d/1Nc6eFIxnU_Tfue6jWEVgOu_Vxi6SeAvW/view?usp=drive_link"
+                href="/assets/Resume 5.pdf"
                 target="_blank"
+                download="Divesh_Matkar_Resume.pdf" 
                 rel="noopener noreferrer"
                 className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-[260px] h-[52px] md:w-auto md:h-[64px] rounded-[18px] md:rounded-[20px] text-[15px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto"
               >
