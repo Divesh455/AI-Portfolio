@@ -281,19 +281,19 @@ export default function AIShowcase() {
                       )}
                     </div>
 
-                    <form onSubmit={handleRagSubmit} className="flex gap-2 mt-4 pt-4 border-t border-white/5">
+                    <form onSubmit={handleRagSubmit} className="flex flex-col sm:flex-row gap-2 mt-4 pt-4 border-t border-white/5">
                       <input
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         placeholder="e.g. Does Divesh know FastAPI?"
                         disabled={ragState !== "idle"}
-                        className="flex-1 px-4 py-2.5 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/40 focus:outline-none focus:border-[#D4A017] transition-colors disabled:opacity-50"
+                        className="w-full sm:flex-1 px-4 py-2.5 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/40 focus:outline-none focus:border-[#D4A017] transition-colors disabled:opacity-50"
                       />
                       <button
                         type="submit"
                         disabled={!query.trim() || ragState !== "idle"}
-                        className="px-4 rounded-xl bg-gradient-to-r from-[#D4A017] to-[#F6C453] text-[#0B0F19] text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
+                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D4A017] to-[#F6C453] text-[#0B0F19] text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer whitespace-nowrap shrink-0"
                       >
                         Send
                         <Send className="w-3.5 h-3.5" />
@@ -821,19 +821,19 @@ function PromptOptimizer({
         )}
 
         {/* Input area */}
-        <form onSubmit={handleOptimizeSubmit} className="flex gap-2">
+        <form onSubmit={handleOptimizeSubmit} className="flex flex-col sm:flex-row gap-2">
           <input
             type="text"
             value={basicPrompt}
             onChange={(e) => setBasicPrompt(e.target.value)}
             placeholder="Enter a basic prompt... (e.g. 'write sales forecasting script')"
             disabled={optimizerState !== "idle"}
-            className="flex-1 px-4 py-2.5 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/40 focus:outline-none focus:border-[#D4A017] transition-colors disabled:opacity-50"
+            className="w-full sm:flex-1 px-4 py-2.5 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/40 focus:outline-none focus:border-[#D4A017] transition-colors disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={!basicPrompt.trim() || optimizerState !== "idle"}
-            className="px-4 rounded-xl bg-gradient-to-r from-[#D4A017] to-[#F6C453] text-[#0B0F19] text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-1.5 disabled:opacity-50 cursor-pointer whitespace-nowrap"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D4A017] to-[#F6C453] text-[#0B0F19] text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer whitespace-nowrap shrink-0"
           >
             Optimize
             <Sparkles className="w-3.5 h-3.5" />

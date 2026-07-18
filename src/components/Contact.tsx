@@ -189,8 +189,8 @@ export default function Contact() {
                       : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#1F2937]/50"
                   }`}
                 >
-                  <Mail className="w-3.5 h-3.5" />
-                  Send via Email
+                  <Mail className="w-3.5 h-3.5 shrink-0" />
+                  <span>Email</span>
                 </button>
                 <button
                   type="button"
@@ -201,8 +201,8 @@ export default function Contact() {
                       : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#1F2937]/50"
                   }`}
                 >
-                  <FaWhatsapp className="w-4 h-4" />
-                  Send via WhatsApp
+                  <FaWhatsapp className="w-4 h-4 shrink-0" />
+                  <span>WhatsApp</span>
                 </button>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
