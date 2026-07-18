@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, FileText, ChevronDown, Volume2, VolumeX, Bot, X, Send } from "lucide-react";
+import { ArrowUpRight, FileText, ChevronDown, Volume2, VolumeX, Bot, X, Send, Mail } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 import gsap from "gsap";
@@ -606,10 +606,6 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                background: "linear-gradient(to top, rgba(11,15,25,0.95) 0%, rgba(11,15,25,0.75) 30%, rgba(11,15,25,0.35) 60%, transparent 100%)"
              }}
         />
-
-        {/* Tablet overlay (>= 768px and < 1024px) */}
-        <div className="hidden md:block lg:hidden absolute inset-0 bg-gradient-to-b from-black/75 via-black/40 to-black/75 pointer-events-none z-10" />
-        <div className="hidden md:block lg:hidden absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,transparent_15%,rgba(11,15,25,0.65)_60%,rgba(11,15,25,0.85)_95%)] pointer-events-none z-10" />
       </motion.div>
 
       {/* Background Neural Particles Canvas */}
@@ -631,40 +627,40 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
              paddingBottom: "calc(env(safe-area-inset-bottom) + 80px)"
            }}
       >
-        {/* Spacer to push text content down to 60% viewport height on mobile */}
-        <div className="h-[60vh] md:hidden block shrink-0" />
+        {/* Spacer to push text content down to 50% viewport height on mobile */}
+        <div className="h-[50vh] md:hidden block shrink-0" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full">
           
           {/* Left Column Content (42% width / lg:col-span-5 on desktop, centered on mobile) */}
-          <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left select-none max-w-[620px] mx-auto lg:mx-0">
+          <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left select-none max-w-[620px] mx-auto lg:mx-0 w-full">
 
             {/* Greeting */}
-            <h2 className="hero-title-first opacity-0 font-sans text-[#9CA3AF] text-[16px] md:text-[20px] font-light tracking-[0.25em] uppercase mb-[10px] md:mb-[16px]">
+            <h2 className="hero-title-first opacity-0 font-sans text-[#9CA3AF] text-[14px] md:text-[20px] font-light tracking-[0.25em] uppercase mb-[10px] md:mb-[16px]">
               HELLO, I&apos;M
             </h2>
 
             {/* Name */}
-            <h1 className="hero-title-second opacity-0 font-heading text-[clamp(40px,8vw,52px)] md:text-[clamp(72px,7vw,110px)] font-black tracking-[-0.04em] leading-[0.9] mb-[18px] md:mb-[28px] bg-gradient-to-b from-[#F9FAFB] via-[#F9FAFB] to-[#9CA3AF] bg-clip-text text-transparent drop-shadow-sm text-center lg:text-left">
-              Divesh<br />Matkar
+            <h1 className="hero-title-second opacity-0 font-heading text-[clamp(30px,6.5vw,42px)] md:text-[clamp(72px,7vw,110px)] font-black tracking-[-0.04em] leading-[0.9] mb-[18px] md:mb-[28px] bg-gradient-to-b from-[#F9FAFB] via-[#F9FAFB] to-[#9CA3AF] bg-clip-text text-transparent drop-shadow-sm text-center lg:text-left whitespace-nowrap md:whitespace-normal">
+              Divesh <br className="hidden md:inline" />Matkar
             </h1>
 
             {/* Typing Text */}
-            <div className="hero-typewriter-container opacity-0 h-[60px] flex items-center justify-center lg:justify-start mb-[28px]">
+            <div className="hero-typewriter-container opacity-0 h-[48px] md:h-[60px] flex items-center justify-center lg:justify-start mb-[20px] md:mb-[28px]">
               <span className="font-heading text-[28px] sm:text-[38px] lg:text-[42px] font-bold text-[#D4A017] cursor-blink pr-1">
                 {displayedRole}
               </span>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col md:flex-row items-center gap-[14px] md:gap-[20px] w-full md:w-auto justify-center lg:justify-start">
+            <div className="grid grid-cols-2 md:flex md:flex-row md:flex-wrap lg:flex-nowrap items-center gap-[12px] md:gap-[20px] w-full md:w-auto justify-center lg:justify-start">
               {/* Gold Filled Button 1 */}
               <a
                 href="#projects"
-                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-[260px] h-[52px] md:w-auto md:h-[64px] rounded-[18px] md:rounded-[20px] text-[15px] md:text-[16px] font-heading font-semibold tracking-wide text-[#0B0F19] bg-gradient-to-r from-[#D4A017] to-[#F6C453] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.4)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto"
+                className="col-span-2 hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-full md:w-auto h-[48px] md:h-[64px] rounded-[14px] md:rounded-[20px] text-[14px] md:text-[16px] font-heading font-semibold tracking-wide text-[#0B0F19] bg-gradient-to-r from-[#D4A017] to-[#F6C453] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.4)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto whitespace-nowrap"
               >
                 Explore Projects
-                <ArrowUpRight className="w-4.5 h-4.5 md:w-3.5 md:h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight className="w-4 h-4 md:w-3.5 md:h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 -z-10" />
               </a>
 
@@ -674,21 +670,20 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                 target="_blank"
                 download="Divesh_Matkar_Resume.pdf" 
                 rel="noopener noreferrer"
-                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-[260px] h-[52px] md:w-auto md:h-[64px] rounded-[18px] md:rounded-[20px] text-[15px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto"
+                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-1.5 w-full md:w-auto h-[48px] md:h-[64px] rounded-[14px] md:rounded-[20px] text-[13px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto whitespace-nowrap"
               >
-                <FileText className="w-4.5 h-4.5 text-[#D4A017]" />
-                Download Resume
+                <FileText className="w-4 h-4 text-[#D4A017] shrink-0" />
+                Resume
                 <div className="absolute inset-0 bg-[#D4A017]/10 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 -z-10" />
               </a>
 
-              {/* Glass Button 3 (View GitHub) */}
+              {/* Glass Button 3 (Contact Me) */}
               <a
                 href="#contact"
-                // target="_blank"
                 rel="noopener noreferrer"
-                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-[260px] h-[52px] md:w-auto md:h-auto md:text-xs md:px-6 md:py-3.5 rounded-[18px] md:rounded-[20px] text-[15px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto"
+                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-1.5 w-full md:w-auto h-[48px] md:h-[64px] rounded-[14px] md:rounded-[20px] text-[13px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto whitespace-nowrap"
               >
-                {/* <FaGithub className="w-4.5 h-4.5 text-[#D4A017]" /> */}
+                <Mail className="w-4 h-4 text-[#D4A017] shrink-0" />
                 Contact Me
                 <div className="absolute inset-0 bg-[#D4A017]/10 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 -z-10" />
               </a>
