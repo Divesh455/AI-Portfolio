@@ -32,6 +32,20 @@ export default function ThemeHUD() {
     }
     
     localStorage.setItem("portfolio-theme", theme);
+
+    // Dynamically change favicon based on theme selection
+    const faviconHref = theme === "crimson" ? "/favicon_red.ico" : "/favicon.ico";
+    const links = document.querySelectorAll("link[rel*='icon']");
+    if (links.length > 0) {
+      links.forEach((link) => {
+        (link as HTMLLinkElement).href = faviconHref;
+      });
+    } else {
+      const link = document.createElement("link");
+      link.rel = "icon";
+      link.href = faviconHref;
+      document.head.appendChild(link);
+    }
   };
 
   const handleThemeChange = (theme: Theme) => {
