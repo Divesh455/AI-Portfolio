@@ -12,6 +12,7 @@ import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import Certificates from "@/components/Certificates";
 import Contact from "@/components/Contact";
+import ThemeHUD from "@/components/ThemeHUD";
 import { Cpu } from "lucide-react";
 
 export default function Home() {
@@ -103,35 +104,35 @@ export default function Home() {
           <Contact />
         </>
       )}
-
+      <ThemeHUD />
     </main>
   )}
 
       {/* Premium Luxury Footer */}
       {bootState === "ready" && mountBelowFold && (
-      <footer className="relative bg-[#0B0F19] border-t border-[#D4A017]/10 py-16 overflow-hidden select-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[100px] rounded-full bg-[#D4A017] opacity-[0.03] blur-[80px] pointer-events-none" />
+      <footer className="relative bg-bg-dark border-t border-gold/10 py-16 overflow-hidden select-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[100px] rounded-full bg-gold opacity-[0.03] blur-[80px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
           
           {/* Logo block */}
           <div className="flex items-center gap-2 group">
-            <div className="flex items-center justify-center w-8 h-8 rounded bg-gradient-to-br from-[#D4A017] to-[#F6C453] text-[#0B0F19] font-bold">
-              <Cpu className="w-4 h-4 text-[#0B0F19]" />
+            <div className="flex items-center justify-center w-8 h-8 rounded bg-gradient-to-br from-gold to-gold-hover text-bg-dark font-bold">
+              <Cpu className="w-4 h-4 text-bg-dark" />
             </div>
-            <span className="font-heading text-base font-bold tracking-wider bg-gradient-to-r from-[#F9FAFB] via-[#F6C453] to-[#D4A017] bg-clip-text text-transparent">
+            <span className="font-heading text-base font-bold tracking-wider bg-gradient-to-r from-[#F9FAFB] via-gold-hover to-gold bg-clip-text text-transparent">
               DM.AI
             </span>
           </div>
 
           {/* Links block */}
           <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 text-xs font-heading font-semibold tracking-wider uppercase text-[#9CA3AF]">
-            <a href="#home" className="hover:text-[#D4A017] transition-colors">Home</a>
-            <a href="#about" className="hover:text-[#D4A017] transition-colors">About</a>
-            <a href="#skills" className="hover:text-[#D4A017] transition-colors">Skills</a>
-            <a href="#projects" className="hover:text-[#D4A017] transition-colors">Projects</a>
-            <a href="#experience" className="hover:text-[#D4A017] transition-colors">Experience</a>
-            <a href="#contact" className="hover:text-[#D4A017] transition-colors">Contact</a>
+            <a href="#home" className="hover:text-gold transition-colors">Home</a>
+            <a href="#about" className="hover:text-gold transition-colors">About</a>
+            <a href="#skills" className="hover:text-gold transition-colors">Skills</a>
+            <a href="#projects" className="hover:text-gold transition-colors">Projects</a>
+            <a href="#experience" className="hover:text-gold transition-colors">Experience</a>
+            <a href="#contact" className="hover:text-gold transition-colors">Contact</a>
           </div>
 
           {/* Copyright block */}

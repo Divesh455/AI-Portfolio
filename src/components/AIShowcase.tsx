@@ -67,15 +67,15 @@ export default function AIShowcase() {
   };
 
   return (
-    <section id="ai-showcase" className="relative py-32 bg-[#0B0F19] overflow-hidden">
+    <section id="ai-showcase" className="relative py-32 bg-bg-dark overflow-hidden">
       {/* Background Gradients */}
-      <div className="absolute top-[20%] left-[-10%] w-[350px] h-[350px] rounded-full bg-[#D4A017] opacity-[0.03] blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[-10%] w-[350px] h-[350px] rounded-full bg-[#F6C453] opacity-[0.02] blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] left-[-10%] w-[350px] h-[350px] rounded-full bg-gold opacity-[0.03] blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[-10%] w-[350px] h-[350px] rounded-full bg-gold-hover opacity-[0.02] blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Title Block */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#D4A017]/10 bg-[#1F2937]/35 text-[#D4A017] text-xs font-heading font-semibold tracking-widest uppercase mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/10 bg-bg-card/35 text-gold text-xs font-heading font-semibold tracking-widest uppercase mb-4">
             <Sparkles className="w-3.5 h-3.5 animate-pulse" />
             AI Labs
           </div>
@@ -96,7 +96,7 @@ export default function AIShowcase() {
                 Under the Hood
               </h3>
               <p className="font-sans text-sm text-[#9CA3AF] leading-relaxed font-light">
-                Modern AI isn&apos;t just about prompt engineering; it&apos;s about robust data orchestration. Toggle through these components to visualize how models process information.
+                Modern AI isn&apos;t just about prompt engineering; it&apos;s about data orchestration. Toggle through these components to visualize how models process information.
               </p>
 
               {/* Tab Selector buttons */}
@@ -105,11 +105,11 @@ export default function AIShowcase() {
                   onClick={() => setActiveTab("rag")}
                   className={`flex items-center gap-3 px-5 py-4 rounded-xl border transition-all text-left ${
                     activeTab === "rag"
-                      ? "bg-[#1F2937]/65 border-[#D4A017]/40 text-[#F9FAFB] shadow-md shadow-[#D4A017]/5"
-                      : "bg-[#1F2937]/15 border-[#D4A017]/5 text-[#9CA3AF] hover:bg-[#1F2937]/30 hover:border-[#D4A017]/20"
+                      ? "bg-bg-card/65 border-gold/40 text-[#F9FAFB] shadow-md shadow-gold/5"
+                      : "bg-bg-card/15 border-gold/5 text-[#9CA3AF] hover:bg-bg-card/30 hover:border-gold/20"
                   }`}
                 >
-                  <Database className={`w-5 h-5 ${activeTab === "rag" ? "text-[#D4A017]" : "text-[#9CA3AF]"}`} />
+                  <Database className={`w-5 h-5 ${activeTab === "rag" ? "text-gold" : "text-[#9CA3AF]"}`} />
                   <div>
                     <h4 className="font-heading text-sm font-semibold">RAG Pipeline Simulator</h4>
                     <p className="font-sans text-xs text-[#9CA3AF]/70 font-light mt-0.5">Route inputs through VectorDB & real Gemini API.</p>
@@ -120,11 +120,11 @@ export default function AIShowcase() {
                   onClick={() => setActiveTab("neural")}
                   className={`flex items-center gap-3 px-5 py-4 rounded-xl border transition-all text-left ${
                     activeTab === "neural"
-                      ? "bg-[#1F2937]/65 border-[#D4A017]/40 text-[#F9FAFB] shadow-md shadow-[#D4A017]/5"
-                      : "bg-[#1F2937]/15 border-[#D4A017]/5 text-[#9CA3AF] hover:bg-[#1F2937]/30 hover:border-[#D4A017]/20"
+                      ? "bg-bg-card/65 border-gold/40 text-[#F9FAFB] shadow-md shadow-gold/5"
+                      : "bg-bg-card/15 border-gold/5 text-[#9CA3AF] hover:bg-bg-card/30 hover:border-gold/20"
                   }`}
                 >
-                  <Cpu className={`w-5 h-5 ${activeTab === "neural" ? "text-[#D4A017]" : "text-[#9CA3AF]"}`} />
+                  <Cpu className={`w-5 h-5 ${activeTab === "neural" ? "text-gold" : "text-[#9CA3AF]"}`} />
                   <div>
                     <h4 className="font-heading text-sm font-semibold">Neural Activation Grid</h4>
                     <p className="font-sans text-xs text-[#9CA3AF]/70 font-light mt-0.5">Live neural network layer weight computations.</p>
@@ -135,11 +135,11 @@ export default function AIShowcase() {
                   onClick={() => setActiveTab("prompt")}
                   className={`flex items-center gap-3 px-5 py-4 rounded-xl border transition-all text-left ${
                     activeTab === "prompt"
-                      ? "bg-[#1F2937]/65 border-[#D4A017]/40 text-[#F9FAFB] shadow-md shadow-[#D4A017]/5"
-                      : "bg-[#1F2937]/15 border-[#D4A017]/5 text-[#9CA3AF] hover:bg-[#1F2937]/30 hover:border-[#D4A017]/20"
+                      ? "bg-bg-card/65 border-gold/40 text-[#F9FAFB] shadow-md shadow-gold/5"
+                      : "bg-bg-card/15 border-gold/5 text-[#9CA3AF] hover:bg-bg-card/30 hover:border-gold/20"
                   }`}
                 >
-                  <Sliders className={`w-5 h-5 ${activeTab === "prompt" ? "text-[#D4A017]" : "text-[#9CA3AF]"}`} />
+                  <Sliders className={`w-5 h-5 ${activeTab === "prompt" ? "text-gold" : "text-[#9CA3AF]"}`} />
                   <div>
                     <h4 className="font-heading text-sm font-semibold">Prompt Optimizer Sandbox</h4>
                     <p className="font-sans text-xs text-[#9CA3AF]/70 font-light mt-0.5">Animate structures and score few-shot models.</p>
@@ -148,7 +148,7 @@ export default function AIShowcase() {
               </div>
             </div>
 
-            <div className="p-5 rounded-xl border border-[#D4A017]/10 bg-[#111827]/30 text-xs text-[#9CA3AF] leading-relaxed">
+            <div className="p-5 rounded-xl border border-gold/10 bg-bg-secondary/30 text-xs text-[#9CA3AF] leading-relaxed">
               <span className="font-semibold text-[#F9FAFB] block mb-1">Architecture Quote:</span>
               &ldquo;The cost of AI is scaling down exponentially; the intelligence of customized pipelines is scaling up infinitely.&rdquo;
             </div>
@@ -167,10 +167,10 @@ export default function AIShowcase() {
                   className="flex flex-col gap-6 h-full justify-between"
                 >
                   {/* Top Bar */}
-                  <div className="flex items-center justify-between border-b border-[#D4A017]/10 pb-4">
+                  <div className="flex items-center justify-between border-b border-gold/10 pb-4">
                     <div className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#D4A017] animate-ping" />
-                      <span className="font-mono text-xs uppercase tracking-widest text-[#D4A017]">
+                      <div className="w-2.5 h-2.5 rounded-full bg-gold animate-ping" />
+                      <span className="font-mono text-xs uppercase tracking-widest text-gold">
                         RAG Simulator Active
                       </span>
                     </div>
@@ -193,11 +193,11 @@ export default function AIShowcase() {
                         ragState === "idle"
                           ? "border-white/5 bg-white/5 opacity-40"
                           : ragState === "embedding"
-                          ? "border-[#D4A017] bg-[#D4A017]/5 glow-gold"
-                          : "border-[#D4A017]/40 bg-[#D4A017]/5 opacity-80"
+                          ? "border-gold bg-gold/5 glow-gold"
+                          : "border-gold/40 bg-gold/5 opacity-80"
                       }`}
                     >
-                      <MessageSquare className="w-5 h-5 mx-auto mb-2 text-[#D4A017]" />
+                      <MessageSquare className="w-5 h-5 mx-auto mb-2 text-gold" />
                       <span className="font-heading text-xs font-semibold block text-[#F9FAFB]">1. User Prompt</span>
                       <span className="font-sans text-[10px] text-[#9CA3AF] block mt-1">Raw sentence query</span>
                     </div>
@@ -206,15 +206,15 @@ export default function AIShowcase() {
                     <div
                       className={`p-4 rounded-xl border text-center transition-all ${
                         ragState === "embedding"
-                          ? "border-[#D4A017] bg-[#D4A017]/5 glow-gold"
+                          ? "border-gold bg-gold/5 glow-gold"
                           : ragState === "retrieval"
-                          ? "border-[#D4A017] bg-[#D4A017]/5 glow-gold"
+                          ? "border-gold bg-gold/5 glow-gold"
                           : ragState === "generation" || ragState === "complete"
-                          ? "border-[#D4A017]/40 bg-[#D4A017]/5 opacity-80"
+                          ? "border-gold/40 bg-gold/5 opacity-80"
                           : "border-white/5 bg-white/5 opacity-40"
                       }`}
                     >
-                      <Sparkles className="w-5 h-5 mx-auto mb-2 text-[#D4A017]" />
+                      <Sparkles className="w-5 h-5 mx-auto mb-2 text-gold" />
                       <span className="font-heading text-xs font-semibold block text-[#F9FAFB]">2. Embedding</span>
                       <span className="font-sans text-[10px] text-[#9CA3AF] block mt-1">Float32 vector dimensions</span>
                     </div>
@@ -223,15 +223,15 @@ export default function AIShowcase() {
                     <div
                       className={`p-4 rounded-xl border text-center transition-all ${
                         ragState === "retrieval"
-                          ? "border-[#D4A017] bg-[#D4A017]/5 glow-gold"
+                          ? "border-gold bg-gold/5 glow-gold"
                           : ragState === "generation"
-                          ? "border-[#D4A017] bg-[#D4A017]/5 glow-gold"
+                          ? "border-gold bg-gold/5 glow-gold"
                           : ragState === "complete"
-                          ? "border-[#D4A017]/40 bg-[#D4A017]/5 opacity-80"
+                          ? "border-gold/40 bg-gold/5 opacity-80"
                           : "border-white/5 bg-white/5 opacity-40"
                       }`}
                     >
-                      <Database className="w-5 h-5 mx-auto mb-2 text-[#D4A017]" />
+                      <Database className="w-5 h-5 mx-auto mb-2 text-gold" />
                       <span className="font-heading text-xs font-semibold block text-[#F9FAFB]">3. Vector DB Search</span>
                       <span className="font-sans text-[10px] text-[#9CA3AF] block mt-1">Cosine similarity index</span>
                     </div>
@@ -240,36 +240,36 @@ export default function AIShowcase() {
                     <div
                       className={`p-4 rounded-xl border text-center transition-all ${
                         ragState === "generation"
-                          ? "border-[#D4A017] bg-[#D4A017]/5 glow-gold"
+                          ? "border-gold bg-gold/5 glow-gold"
                           : ragState === "complete"
-                          ? "border-[#D4A017] bg-[#D4A017]/10 glow-gold"
+                          ? "border-gold bg-gold/10 glow-gold"
                           : "border-white/5 bg-white/5 opacity-40"
                       }`}
                     >
-                      <Cpu className="w-5 h-5 mx-auto mb-2 text-[#D4A017]" />
+                      <Cpu className="w-5 h-5 mx-auto mb-2 text-gold" />
                       <span className="font-heading text-xs font-semibold block text-[#F9FAFB]">4. LLM Generation</span>
                       <span className="font-sans text-[10px] text-[#9CA3AF] block mt-1">Context synthesis answer</span>
                     </div>
                   </div>
 
                   {/* Sandbox playground area */}
-                  <div className="bg-[#0B0F19]/60 rounded-2xl border border-white/5 p-4 flex-1 flex flex-col justify-between min-h-[160px]">
+                  <div className="bg-bg-dark/60 rounded-2xl border border-white/5 p-4 flex-1 flex flex-col justify-between min-h-[160px]">
                     <div className="font-mono text-xs text-[#9CA3AF] leading-relaxed">
                       {ragState === "idle" && (
                         <span className="text-[#9CA3AF]/50 italic">{"// Enter a prompt below to trace RAG query routing..."}</span>
                       )}
                       {ragState === "embedding" && (
-                        <span className="text-[#D4A017] animate-pulse">
+                        <span className="text-gold animate-pulse">
                           {"[PROCESS] Embedding input sequence... Vector size = [1536] dimensions..."}
                         </span>
                       )}
                       {ragState === "retrieval" && (
-                        <span className="text-[#D4A017] animate-pulse">
+                        <span className="text-gold animate-pulse">
                           {"[PROCESS] Querying Vector Database index... Scanning documents matching query metadata..."}
                         </span>
                       )}
                       {ragState === "generation" && (
-                        <span className="text-[#F6C453] animate-pulse">
+                        <span className="text-gold-hover animate-pulse">
                           {"[LLM] Processing context injection... Executing completion token sequence..."}
                         </span>
                       )}
@@ -288,12 +288,12 @@ export default function AIShowcase() {
                         onChange={(e) => setQuery(e.target.value)}
                         placeholder="e.g. Does Divesh know FastAPI?"
                         disabled={ragState !== "idle"}
-                        className="w-full sm:flex-1 px-4 py-2.5 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/40 focus:outline-none focus:border-[#D4A017] transition-colors disabled:opacity-50"
+                        className="w-full sm:flex-1 px-4 py-2.5 rounded-xl text-sm bg-bg-secondary border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/40 focus:outline-none focus:border-gold transition-colors disabled:opacity-50"
                       />
                       <button
                         type="submit"
                         disabled={!query.trim() || ragState !== "idle"}
-                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D4A017] to-[#F6C453] text-[#0B0F19] text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer whitespace-nowrap shrink-0"
+                        className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-gold to-gold-hover text-bg-dark text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer whitespace-nowrap shrink-0"
                       >
                         Send
                         <Send className="w-3.5 h-3.5" />
@@ -452,6 +452,8 @@ function NeuralGraph() {
     const animate = () => {
       if (isVisible) {
         ctx.clearRect(0, 0, width, height);
+        const themeGold = typeof window !== "undefined" ? getComputedStyle(document.documentElement).getPropertyValue('--theme-gold').trim() || "#D4A017" : "#D4A017";
+        const themeGoldHover = typeof window !== "undefined" ? getComputedStyle(document.documentElement).getPropertyValue('--theme-gold-hover').trim() || "#F6C453" : "#F6C453";
 
         const status = trainStatusRef.current;
         if (status === "training") {
@@ -501,12 +503,14 @@ function NeuralGraph() {
               const strength = (n1.val + n2.val) / 2;
               
               // Base weight line representation
-              ctx.strokeStyle = `rgba(212, 160, 23, ${strength * 0.08})`;
+              ctx.globalAlpha = strength * 0.08;
+              ctx.strokeStyle = themeGold;
               ctx.lineWidth = 0.5;
               ctx.beginPath();
               ctx.moveTo(n1.x, n1.y);
               ctx.lineTo(n2.x, n2.y);
               ctx.stroke();
+              ctx.globalAlpha = 1;
 
               // Draw glowing signal pulse moving along line paths
               const pulseProgress = (pulseX - n1.x) / (n2.x - n1.x);
@@ -516,9 +520,9 @@ function NeuralGraph() {
                 
                 ctx.beginPath();
                 ctx.arc(px, py, 1.8, 0, Math.PI * 2);
-                ctx.fillStyle = "#F6C453";
+                ctx.fillStyle = themeGoldHover;
                 ctx.shadowBlur = 6;
-                ctx.shadowColor = "#F6C453";
+                ctx.shadowColor = themeGoldHover;
                 ctx.fill();
                 ctx.shadowBlur = 0;
               }
@@ -536,27 +540,31 @@ function NeuralGraph() {
               const dist = Math.sqrt(dx * dx + dy * dy);
               if (dist < 85) {
                 const alpha = ((85 - dist) / 85) * 0.18;
-                ctx.strokeStyle = `rgba(246, 196, 83, ${alpha})`;
+                ctx.globalAlpha = alpha;
+                ctx.strokeStyle = themeGoldHover;
                 ctx.lineWidth = 0.5;
                 ctx.beginPath();
                 ctx.moveTo(n.x, n.y);
                 ctx.lineTo(mouse.x, mouse.y);
                 ctx.stroke();
+                ctx.globalAlpha = 1;
               }
             }
 
             // Draw outer gold glow ring
             ctx.beginPath();
             ctx.arc(n.x, n.y, 8 + n.val * 6, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(212, 160, 23, ${n.val * 0.15})`;
+            ctx.globalAlpha = n.val * 0.15;
+            ctx.fillStyle = themeGold;
             ctx.fill();
+            ctx.globalAlpha = 1;
 
             // Draw center node core
             ctx.beginPath();
             ctx.arc(n.x, n.y, 4, 0, Math.PI * 2);
-            ctx.fillStyle = n.val > 0.5 ? "#F6C453" : "#D4A017";
+            ctx.fillStyle = n.val > 0.5 ? themeGoldHover : themeGold;
             ctx.shadowBlur = n.val * 10;
-            ctx.shadowColor = "#D4A017";
+            ctx.shadowColor = themeGold;
             ctx.fill();
             ctx.shadowBlur = 0; // reset
           });
@@ -595,20 +603,20 @@ function NeuralGraph() {
       exit={{ opacity: 0, y: -15 }}
       className="flex flex-col gap-4 h-full"
     >
-      <div className="flex items-center justify-between border-b border-[#D4A017]/10 pb-4">
-        <span className="font-mono text-xs uppercase tracking-widest text-[#D4A017]">
+      <div className="flex items-center justify-between border-b border-gold/10 pb-4">
+        <span className="font-mono text-xs uppercase tracking-widest text-gold">
           Forward Prop Activations
         </span>
         {trainStatus === "idle" && (
           <button
             onClick={() => setTrainStatus("training")}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-lg border border-[#D4A017]/30 bg-[#D4A017]/10 hover:bg-[#D4A017]/20 text-[#D4A017] text-xs font-semibold hover:opacity-90 transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-lg border border-gold/30 bg-gold/10 hover:bg-gold/20 text-gold text-xs font-semibold hover:opacity-90 transition-all cursor-pointer"
           >
             Run Training Task
           </button>
         )}
         {trainStatus === "training" && (
-          <span className="text-xs font-mono text-[#F6C453] animate-pulse">
+          <span className="text-xs font-mono text-gold-hover animate-pulse">
             Training {config.name}...
           </span>
         )}
@@ -642,8 +650,8 @@ function NeuralGraph() {
               }}
               className={`px-3 py-1.5 rounded-xl text-xs font-heading font-semibold transition-all border disabled:opacity-40 cursor-pointer ${
                 isSelected
-                  ? "bg-[#D4A017]/10 border-[#D4A017]/30 text-[#D4A017] shadow-[0_0_15px_rgba(212,160,23,0.15)]"
-                  : "bg-[#111827]/40 border-white/5 text-[#9CA3AF] hover:border-[#D4A017]/20 hover:text-[#F9FAFB]"
+                  ? "bg-gold/10 border-gold/30 text-gold shadow-[0_0_15px_var(--gold-glow)]"
+                  : "bg-bg-secondary/40 border-white/5 text-[#9CA3AF] hover:border-gold/20 hover:text-[#F9FAFB]"
               }`}
             >
               {mConfig.name}
@@ -652,7 +660,7 @@ function NeuralGraph() {
         })}
       </div>
 
-      <div className="flex-1 bg-[#0B0F19]/50 rounded-2xl border border-white/5 flex items-center justify-center overflow-hidden min-h-[300px]">
+      <div className="flex-1 bg-bg-dark/50 rounded-2xl border border-white/5 flex items-center justify-center overflow-hidden min-h-[300px]">
         <canvas ref={canvasRef} className="w-full h-full" />
       </div>
     </motion.div>
@@ -774,10 +782,10 @@ function PromptOptimizer({
       exit={{ opacity: 0, y: -15 }}
       className="flex flex-col gap-6 h-full justify-between"
     >
-      <div className="flex items-center justify-between border-b border-[#D4A017]/10 pb-4">
+      <div className="flex items-center justify-between border-b border-gold/10 pb-4">
         <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#D4A017] animate-ping" />
-          <span className="font-mono text-xs uppercase tracking-widest text-[#D4A017]">
+          <div className="w-2.5 h-2.5 rounded-full bg-gold animate-ping" />
+          <span className="font-mono text-xs uppercase tracking-widest text-gold">
             PROMPT OPTIMIZER ACTIVE
           </span>
         </div>
@@ -800,19 +808,19 @@ function PromptOptimizer({
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => selectSuggestion("write sales forecasting script")}
-                className="px-3 py-1.5 rounded-lg border border-white/5 bg-[#1F2937]/15 hover:border-[#D4A017]/30 text-xs text-[#9CA3AF] hover:text-[#F9FAFB] transition-all cursor-pointer"
+                className="px-3 py-1.5 rounded-lg border border-white/5 bg-bg-card/15 hover:border-gold/30 text-xs text-[#9CA3AF] hover:text-[#F9FAFB] transition-all cursor-pointer"
               >
                 Sales Forecast
               </button>
               <button
                 onClick={() => selectSuggestion("make disease prediction model")}
-                className="px-3 py-1.5 rounded-lg border border-white/5 bg-[#1F2937]/15 hover:border-[#D4A017]/30 text-xs text-[#9CA3AF] hover:text-[#F9FAFB] transition-all cursor-pointer"
+                className="px-3 py-1.5 rounded-lg border border-white/5 bg-bg-card/15 hover:border-gold/30 text-xs text-[#9CA3AF] hover:text-[#F9FAFB] transition-all cursor-pointer"
               >
                 Disease Prediction
               </button>
               <button
                 onClick={() => selectSuggestion("create movie recommender system")}
-                className="px-3 py-1.5 rounded-lg border border-white/5 bg-[#1F2937]/15 hover:border-[#D4A017]/30 text-xs text-[#9CA3AF] hover:text-[#F9FAFB] transition-all cursor-pointer"
+                className="px-3 py-1.5 rounded-lg border border-white/5 bg-bg-card/15 hover:border-gold/30 text-xs text-[#9CA3AF] hover:text-[#F9FAFB] transition-all cursor-pointer"
               >
                 Movie Recommender
               </button>
@@ -828,12 +836,12 @@ function PromptOptimizer({
             onChange={(e) => setBasicPrompt(e.target.value)}
             placeholder="Enter a basic prompt... (e.g. 'write sales forecasting script')"
             disabled={optimizerState !== "idle"}
-            className="w-full sm:flex-1 px-4 py-2.5 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/40 focus:outline-none focus:border-[#D4A017] transition-colors disabled:opacity-50"
+            className="w-full sm:flex-1 px-4 py-2.5 rounded-xl text-sm bg-bg-secondary border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/40 focus:outline-none focus:border-gold transition-colors disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={!basicPrompt.trim() || optimizerState !== "idle"}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#D4A017] to-[#F6C453] text-[#0B0F19] text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer whitespace-nowrap shrink-0"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gradient-to-r from-gold to-gold-hover text-bg-dark text-sm font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer whitespace-nowrap shrink-0"
           >
             Optimize
             <Sparkles className="w-3.5 h-3.5" />
@@ -841,18 +849,18 @@ function PromptOptimizer({
         </form>
 
         {/* Sandbox output display */}
-        <div className="bg-[#0B0F19]/60 rounded-2xl border border-white/5 p-4 min-h-[160px] flex flex-col justify-between">
+        <div className="bg-bg-dark/60 rounded-2xl border border-white/5 p-4 min-h-[160px] flex flex-col justify-between">
           <div className="font-mono text-xs text-[#9CA3AF] leading-relaxed">
             {optimizerState === "idle" && (
               <span className="text-[#9CA3AF]/50 italic">{"// Enter or select a basic prompt above to run few-shot structuring..."}</span>
             )}
             {optimizerState === "analyzing" && (
-              <span className="text-[#D4A017] animate-pulse">
+              <span className="text-gold animate-pulse">
                 {"[ANALYSIS] Scanning input sequence for structural intent... Code task matching active... Inferred Task: ML Architecture Design..."}
               </span>
             )}
             {optimizerState === "enriching" && (
-              <span className="text-[#D4A017] animate-pulse">
+              <span className="text-gold animate-pulse">
                 {"[ENRICHMENT] Appending system role instructions... Injecting format controls and boundary constraints... Compiling structured few-shot exemplars..."}
               </span>
             )}
@@ -862,7 +870,7 @@ function PromptOptimizer({
                   <CheckCircle2 className="w-4 h-4" />
                   {"[SUCCESS] Structured Prompt Compiled (2.0s)"}
                 </div>
-                <pre className="bg-[#111827]/85 p-3 rounded-lg border border-white/5 text-[#F9FAFB] text-[11px] overflow-x-auto font-mono max-h-[140px] overflow-y-auto leading-relaxed whitespace-pre-wrap">
+                <pre className="bg-bg-secondary/85 p-3 rounded-lg border border-white/5 text-[#F9FAFB] text-[11px] overflow-x-auto font-mono max-h-[140px] overflow-y-auto leading-relaxed whitespace-pre-wrap">
                   {optimizedPrompt}
                 </pre>
               </div>
@@ -880,25 +888,25 @@ function PromptOptimizer({
             <div>
               <span className="text-[10px] text-[#9CA3AF]/70 block uppercase tracking-wider font-mono">Context Clarity</span>
               <div className="flex items-center gap-2 mt-1">
-                <div className="flex-1 bg-[#111827] h-1 rounded-full overflow-hidden">
-                  <div className="bg-[#D4A017] h-full" style={{ width: `${optimizerMetrics.clarity}%` }} />
+                <div className="flex-1 bg-bg-secondary h-1 rounded-full overflow-hidden">
+                  <div className="bg-gold h-full" style={{ width: `${optimizerMetrics.clarity}%` }} />
                 </div>
-                <span className="font-mono text-xs text-[#D4A017] font-semibold">{optimizerMetrics.clarity}%</span>
+                <span className="font-mono text-xs text-gold font-semibold">{optimizerMetrics.clarity}%</span>
               </div>
             </div>
             <div>
               <span className="text-[10px] text-[#9CA3AF]/70 block uppercase tracking-wider font-mono">Few-Shot Score</span>
               <div className="flex items-center gap-2 mt-1">
-                <div className="flex-1 bg-[#111827] h-1 rounded-full overflow-hidden">
-                  <div className="bg-[#D4A017] h-full" style={{ width: `${optimizerMetrics.accuracy}%` }} />
+                <div className="flex-1 bg-bg-secondary h-1 rounded-full overflow-hidden">
+                  <div className="bg-gold h-full" style={{ width: `${optimizerMetrics.accuracy}%` }} />
                 </div>
-                <span className="font-mono text-xs text-[#D4A017] font-semibold">{optimizerMetrics.accuracy}%</span>
+                <span className="font-mono text-xs text-gold font-semibold">{optimizerMetrics.accuracy}%</span>
               </div>
             </div>
             <div>
               <span className="text-[10px] text-[#9CA3AF]/70 block uppercase tracking-wider font-mono">Safety Score</span>
               <div className="flex items-center gap-2 mt-1">
-                <div className="flex-1 bg-[#111827] h-1 rounded-full overflow-hidden">
+                <div className="flex-1 bg-bg-secondary h-1 rounded-full overflow-hidden">
                   <div className="bg-green-500 h-full" style={{ width: `${optimizerMetrics.safety}%` }} />
                 </div>
                 <span className="font-mono text-xs text-green-400 font-semibold">{optimizerMetrics.safety}%</span>
@@ -907,10 +915,10 @@ function PromptOptimizer({
             <div>
               <span className="text-[10px] text-[#9CA3AF]/70 block uppercase tracking-wider font-mono">Token Eff.</span>
               <div className="flex items-center gap-2 mt-1">
-                <div className="flex-1 bg-[#111827] h-1 rounded-full overflow-hidden">
-                  <div className="bg-[#D4A017] h-full" style={{ width: `${optimizerMetrics.tokens}%` }} />
+                <div className="flex-1 bg-bg-secondary h-1 rounded-full overflow-hidden">
+                  <div className="bg-gold h-full" style={{ width: `${optimizerMetrics.tokens}%` }} />
                 </div>
-                <span className="font-mono text-xs text-[#D4A017] font-semibold">{optimizerMetrics.tokens}%</span>
+                <span className="font-mono text-xs text-gold font-semibold">{optimizerMetrics.tokens}%</span>
               </div>
             </div>
           </motion.div>

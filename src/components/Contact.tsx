@@ -85,16 +85,16 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-32 bg-[#0B0F19] overflow-hidden">
+    <section id="contact" className="relative py-32 bg-bg-dark overflow-hidden">
       {/* Background decorations */}
-      <div className="absolute top-[20%] left-[-10%] w-[300px] h-[300px] rounded-full bg-[#D4A017] opacity-[0.02] blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[-10%] w-[350px] h-[350px] rounded-full bg-[#F6C453] opacity-[0.02] blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[-10%] w-[300px] h-[300px] rounded-full bg-gold opacity-[0.02] blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[-10%] w-[350px] h-[350px] rounded-full bg-gold-hover opacity-[0.02] blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         
         {/* Title Block */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#D4A017]/10 bg-[#1F2937]/35 text-[#D4A017] text-xs font-heading font-semibold tracking-widest uppercase mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/10 bg-bg-card/35 text-gold text-xs font-heading font-semibold tracking-widest uppercase mb-4">
             <Mail className="w-3.5 h-3.5" />
             Connect
           </div>
@@ -108,7 +108,7 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch max-w-6xl mx-auto">
           {/* Left panel: Info & Socials */}
-          <div className="lg:col-span-5 flex flex-col justify-between gap-8 p-8 rounded-3xl bg-[#1F2937]/15 border border-white/5">
+          <div className="lg:col-span-5 flex flex-col justify-between gap-8 p-8 rounded-3xl bg-bg-card/15 border border-white/5">
             <div className="space-y-6">
               <h3 className="font-heading text-2xl font-bold text-[#F9FAFB]">
                 Let&apos;s Build Together
@@ -119,12 +119,12 @@ export default function Contact() {
               
               <div className="space-y-4 pt-4">
                 <div className="flex items-center gap-4 text-sm text-[#9CA3AF]">
-                  <div className="w-9 h-9 rounded-lg bg-[#0B0F19] border border-[#D4A017]/25 flex items-center justify-center text-[#D4A017]">
+                  <div className="w-9 h-9 rounded-lg bg-bg-dark border border-gold/25 flex items-center justify-center text-gold">
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
                     <span className="block text-[10px] text-[#9CA3AF]/50 uppercase tracking-widest font-semibold">Email Me</span>
-                    <a href="mailto:matkardivesh26@gmail.com" className="text-[#F9FAFB] hover:text-[#D4A017] transition-colors">
+                    <a href="mailto:matkardivesh26@gmail.com" className="text-[#F9FAFB] hover:text-gold transition-colors">
                       matkardivesh26@gmail.com
                     </a>
                   </div>
@@ -138,9 +138,9 @@ export default function Contact() {
                 href="https://www.linkedin.com/in/divesh-matkar/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0B0F19] border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-all duration-300 hover:scale-[1.02]"
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-bg-dark border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-gold/40 transition-all duration-300 hover:scale-[1.02]"
               >
-                <FaLinkedin className="w-4 h-4 text-[#D4A017]" />
+                <FaLinkedin className="w-4 h-4 text-gold" />
                 LinkedIn
               </a>
 
@@ -148,17 +148,17 @@ export default function Contact() {
                 href="https://github.com/Divesh455"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0B0F19] border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-all duration-300 hover:scale-[1.02]"
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-bg-dark border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-gold/40 transition-all duration-300 hover:scale-[1.02]"
               >
-                <FaGithub className="w-4 h-4 text-[#D4A017]" />
+                <FaGithub className="w-4 h-4 text-gold" />
                 GitHub
               </a>
 
               <a
                 href="mailto:matkardivesh26@gmail.com"
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0B0F19] border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-all duration-300 hover:scale-[1.02]"
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-bg-dark border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-gold/40 transition-all duration-300 hover:scale-[1.02]"
               >
-                <Mail className="w-4 h-4 text-[#D4A017]" />
+                <Mail className="w-4 h-4 text-gold" />
                 Email
               </a>
 
@@ -167,9 +167,9 @@ export default function Contact() {
                 target="_blank"
                 download="Divesh_Matkar_Resume.pdf" 
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#0B0F19] border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-all duration-300 hover:scale-[1.02]"
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-bg-dark border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-gold/40 transition-all duration-300 hover:scale-[1.02]"
               >
-                <FileText className="w-4 h-4 text-[#D4A017]" />
+                <FileText className="w-4 h-4 text-gold" />
                 Resume
               </a>
             </div>
@@ -179,14 +179,14 @@ export default function Contact() {
           <div className="lg:col-span-7 glass rounded-3xl p-6 md:p-8 flex flex-col justify-between">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Delivery Method Segment Control */}
-              <div className="flex gap-2 p-1 rounded-xl bg-[#111827] border border-white/5 mb-6">
+              <div className="flex gap-2 p-1 rounded-xl bg-bg-secondary border border-white/5 mb-6">
                 <button
                   type="button"
                   onClick={() => setDeliveryMethod("email")}
                   className={`flex-1 py-2.5 rounded-lg text-xs font-heading font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                     deliveryMethod === "email"
-                      ? "bg-[#D4A017] text-[#0B0F19] shadow-lg shadow-[#D4A017]/10"
-                      : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#1F2937]/50"
+                      ? "bg-gold text-bg-dark shadow-lg shadow-gold/10"
+                      : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-bg-card/50"
                   }`}
                 >
                   <Mail className="w-3.5 h-3.5 shrink-0" />
@@ -197,8 +197,8 @@ export default function Contact() {
                   onClick={() => setDeliveryMethod("whatsapp")}
                   className={`flex-1 py-2.5 rounded-lg text-xs font-heading font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                     deliveryMethod === "whatsapp"
-                      ? "bg-[#D4A017] text-[#0B0F19] shadow-lg shadow-[#D4A017]/10"
-                      : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-[#1F2937]/50"
+                      ? "bg-gold text-bg-dark shadow-lg shadow-gold/10"
+                      : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-bg-card/50"
                   }`}
                 >
                   <FaWhatsapp className="w-4 h-4 shrink-0" />
@@ -218,7 +218,7 @@ export default function Contact() {
                     }}
                     placeholder="John Doe"
                     disabled={status === "sending"}
-                    className="w-full px-4 py-3 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/30 focus:outline-none focus:border-[#D4A017] transition-all disabled:opacity-50"
+                    className="w-full px-4 py-3 rounded-xl text-sm bg-bg-secondary border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/30 focus:outline-none focus:border-gold transition-all disabled:opacity-50"
                     required
                   />
                 </div>
@@ -235,7 +235,7 @@ export default function Contact() {
                     }}
                     placeholder="john@example.com"
                     disabled={status === "sending"}
-                    className="w-full px-4 py-3 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/30 focus:outline-none focus:border-[#D4A017] transition-all disabled:opacity-50"
+                    className="w-full px-4 py-3 rounded-xl text-sm bg-bg-secondary border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/30 focus:outline-none focus:border-gold transition-all disabled:opacity-50"
                     required
                   />
                 </div>
@@ -253,7 +253,7 @@ export default function Contact() {
                   placeholder="Describe your project, timeline, and goals..."
                   rows={5}
                   disabled={status === "sending"}
-                  className="w-full px-4 py-3 rounded-xl text-sm bg-[#111827] border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/30 focus:outline-none focus:border-[#D4A017] transition-all disabled:opacity-50 resize-none"
+                  className="w-full px-4 py-3 rounded-xl text-sm bg-bg-secondary border border-white/10 text-[#F9FAFB] placeholder-[#9CA3AF]/30 focus:outline-none focus:border-gold transition-all disabled:opacity-50 resize-none"
                   required
                 />
               </div>
@@ -281,7 +281,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-[#D4A017] to-[#F6C453] text-[#0B0F19] text-sm font-heading font-bold tracking-wide uppercase transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className="w-full py-4 rounded-xl bg-gradient-to-r from-gold to-gold-hover text-bg-dark text-sm font-heading font-bold tracking-wide uppercase transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_20px_var(--gold-glow)] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 {status === "sending" ? "Processing..." : "Send Message"}
                 <Send className="w-4 h-4" />

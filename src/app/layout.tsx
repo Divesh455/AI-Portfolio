@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import CursorGlow from "@/components/CursorGlow";
 import ScrollProgress from "@/components/ScrollProgress";
+import GlobalParticles from "@/components/GlobalParticles";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -66,10 +67,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <body
-        className={`${inter.variable} ${sora.variable} ${jetbrainsMono.variable} antialiased bg-[#0B0F19] text-[#F9FAFB]`}
+        className={`${inter.variable} ${sora.variable} ${jetbrainsMono.variable} antialiased bg-bg-dark text-[#F9FAFB]`}
       >
         <ScrollProgress />
         <CursorGlow />
+        <GlobalParticles />
         <SmoothScroll />
         {children}
       </body>

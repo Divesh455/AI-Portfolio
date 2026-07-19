@@ -53,16 +53,16 @@ const experiences: ExperienceItem[] = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="relative py-32 bg-[#0B0F19] overflow-hidden">
+    <section id="experience" className="relative py-32 bg-bg-dark overflow-hidden">
       {/* Background decorations */}
-      <div className="absolute top-[20%] right-[-10%] w-[300px] h-[300px] rounded-full bg-[#D4A017] opacity-[0.02] blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[20%] left-[-10%] w-[350px] h-[350px] rounded-full bg-[#F6C453] opacity-[0.02] blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[-10%] w-[300px] h-[300px] rounded-full bg-gold opacity-[0.02] blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[20%] left-[-10%] w-[350px] h-[350px] rounded-full bg-gold-hover opacity-[0.02] blur-[120px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         
         {/* Title Block */}
         <div className="text-center mb-24">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#D4A017]/10 bg-[#1F2937]/35 text-[#D4A017] text-xs font-heading font-semibold tracking-widest uppercase mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/10 bg-bg-card/35 text-gold text-xs font-heading font-semibold tracking-widest uppercase mb-4">
             <Briefcase className="w-3.5 h-3.5" />
             Career
           </div>
@@ -75,7 +75,7 @@ export default function Experience() {
         </div>
 
         {/* Vertical Timeline */}
-        <div className="relative border-l border-[#D4A017]/20 ml-6 md:ml-32 space-y-16">
+        <div className="relative border-l border-gold/20 ml-6 md:ml-32 space-y-16">
           {experiences.map((exp, index) => (
             <motion.div
               key={exp.company}
@@ -86,13 +86,13 @@ export default function Experience() {
               className="relative pl-8 md:pl-12"
             >
               {/* Timeline marker */}
-              <div className="absolute left-[-21px] top-1.5 w-10 h-10 rounded-xl bg-[#111827] border-2 border-[#D4A017]/40 flex items-center justify-center text-[#D4A017] font-heading font-bold shadow-lg shadow-black/40 group">
+              <div className="absolute left-[-21px] top-1.5 w-10 h-10 rounded-xl bg-bg-secondary border-2 border-gold/40 flex items-center justify-center text-gold font-heading font-bold shadow-lg shadow-black/40 group">
                 {exp.logoLetter}
               </div>
 
               {/* Side Date (Desktop Only) */}
               <div className="hidden md:block absolute left-[-168px] top-3.5 w-32 text-right">
-                <span className="font-mono text-xs font-semibold text-[#D4A017] tracking-wider block">
+                <span className="font-mono text-xs font-semibold text-gold tracking-wider block">
                   {exp.dates}
                 </span>
                 <span className="font-sans text-[9px] text-[#9CA3AF]/60 uppercase tracking-widest block mt-1">
@@ -101,10 +101,10 @@ export default function Experience() {
               </div>
 
               {/* Experience Card */}
-              <div className="p-6 md:p-8 rounded-3xl bg-[#1F2937]/25 backdrop-blur-md border border-[#D4A017]/10 hover:border-[#D4A017]/30 hover:bg-[#1F2937]/35 transition-all duration-300">
+              <div className="p-6 md:p-8 rounded-3xl bg-bg-card/25 backdrop-blur-md border border-gold/10 hover:border-gold/30 hover:bg-bg-card/35 transition-all duration-300">
                 {/* Date & Location (Mobile Only) */}
                 <div className="md:hidden flex flex-wrap items-center gap-3 mb-4 text-xs font-mono">
-                  <span className="flex items-center gap-1 text-[#D4A017]">
+                  <span className="flex items-center gap-1 text-gold">
                     <Calendar className="w-3.5 h-3.5" />
                     {exp.dates}
                   </span>
@@ -119,7 +119,7 @@ export default function Experience() {
                   <h3 className="font-heading text-lg md:text-xl font-bold text-[#F9FAFB]">
                     {exp.role}
                   </h3>
-                  <span className="font-heading text-sm text-[#D4A017] font-semibold">
+                  <span className="font-heading text-sm text-gold font-semibold">
                     {exp.company}
                   </span>
                 </div>
@@ -128,7 +128,7 @@ export default function Experience() {
                 <ul className="space-y-3.5">
                   {exp.details.map((detail, idx) => (
                     <li key={idx} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#D4A017] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-gold shrink-0 mt-0.5" />
                       <span className="font-sans text-xs md:text-sm text-[#9CA3AF] leading-relaxed font-light">
                         {detail}
                       </span>

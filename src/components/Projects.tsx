@@ -74,22 +74,22 @@ export default function Projects() {
       github: "https://github.com/Divesh455/MediAI",
       demo: "https://mediai-d79e.onrender.com/",
       graphic: (
-        <div className="absolute inset-0 bg-[#0B0F19] overflow-hidden flex items-center justify-center p-6 border-b border-[#D4A017]/10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,160,23,0.03)_0%,transparent_70%)]" />
+        <div className="absolute inset-0 bg-bg-dark overflow-hidden flex items-center justify-center p-6 border-b border-gold/10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--gold-glow)_0%,transparent_70%)] opacity-20" />
           <div className="relative w-full h-full flex flex-col justify-center items-center">
             {/* Heartbeat pulse path */}
             <svg viewBox="0 0 200 80" className="w-48 h-16 overflow-visible">
               <path
                 d="M 0,40 L 40,40 L 50,20 L 55,60 L 60,40 L 90,40 L 95,10 L 100,70 L 105,40 L 140,40 L 150,30 L 155,50 L 160,40 L 200,40"
                 fill="none"
-                stroke="#D4A017"
+                stroke="var(--theme-gold)"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="opacity-70"
               />
               {/* Glowing signal running along the heartbeat */}
-              <circle r="3" fill="#F6C453">
+              <circle r="3" fill="var(--theme-gold-hover)">
                 <animateMotion
                   dur="4s"
                   repeatCount="indefinite"
@@ -97,7 +97,7 @@ export default function Projects() {
                 />
               </circle>
             </svg>
-            <div className="mt-2 text-[9px] font-mono text-[#D4A017] tracking-widest uppercase opacity-60">
+            <div className="mt-2 text-[9px] font-mono text-gold tracking-widest uppercase opacity-60">
               VITAL MONITORING ACTIVE
             </div>
           </div>
@@ -113,9 +113,9 @@ export default function Projects() {
       github: "https://github.com/Divesh455/RAG-Based-Project_",
       demo: "https://github.com/Divesh455/RAG-Based-Project_",
       graphic: (
-        <div className="absolute inset-0 bg-[#0B0F19] overflow-hidden flex items-center justify-center p-6 border-b border-[#D4A017]/10">
+        <div className="absolute inset-0 bg-bg-dark overflow-hidden flex items-center justify-center p-6 border-b border-gold/10">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:10px_10px]" />
-          <div className="relative w-44 h-24 rounded-lg border border-[#D4A017]/25 bg-[#111827]/40 flex flex-col justify-between p-3">
+          <div className="relative w-44 h-24 rounded-lg border border-gold/25 bg-bg-secondary/40 flex flex-col justify-between p-3">
             {/* Video head bar */}
             <div className="flex items-center gap-1.5 border-b border-white/5 pb-1.5">
               <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
@@ -123,20 +123,20 @@ export default function Projects() {
             </div>
             {/* Play button and wave */}
             <div className="flex items-center justify-center gap-3 my-1">
-              <div className="w-8 h-8 rounded-full bg-[#D4A017]/15 border border-[#D4A017]/40 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
-                <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[9px] border-l-[#F6C453] border-b-[5px] border-b-transparent ml-0.5" />
+              <div className="w-8 h-8 rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
+                <div className="w-0 h-0 border-t-[5px] border-t-transparent border-l-[9px] border-l-gold-hover border-b-[5px] border-b-transparent ml-0.5" />
               </div>
               {/* Animated audio bars */}
               <div className="flex items-end gap-[2px] h-6">
-                <div className="w-[3px] bg-[#D4A017] animate-pulse" style={{ height: "40%", animationDelay: "0.1s" }} />
-                <div className="w-[3px] bg-[#F6C453] animate-pulse" style={{ height: "80%", animationDelay: "0.3s" }} />
-                <div className="w-[3px] bg-[#D4A017] animate-pulse" style={{ height: "50%", animationDelay: "0.2s" }} />
-                <div className="w-[3px] bg-[#F6C453] animate-pulse" style={{ height: "90%", animationDelay: "0.5s" }} />
-                <div className="w-[3px] bg-[#D4A017] animate-pulse" style={{ height: "30%", animationDelay: "0.4s" }} />
+                <div className="w-[3px] bg-gold animate-pulse" style={{ height: "40%", animationDelay: "0.1s" }} />
+                <div className="w-[3px] bg-gold-hover animate-pulse" style={{ height: "80%", animationDelay: "0.3s" }} />
+                <div className="w-[3px] bg-gold animate-pulse" style={{ height: "50%", animationDelay: "0.2s" }} />
+                <div className="w-[3px] bg-gold-hover animate-pulse" style={{ height: "90%", animationDelay: "0.5s" }} />
+                <div className="w-[3px] bg-gold animate-pulse" style={{ height: "30%", animationDelay: "0.4s" }} />
               </div>
             </div>
             {/* Transcript text mockup */}
-            <div className="text-[7px] font-mono text-[#D4A017] opacity-60 text-center">
+            <div className="text-[7px] font-mono text-gold opacity-60 text-center">
               TRANSCRIPTING: &quot;Large Language Models...&quot;
             </div>
           </div>
@@ -152,25 +152,25 @@ export default function Projects() {
       github: "https://github.com/Divesh455/movie-recommender-divesh",
       demo: "https://github.com/Divesh455/movie-recommender-divesh",
       graphic: (
-        <div className="absolute inset-0 bg-[#0B0F19] overflow-hidden flex items-center justify-center p-6 border-b border-[#D4A017]/10">
+        <div className="absolute inset-0 bg-bg-dark overflow-hidden flex items-center justify-center p-6 border-b border-gold/10">
           <div className="relative w-full h-full flex flex-col justify-center items-center">
             {/* Film projector wheel */}
             <div className="relative flex items-center justify-center w-24 h-24">
               <svg viewBox="0 0 100 100" className="w-20 h-20 animate-[spin_10s_linear_infinite] opacity-30">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#D4A017" strokeWidth="1.5" strokeDasharray="6,4" />
-                <circle cx="50" cy="50" r="30" fill="none" stroke="#D4A017" strokeWidth="1.5" />
-                <line x1="50" y1="20" x2="50" y2="80" stroke="#D4A017" strokeWidth="1" />
-                <line x1="20" y1="50" x2="80" y2="50" stroke="#D4A017" strokeWidth="1" />
+                <circle cx="50" cy="50" r="45" fill="none" stroke="var(--theme-gold)" strokeWidth="1.5" strokeDasharray="6,4" />
+                <circle cx="50" cy="50" r="30" fill="none" stroke="var(--theme-gold)" strokeWidth="1.5" />
+                <line x1="50" y1="20" x2="50" y2="80" stroke="var(--theme-gold)" strokeWidth="1" />
+                <line x1="20" y1="50" x2="80" y2="50" stroke="var(--theme-gold)" strokeWidth="1" />
               </svg>
               {/* Center icon */}
-              <div className="absolute w-10 h-10 rounded-full bg-[#111827] border border-[#D4A017]/35 flex items-center justify-center shadow-lg">
-                <div className="text-[14px] text-[#F6C453] font-bold">★</div>
+              <div className="absolute w-10 h-10 rounded-full bg-bg-secondary border border-gold/35 flex items-center justify-center shadow-lg">
+                <div className="text-[14px] text-gold-hover font-bold">★</div>
               </div>
               {/* Floating suggestions */}
-              <div className="absolute -top-1 -left-2 px-2 py-0.5 rounded bg-[#111827]/80 border border-[#D4A017]/30 text-[8px] font-mono text-[#F9FAFB] shadow-md animate-bounce" style={{ animationDuration: "3s" }}>
+              <div className="absolute -top-1 -left-2 px-2 py-0.5 rounded bg-bg-secondary/80 border border-gold/30 text-[8px] font-mono text-[#F9FAFB] shadow-md animate-bounce" style={{ animationDuration: "3s" }}>
                 Sci-Fi 98%
               </div>
-              <div className="absolute bottom-2 -right-4 px-2 py-0.5 rounded bg-[#111827]/80 border border-[#D4A017]/30 text-[8px] font-mono text-[#F6C453] shadow-md animate-bounce" style={{ animationDuration: "4s", animationDelay: "0.5s" }}>
+              <div className="absolute bottom-2 -right-4 px-2 py-0.5 rounded bg-bg-secondary/80 border border-gold/30 text-[8px] font-mono text-gold-hover shadow-md animate-bounce" style={{ animationDuration: "4s", animationDelay: "0.5s" }}>
                 Action 95%
               </div>
             </div>
@@ -187,8 +187,8 @@ export default function Projects() {
       github: "https://github.com/Divesh455/SalesForecasting",
       demo: "https://salesforecastingdiveshmatkar.streamlit.app/",
       graphic: (
-        <div className="absolute inset-0 bg-[#0B0F19] overflow-hidden flex items-center justify-center p-6 border-b border-[#D4A017]/10">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(212,160,23,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(212,160,23,0.02)_1px,transparent_1px)] bg-[size:14px_14px]" />
+        <div className="absolute inset-0 bg-bg-dark overflow-hidden flex items-center justify-center p-6 border-b border-gold/10">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--gold-glow)_1px,transparent_1px),linear-gradient(to_bottom,var(--gold-glow)_1px,transparent_1px)] bg-[size:14px_14px]" />
           <div className="relative w-full h-full flex flex-col justify-end max-w-xs pb-2">
             <svg viewBox="0 0 200 100" className="w-full h-24 overflow-visible">
               <line x1="0" y1="80" x2="200" y2="80" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
@@ -204,16 +204,16 @@ export default function Projects() {
               <path
                 d="M 140,48 L 160,35 L 180,45 L 200,20"
                 fill="none"
-                stroke="#F6C453"
+                stroke="var(--theme-gold-hover)"
                 strokeWidth="2"
                 strokeDasharray="4,4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-              <circle cx="200" cy="20" r="4" fill="#F6C453" />
-              <circle cx="200" cy="20" r="10" fill="none" stroke="#F6C453" strokeWidth="1" className="animate-ping" style={{ transformOrigin: "200px 20px" }} />
+              <circle cx="200" cy="20" r="4" fill="var(--theme-gold-hover)" />
+              <circle cx="200" cy="20" r="10" fill="none" stroke="var(--theme-gold-hover)" strokeWidth="1" className="animate-ping" style={{ transformOrigin: "200px 20px" }} />
               <text x="5" y="15" fill="rgba(156,163,175,0.6)" fontSize="8" fontFamily="monospace">Historical</text>
-              <text x="145" y="15" fill="#F6C453" fontSize="8" fontFamily="monospace">Forecast</text>
+              <text x="145" y="15" fill="var(--theme-gold-hover)" fontSize="8" fontFamily="monospace">Forecast</text>
             </svg>
           </div>
         </div>
@@ -228,19 +228,19 @@ export default function Projects() {
       github: "https://github.com/Divesh455/Predict_House_Price",
       demo: "https://github.com/Divesh455/Predict_House_Price",
       graphic: (
-        <div className="absolute inset-0 bg-[#0B0F19] overflow-hidden flex items-center justify-center p-6 border-b border-[#D4A017]/10">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(212,160,23,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(212,160,23,0.015)_1px,transparent_1px)] bg-[size:12px_12px]" />
+        <div className="absolute inset-0 bg-bg-dark overflow-hidden flex items-center justify-center p-6 border-b border-gold/10">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--gold-glow)_1px,transparent_1px),linear-gradient(to_bottom,var(--gold-glow)_1px,transparent_1px)] bg-[size:12px_12px]" />
           <div className="relative w-full h-full flex flex-col justify-center items-center">
             {/* SVG House Blueprint */}
             <svg viewBox="0 0 100 80" className="w-24 h-20 overflow-visible">
-              <rect x="15" y="35" width="70" height="35" fill="none" stroke="rgba(212, 160, 23, 0.15)" strokeWidth="1" strokeDasharray="2,2" />
-              <polygon points="50,10 10,40 20,40 20,70 80,70 80,40 90,40" fill="none" stroke="#D4A017" strokeWidth="1.5" />
-              <rect x="40" y="50" width="20" height="20" fill="none" stroke="#D4A017" strokeWidth="1" />
-              <rect x="25" y="45" width="10" height="10" fill="none" stroke="#D4A017" strokeWidth="1" />
-              <rect x="65" y="45" width="10" height="10" fill="none" stroke="#D4A017" strokeWidth="1" />
+              <rect x="15" y="35" width="70" height="35" fill="none" stroke="var(--theme-gold)" strokeOpacity="0.15" strokeWidth="1" strokeDasharray="2,2" />
+              <polygon points="50,10 10,40 20,40 20,70 80,70 80,40 90,40" fill="none" stroke="var(--theme-gold)" strokeWidth="1.5" />
+              <rect x="40" y="50" width="20" height="20" fill="none" stroke="var(--theme-gold)" strokeWidth="1" />
+              <rect x="25" y="45" width="10" height="10" fill="none" stroke="var(--theme-gold)" strokeWidth="1" />
+              <rect x="65" y="45" width="10" height="10" fill="none" stroke="var(--theme-gold)" strokeWidth="1" />
               <g transform="translate(40, 22)">
-                <rect x="-10" y="-8" width="40" height="12" rx="3" fill="#111827" stroke="#F6C453" strokeWidth="1" />
-                <text x="10" y="1" fill="#F6C453" fontSize="7" textAnchor="middle" fontFamily="monospace" fontWeight="bold">$420k</text>
+                <rect x="-10" y="-8" width="40" height="12" rx="3" fill="var(--theme-bg-secondary)" stroke="var(--theme-gold-hover)" strokeWidth="1" />
+                <text x="10" y="1" fill="var(--theme-gold-hover)" fontSize="7" textAnchor="middle" fontFamily="monospace" fontWeight="bold">$420k</text>
               </g>
             </svg>
           </div>
@@ -250,16 +250,16 @@ export default function Projects() {
   ];
 
   return (
-    <section id="projects" className="relative py-32 bg-[#111827]/20 border-y border-[#D4A017]/5 overflow-hidden">
+    <section id="projects" className="relative py-32 bg-bg-secondary/20 border-y border-gold/5 overflow-hidden">
       {/* Background decorations */}
-      <div className="absolute top-[30%] left-[-15%] w-[400px] h-[400px] rounded-full bg-[#D4A017] opacity-[0.02] blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[-15%] w-[450px] h-[450px] rounded-full bg-[#F6C453] opacity-[0.03] blur-[150px] pointer-events-none" />
+      <div className="absolute top-[30%] left-[-15%] w-[400px] h-[400px] rounded-full bg-gold opacity-[0.02] blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[-15%] w-[450px] h-[450px] rounded-full bg-gold-hover opacity-[0.03] blur-[150px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         
         {/* Title Block */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#D4A017]/10 bg-[#1F2937]/35 text-[#D4A017] text-xs font-heading font-semibold tracking-widest uppercase mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/10 bg-bg-card/35 text-gold text-xs font-heading font-semibold tracking-widest uppercase mb-4">
             <Cpu className="w-3.5 h-3.5" />
             Showcase
           </div>
@@ -281,9 +281,9 @@ export default function Projects() {
               viewport={{ once: false, margin: "-100px" }}
               transition={{ duration: 0.6, delay: index * 0.15 }}
             >
-              <TiltCard className="group relative rounded-3xl bg-[#1F2937]/30 border border-[#D4A017]/10 hover:border-[#D4A017]/35 overflow-hidden flex flex-col justify-between h-[480px] shadow-lg hover:shadow-[0_15px_40px_-15px_rgba(212,160,23,0.15)] transition-all duration-300">
+              <TiltCard className="group relative rounded-3xl bg-bg-card/30 border border-gold/10 hover:border-gold/35 overflow-hidden flex flex-col justify-between h-[480px] shadow-lg hover:shadow-[0_15px_40px_-15px_var(--gold-glow)] transition-all duration-300">
                 {/* Visual Graphic Area */}
-                <div className="relative h-48 w-full select-none bg-[#0B0F19] overflow-hidden">
+                <div className="relative h-48 w-full select-none bg-bg-dark overflow-hidden">
                   {project.graphic}
                 </div>
 
@@ -291,11 +291,11 @@ export default function Projects() {
                 <div className="p-6 flex-1 flex flex-col justify-between gap-4 relative z-20">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="font-sans text-[10px] text-[#D4A017] tracking-widest uppercase font-semibold">
+                      <span className="font-sans text-[10px] text-gold tracking-widest uppercase font-semibold">
                         {project.category}
                       </span>
                     </div>
-                    <h3 className="font-heading text-xl font-bold text-[#F9FAFB] group-hover:text-[#F6C453] transition-colors">
+                    <h3 className="font-heading text-xl font-bold text-[#F9FAFB] group-hover:text-gold-hover transition-colors">
                       {project.title}
                     </h3>
                     <p className="font-sans text-xs text-[#9CA3AF] leading-relaxed font-light">
@@ -309,7 +309,7 @@ export default function Projects() {
                       {project.tech.map((badge) => (
                         <span
                           key={badge}
-                          className="px-2 py-0.5 rounded text-[9px] font-mono border border-white/5 bg-[#0B0F19]/40 text-[#9CA3AF]"
+                          className="px-2 py-0.5 rounded text-[9px] font-mono border border-white/5 bg-bg-dark/40 text-[#9CA3AF]"
                         >
                           {badge}
                         </span>
@@ -324,7 +324,7 @@ export default function Projects() {
                         rel="noopener noreferrer"
                         className="flex items-center gap-1.5 font-sans text-xs text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors"
                       >
-                        <FaGithub className="w-4 h-4 text-[#D4A017]" />
+                        <FaGithub className="w-4 h-4 text-gold" />
                         GitHub
                       </a>
                       {project.demo !== project.github && (
@@ -335,7 +335,7 @@ export default function Projects() {
                           className="flex items-center gap-1.5 font-sans text-xs text-[#9CA3AF] hover:text-[#F9FAFB] transition-colors ml-auto"
                         >
                           Live Demo
-                          <ExternalLink className="w-3.5 h-3.5 text-[#D4A017]" />
+                          <ExternalLink className="w-3.5 h-3.5 text-gold" />
                         </a>
                       )}
                     </div>

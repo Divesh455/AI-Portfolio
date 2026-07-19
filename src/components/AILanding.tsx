@@ -66,14 +66,17 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
 
     const drawParticles = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const themeGold = typeof window !== "undefined" ? getComputedStyle(document.documentElement).getPropertyValue('--theme-gold').trim() || "#D4A017" : "#D4A017";
 
       particles.forEach((p) => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(212, 160, 23, ${p.opacity})`;
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = themeGold;
         ctx.shadowBlur = 4;
-        ctx.shadowColor = "rgba(212, 160, 23, 0.3)";
+        ctx.shadowColor = themeGold;
         ctx.fill();
+        ctx.globalAlpha = 1;
 
         // Move particle up
         p.y += p.speedY;
@@ -158,7 +161,7 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
           style={{ willChange: "opacity" }}
-          className="fixed inset-0 w-full h-[100dvh] bg-[#0B0F19] z-[9999] flex flex-col items-center justify-center overflow-hidden select-none font-sans"
+          className="fixed inset-0 w-full h-[100dvh] bg-bg-dark z-[9999] flex flex-col items-center justify-center overflow-hidden select-none font-sans"
         >
           {/* Subtle noise texture overlay */}
           <div className="absolute inset-0 bg-noise opacity-[0.015] pointer-events-none z-10" />
@@ -168,8 +171,8 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
 
           {/* Radial soft gold ambient glow */}
           <div className="absolute inset-0 pointer-events-none z-0">
-            <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] rounded-full bg-[radial-gradient(circle_at_center,rgba(212,160,23,0.06)_0%,rgba(0,0,0,0)_70%)] blur-[40px] animate-pulse-slow" />
-            <div className="absolute bottom-[10%] left-[20%] w-[350px] h-[350px] rounded-full bg-[radial-gradient(circle_at_center,rgba(212,160,23,0.02)_0%,rgba(0,0,0,0)_60%)] blur-[40px]" />
+            <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] rounded-full bg-[radial-gradient(circle_at_center,var(--gold-glow)_0%,rgba(0,0,0,0)_70%)] blur-[40px] animate-pulse-slow" />
+            <div className="absolute bottom-[10%] left-[20%] w-[350px] h-[350px] rounded-full bg-[radial-gradient(circle_at_center,var(--gold-glow)_0%,rgba(0,0,0,0)_60%)] blur-[40px]" />
           </div>
 
           {/* Canvas particles */}
@@ -190,7 +193,7 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
                 rotate: { duration: 25, repeat: Infinity, ease: "linear" },
               }}
               style={{ willChange: "transform, opacity" }}
-              className="absolute w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] rounded-full border border-dashed border-[#D4A017]/30 bg-gradient-to-r from-transparent via-[#D4A017]/5 to-transparent shadow-[0_0_40px_rgba(212,160,23,0.15)]"
+              className="absolute w-[200px] h-[200px] sm:w-[240px] sm:h-[240px] rounded-full border border-dashed border-gold/30 bg-gradient-to-r from-transparent via-gold/5 to-transparent shadow-[0_0_40px_var(--gold-glow)]"
             />
 
             {/* Inner secondary spinning glow ring */}
@@ -206,7 +209,7 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
                 rotate: { duration: 18, repeat: Infinity, ease: "linear" },
               }}
               style={{ willChange: "transform, opacity" }}
-              className="absolute w-[170px] h-[170px] sm:w-[210px] sm:h-[210px] rounded-full border border-[#D4A017]/15 bg-[conic-gradient(from_0deg,rgba(212,160,23,0.08)_0%,transparent_50%,rgba(212,160,23,0.08)_100%)]"
+              className="absolute w-[170px] h-[170px] sm:w-[210px] sm:h-[210px] rounded-full border border-gold/15 bg-[conic-gradient(from_0deg,var(--gold-glow)_0%,transparent_50%,var(--gold-glow)_100%)]"
             />
 
             {/* Main core glassmorphism sphere */}
@@ -214,18 +217,18 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
               animate={state === "transitioning" ? { scale: 22, opacity: 0 } : {}}
               transition={{ duration: 1.4, ease: [0.76, 0, 0.24, 1] }}
               style={{ willChange: "transform, opacity" }}
-              className={`relative w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] rounded-full border border-[#D4A017]/35 flex flex-col items-center justify-center shadow-[inset_0_4px_30px_rgba(255,255,255,0.05),0_15px_45px_rgba(0,0,0,0.7),0_0_35px_rgba(212,160,23,0.25)] overflow-hidden group ${
-                state === "transitioning" ? "bg-[#111827]/90" : "glass"
+              className={`relative w-[140px] h-[140px] sm:w-[180px] sm:h-[180px] rounded-full border border-gold/35 flex flex-col items-center justify-center shadow-[inset_0_4px_30px_rgba(255,255,255,0.05),0_15px_45px_rgba(0,0,0,0.7),0_0_35px_var(--gold-glow)] overflow-hidden group ${
+                state === "transitioning" ? "bg-bg-secondary/90" : "glass"
               }`}
             >
               {/* Spherical Reflection Highlight Overlay */}
               <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent rounded-t-full pointer-events-none" />
 
               {/* Glowing inner particle core */}
-              <div className="absolute w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rounded-full bg-[radial-gradient(circle_at_center,#D4A017_0%,transparent_70%)] opacity-[0.25] group-hover:scale-110 transition-transform duration-700 pointer-events-none blur-sm" />
+              <div className="absolute w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] rounded-full bg-[radial-gradient(circle_at_center,var(--theme-gold)_0%,transparent_70%)] opacity-[0.25] group-hover:scale-110 transition-transform duration-700 pointer-events-none blur-sm" />
 
               {/* Bold modern logo name */}
-              <span className="relative z-10 text-3xl sm:text-4xl font-black tracking-tight font-heading bg-gradient-to-br from-[#F9FAFB] via-[#F6C453] to-[#D4A017] bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(212,160,23,0.25)] select-none">
+              <span className="relative z-10 text-3xl sm:text-4xl font-black tracking-tight font-heading bg-gradient-to-br from-[#F9FAFB] via-[#F6C453] to-gold bg-clip-text text-transparent drop-shadow-[0_2px_10px_var(--gold-glow)] select-none">
                 DM
               </span>
 
@@ -238,10 +241,10 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
 
           {/* Loading logs / System Status text */}
           <div className="h-10 flex items-center justify-center mb-5 max-w-[90vw]">
-            <Terminal className="w-3.5 h-3.5 text-[#D4A017]/80 mr-2 shrink-0" />
+            <Terminal className="w-3.5 h-3.5 text-gold/80 mr-2 shrink-0" />
             <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-widest text-[#9CA3AF] opacity-90 text-center leading-relaxed">
               {typedLog}
-              <span className="w-1.5 h-3 bg-[#D4A017] inline-block animate-blink ml-1 align-middle" />
+              <span className="w-1.5 h-3 bg-gold inline-block animate-blink ml-1 align-middle" />
             </span>
           </div>
 
@@ -257,17 +260,17 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
                   className="w-full flex flex-col items-center"
                 >
                   {/* Progress bar tracks */}
-                  <div className="w-full h-1 bg-[#111827] border border-white/5 rounded-full overflow-hidden mb-3.5 shadow-inner">
+                  <div className="w-full h-1 bg-bg-secondary border border-white/5 rounded-full overflow-hidden mb-3.5 shadow-inner">
                     <motion.div
                       style={{ width: `${progress}%` }}
-                      className="h-full bg-gradient-to-r from-[#D4A017] to-[#F6C453] shadow-[0_0_8px_rgba(212,160,23,0.6)]"
+                      className="h-full bg-gradient-to-r from-gold to-gold-hover shadow-[0_0_8px_var(--theme-gold)]"
                     />
                   </div>
                   {/* Progress values */}
                   <div className="flex items-center justify-between w-full font-mono text-[9px] tracking-widest text-[#9CA3AF]/60">
                     <span>SYSTEM BOOT</span>
                     <span>v1.0.0</span>
-                    <span className="text-[#D4A017] font-semibold">{progress}%</span>
+                    <span className="text-gold font-semibold">{progress}%</span>
                   </div>
                 </motion.div>
               ) : (
@@ -288,7 +291,7 @@ export default function AILanding({ state, onTransitionStart, onTransitionComple
                     }}
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full h-[52px] glass border border-[#D4A017]/40 rounded-[18px] text-xs font-heading font-bold tracking-[0.2em] uppercase text-[#F9FAFB] hover:text-[#D4A017] hover:border-[#D4A017] shadow-[0_0_20px_rgba(212,160,23,0.08)] hover:shadow-[0_0_30px_rgba(212,160,23,0.22)] transition-all duration-300 relative group flex items-center justify-center overflow-hidden cursor-pointer"
+                    className="w-full h-[52px] glass border border-gold/40 rounded-[18px] text-xs font-heading font-bold tracking-[0.2em] uppercase text-[#F9FAFB] hover:text-gold hover:border-gold shadow-[0_0_20px_var(--gold-glow)] hover:shadow-[0_0_30px_var(--gold-glow)] transition-all duration-300 relative group flex items-center justify-center overflow-hidden cursor-pointer"
                   >
                     {/* Hover light sheen slide effect */}
                     <div className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/[0.04] to-transparent -translate-x-full group-hover:animate-shine" />

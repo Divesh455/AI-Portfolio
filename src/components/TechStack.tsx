@@ -61,15 +61,15 @@ const techItems: TechItem[] = [
 
 export default function TechStack() {
   return (
-    <section id="tech-stack" className="relative py-28 bg-[#111827]/40 border-y border-[#D4A017]/5 overflow-hidden">
+    <section id="tech-stack" className="relative py-28 bg-bg-secondary/40 border-y border-gold/5 overflow-hidden">
       {/* Background Ornaments */}
-      <div className="absolute top-[30%] right-[-10%] w-[300px] h-[300px] rounded-full bg-[#D4A017] opacity-[0.02] blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[20%] left-[-15%] w-[400px] h-[400px] rounded-full bg-[#F6C453] opacity-[0.02] blur-[120px] pointer-events-none" />
+      <div className="absolute top-[30%] right-[-10%] w-[300px] h-[300px] rounded-full bg-gold opacity-[0.02] blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[20%] left-[-15%] w-[400px] h-[400px] rounded-full bg-gold-hover opacity-[0.02] blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         {/* Title Block */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#D4A017]/10 bg-[#1F2937]/35 text-[#D4A017] text-xs font-heading font-semibold tracking-widest uppercase mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/10 bg-bg-card/35 text-gold text-xs font-heading font-semibold tracking-widest uppercase mb-4">
             <Layers className="w-3.5 h-3.5" />
             Core Stack
           </div>
@@ -122,9 +122,9 @@ export default function TechStack() {
                 />
 
                 {/* Card itself */}
-                <div className="relative flex flex-col items-center justify-center p-6 h-36 rounded-2xl bg-[#1F2937]/30 backdrop-blur-md border border-[#D4A017]/10 hover:border-[#D4A017]/40 hover:bg-[#1F2937]/55 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-[#0B0F19]/50 flex items-center justify-center border border-white/5 mb-4 group-hover:scale-110 transition-transform duration-300 shadow-inner">
-                    <Icon className="w-6 h-6 text-[#9CA3AF] group-hover:text-[#F6C453] transition-colors" />
+                <div className="relative flex flex-col items-center justify-center p-6 h-36 rounded-2xl bg-bg-card/30 backdrop-blur-md border border-gold/10 hover:border-gold/40 hover:bg-bg-card/55 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-bg-dark/50 flex items-center justify-center border border-white/5 mb-4 group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                    <Icon className="w-6 h-6 text-[#9CA3AF] group-hover:text-gold-hover transition-colors" />
                   </div>
                   <h3 className="font-heading text-sm font-semibold text-[#F9FAFB] tracking-wide mb-1">
                     {item.name}

@@ -130,16 +130,16 @@ export default function Skills() {
   }).join(" ");
 
   return (
-    <section id="skills" className="relative py-28 bg-[#0B0F19] overflow-hidden border-t border-white/5">
+    <section id="skills" className="relative py-28 bg-bg-dark overflow-hidden border-t border-white/5">
       {/* Background Ornaments */}
-      <div className="absolute top-[20%] right-[-10%] w-[350px] h-[350px] rounded-full bg-[#D4A017] opacity-[0.02] blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[20%] left-[-10%] w-[350px] h-[350px] rounded-full bg-[#F6C453] opacity-[0.02] blur-[120px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[-10%] w-[350px] h-[350px] rounded-full bg-gold opacity-[0.02] blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[20%] left-[-10%] w-[350px] h-[350px] rounded-full bg-gold-hover opacity-[0.02] blur-[120px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         
         {/* Title Block */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#D4A017]/10 bg-[#1F2937]/35 text-[#D4A017] text-xs font-heading font-semibold tracking-widest uppercase mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/10 bg-bg-card/35 text-gold text-xs font-heading font-semibold tracking-widest uppercase mb-4">
             <Sparkles className="w-3.5 h-3.5 animate-pulse" />
             Abilities
           </div>
@@ -161,8 +161,8 @@ export default function Skills() {
             <svg viewBox="0 0 500 500" className="w-full h-full relative z-0">
               <defs>
                 <radialGradient id="radarGrad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#D4A017" stopOpacity="0.18" />
-                  <stop offset="100%" stopColor="#F6C453" stopOpacity="0.03" />
+                  <stop offset="0%" stopColor="var(--theme-gold)" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="var(--theme-gold-hover)" stopOpacity="0.03" />
                 </radialGradient>
               </defs>
 
@@ -175,7 +175,8 @@ export default function Skills() {
                     key={scale}
                     points={points}
                     fill="none"
-                    stroke="rgba(212, 160, 23, 0.15)"
+                    stroke="var(--theme-gold)"
+                    strokeOpacity="0.15"
                     strokeWidth="1.2"
                   />
                 );
@@ -190,7 +191,8 @@ export default function Skills() {
                     y1={cy}
                     x2={cx + v.dx * maxR}
                     y2={cy + v.dy * maxR}
-                    stroke="rgba(212, 160, 23, 0.12)"
+                    stroke="var(--theme-gold)"
+                    strokeOpacity="0.12"
                     strokeWidth="1"
                   />
                   {/* Animated Light Tracer moving outward */}
@@ -199,7 +201,7 @@ export default function Skills() {
                     y1={cy}
                     x2={cx + v.dx * maxR}
                     y2={cy + v.dy * maxR}
-                    stroke="#F6C453"
+                    stroke="var(--theme-gold-hover)"
                     strokeWidth="1.2"
                     strokeDasharray="30, 120"
                     className="animate-spoke-trace opacity-65"
@@ -211,7 +213,7 @@ export default function Skills() {
               <polygon
                 points={radarPoints}
                 fill="url(#radarGrad)"
-                stroke="#D4A017"
+                stroke="var(--theme-gold)"
                 strokeWidth="1.5"
                 className="transition-all duration-700 ease-out"
               />
@@ -240,7 +242,7 @@ export default function Skills() {
                       cy={vy}
                       r={isActive ? "7" : "5"}
                       fill={isActive ? "#FFFFFF" : "#111827"}
-                      stroke={isActive ? "#F6C453" : "#D4A017"}
+                      stroke={isActive ? "var(--theme-gold-hover)" : "var(--theme-gold)"}
                       strokeWidth={isActive ? "2.5" : "1.8"}
                       className="transition-all duration-300"
                     />
@@ -251,9 +253,9 @@ export default function Skills() {
               })}
 
               {/* Central hub node badge */}
-              <circle cx={cx} cy={cy} r="24" fill="#0B0F19" stroke="rgba(212, 160, 23, 0.3)" strokeWidth="1.5" />
+              <circle cx={cx} cy={cy} r="24" fill="var(--theme-bg-dark)" stroke="var(--theme-gold)" strokeOpacity="0.3" strokeWidth="1.5" />
               <g transform={`translate(${cx - 10}, ${cy - 10})`}>
-                <Network className="w-5 h-5 text-[#D4A017] opacity-80" />
+                <Network className="w-5 h-5 text-gold opacity-80" />
               </g>
             </svg>
 
@@ -289,8 +291,8 @@ export default function Skills() {
                     }}
                     className={`px-2 py-1 min-[400px]:px-2.5 min-[400px]:py-1.2 sm:px-3 sm:py-1.5 rounded-xl border text-[8px] min-[400px]:text-[10px] sm:text-xs font-mono tracking-wide uppercase transition-all duration-300 whitespace-nowrap cursor-pointer ${
                       isActive
-                        ? "bg-[#D4A017]/15 border-[#F6C453] text-[#F9FAFB] shadow-[0_0_15px_rgba(246,196,83,0.22)]"
-                        : "bg-[#111827]/70 border-white/5 text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/30"
+                        ? "bg-gold/15 border-gold-hover text-[#F9FAFB] shadow-[0_0_15px_var(--gold-glow)]"
+                        : "bg-bg-secondary/70 border-white/5 text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-gold/30"
                     }`}
                   >
                     {badge.name}
@@ -309,16 +311,16 @@ export default function Skills() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.4 }}
-                className="p-8 rounded-3xl border border-[#D4A017]/10 bg-[#1F2937]/15 backdrop-blur-md shadow-2xl relative overflow-hidden"
+                className="p-8 rounded-3xl border border-gold/10 bg-bg-card/15 backdrop-blur-md shadow-2xl relative overflow-hidden"
               >
                 {/* Gold header decorator */}
-                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#D4A017] to-transparent" />
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-gold to-transparent" />
 
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-[10px] font-mono tracking-widest text-[#D4A017] uppercase font-semibold">
+                  <span className="text-[10px] font-mono tracking-widest text-gold uppercase font-semibold">
                     Core Category Ecosystem
                   </span>
-                  <span className="font-mono text-xs text-[#F6C453] font-bold">
+                  <span className="font-mono text-xs text-gold-hover font-bold">
                     {Math.round(selectedCategoryData.score * 100)}% Proficiency
                   </span>
                 </div>
@@ -337,12 +339,12 @@ export default function Skills() {
                     <span>COMPETENCY SCALE</span>
                     <span>EXPERT ARCHITECT</span>
                   </div>
-                  <div className="w-full h-1.5 bg-[#0B0F19] rounded-full overflow-hidden border border-white/5">
+                  <div className="w-full h-1.5 bg-bg-dark rounded-full overflow-hidden border border-white/5">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${selectedCategoryData.score * 100}%` }}
                       transition={{ duration: 0.6, ease: "easeOut" }}
-                      className="h-full bg-gradient-to-r from-[#D4A017] to-[#F6C453]"
+                      className="h-full bg-gradient-to-r from-gold to-gold-hover"
                     />
                   </div>
                 </div>
@@ -356,7 +358,7 @@ export default function Skills() {
                     {selectedCategoryData.skills.map((tech) => (
                       <span
                         key={tech}
-                        className="px-2.5 py-1 rounded-lg bg-[#0B0F19]/50 border border-white/5 text-[10px] font-mono text-[#D4A017] font-semibold"
+                        className="px-2.5 py-1 rounded-lg bg-bg-dark/50 border border-white/5 text-[10px] font-mono text-gold font-semibold"
                       >
                         {tech}
                       </span>

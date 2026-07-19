@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gold: #D4A017;
-  --color-gold-hover: #F6C453;
-  --color-bg-dark: #0B0F19;
-  --color-bg-secondary: #111827;
-  --color-bg-card: #1F2937;
+  --color-gold: var(--theme-gold);
+  --color-gold-hover: var(--theme-gold-hover);
+  --color-bg-dark: var(--theme-bg);
+  --color-bg-secondary: var(--theme-bg-secondary);
+  --color-bg-card: var(--theme-bg-card);
   --color-text-primary: #F9FAFB;
   --color-text-secondary: #9CA3AF;
   
@@ -19,6 +19,26 @@
   --foreground: #F9FAFB;
   --gold: #D4A017;
   --gold-glow: rgba(212, 160, 23, 0.15);
+
+  --theme-gold: #D4A017;
+  --theme-gold-hover: #F6C453;
+  --theme-bg: #0B0F19;
+  --theme-bg-secondary: #111827;
+  --theme-bg-card: #1F2937;
+  --theme-selection: rgba(212, 160, 23, 0.3);
+}
+
+.theme-crimson {
+  --background: #0D0B0C;
+  --gold: #EF4444;
+  --gold-glow: rgba(239, 68, 68, 0.15);
+
+  --theme-gold: #EF4444;
+  --theme-gold-hover: #F87171;
+  --theme-bg: #0D0B0C;
+  --theme-bg-secondary: #1A1113;
+  --theme-bg-card: #2D191D;
+  --theme-selection: rgba(239, 68, 68, 0.3);
 }
 
 * {
@@ -36,7 +56,7 @@ body {
 
 /* Luxury selection styling */
 ::selection {
-  background-color: rgba(212, 160, 23, 0.3);
+  background-color: var(--theme-selection);
   color: #FFFFFF;
 }
 
@@ -45,15 +65,15 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0F19;
+  background: var(--theme-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1F2937;
+  background: var(--theme-bg-secondary);
   border-radius: 4px;
-  border: 1px solid rgba(212, 160, 23, 0.1);
+  border: 1px solid var(--gold-glow);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #D4A017;
+  background: var(--theme-gold);
 }
 
 /* Glassmorphism Styles */
@@ -88,18 +108,18 @@ body {
 
 /* Glow effects */
 .glow-gold {
-  box-shadow: 0 0 40px -5px rgba(212, 160, 23, 0.18);
+  box-shadow: 0 0 40px -5px var(--gold-glow);
 }
 
 .text-glow {
-  text-shadow: 0 0 20px rgba(212, 160, 23, 0.5);
+  text-shadow: 0 0 20px var(--gold-glow);
 }
 
 /* Typewriter animation helper */
 .cursor-blink::after {
   content: '|';
   animation: blink 1s step-end infinite;
-  color: #D4A017;
+  color: var(--theme-gold);
   margin-left: 2px;
 }
 
@@ -112,7 +132,7 @@ body {
 .gradient-border-gold {
   position: relative;
   background: linear-gradient(#111827, #111827) padding-box,
-              linear-gradient(135deg, #D4A017 0%, rgba(212, 160, 23, 0) 50%, #F6C453 100%) border-box;
+              linear-gradient(135deg, var(--theme-gold) 0%, rgba(212, 160, 23, 0) 50%, var(--theme-gold-hover) 100%) border-box;
   border: 1.5px solid transparent;
 }
 
@@ -183,6 +203,19 @@ html.lenis {
 
 .animate-pulse-slow {
   animation: pulse-slow 8s ease-in-out infinite;
+}
+
+/* Custom Cursor Styling */
+@media (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active a,
+  .custom-cursor-active button,
+  .custom-cursor-active input,
+  .custom-cursor-active textarea,
+  .custom-cursor-active [role='button'],
+  .custom-cursor-active .cursor-pointer {
+    cursor: none !important;
+  }
 }
 
 

@@ -41,6 +41,39 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
   // Video and audio states
   const [isMuted, setIsMuted] = useState(false);
   const [showUnmutePrompt, setShowUnmutePrompt] = useState(false);
+  const [theme, setTheme] = useState<"amber" | "crimson">("amber");
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
+
+  // Sync theme changes from document class list
+  useEffect(() => {
+    const checkTheme = () => {
+      const isCrimson = document.documentElement.classList.contains("theme-crimson");
+      setTheme(isCrimson ? "crimson" : "amber");
+    };
+
+    checkTheme();
+
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"]
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const videoSrc = theme === "crimson" ? "/assets/hero-video_red.mp4" : "/assets/hero-video.mp4";
+
+  // Reload and play video when source shifts, but only if visible in viewport
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      video.load();
+      if (isActivated && isHeroVisible) {
+        video.play().catch((err) => console.log("Video source play failed:", err));
+      }
+    }
+  }, [videoSrc, isActivated, isHeroVisible]);
 
   // Chatbot Assistant states
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -412,11 +445,13 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
         }
       }
 
-      draw(c: CanvasRenderingContext2D) {
+      draw(c: CanvasRenderingContext2D, themeGold: string) {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        c.fillStyle = `rgba(212, 160, 23, ${this.alpha})`;
+        c.globalAlpha = this.alpha;
+        c.fillStyle = themeGold;
         c.fill();
+        c.globalAlpha = 1;
       }
     }
 
@@ -439,12 +474,13 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
     const animate = () => {
       if (isVisible) {
         ctx.clearRect(0, 0, width, height);
+        const themeGold = typeof window !== "undefined" ? getComputedStyle(document.documentElement).getPropertyValue('--theme-gold').trim() || "#D4A017" : "#D4A017";
 
         ctx.lineWidth = 0.5;
         for (let i = 0; i < particles.length; i++) {
           const p1 = particles[i];
           p1.update(mouse.x, mouse.y);
-          p1.draw(ctx);
+          p1.draw(ctx, themeGold);
 
           for (let j = i + 1; j < particles.length; j++) {
             const p2 = particles[j];
@@ -454,11 +490,13 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
             if (dist < 150) {
               const alpha = ((150 - dist) / 150) * 0.06;
-              ctx.strokeStyle = `rgba(212, 160, 23, ${alpha})`;
+              ctx.globalAlpha = alpha;
+              ctx.strokeStyle = themeGold;
               ctx.beginPath();
               ctx.moveTo(p1.x, p1.y);
               ctx.lineTo(p2.x, p2.y);
               ctx.stroke();
+              ctx.globalAlpha = 1;
             }
           }
         }
@@ -522,7 +560,10 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+          const visible = entry.isIntersecting && entry.intersectionRatio >= 0.2;
+          setIsHeroVisible(visible);
+
+          if (visible) {
             // Hero section is visible (at least 20%), play the video if activated
             if (isActivatedRef.current) {
               video.play().catch((err) => {
@@ -568,7 +609,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
     <section
       id="home"
       ref={containerRef}
-      className="relative h-[100dvh] md:h-screen w-full flex items-center justify-center overflow-hidden bg-[#0B0F19]"
+      className="relative h-[100dvh] md:h-screen w-full flex items-center justify-center overflow-hidden bg-bg-dark"
     >
 
 
@@ -582,7 +623,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
       >
         <video
           ref={videoRef}
-          src="/assets/hero-video.mp4"
+          src={videoSrc}
           playsInline
           loop
           muted={isMuted}
@@ -598,12 +639,12 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
         */}
         {/* Desktop overlay with radial transparency behind the face at (75%, 50%) */}
         <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-transparent pointer-events-none z-10" />
-        <div className="hidden lg:block absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,transparent_12%,rgba(11,15,25,0.75)_55%,#0B0F19_95%)] pointer-events-none z-10" />
+        <div className="hidden lg:block absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,transparent_12%,color-mix(in_srgb,var(--theme-bg)_75%,transparent)_55%,var(--theme-bg)_95%)] pointer-events-none z-10" />
 
         {/* Mobile smooth bottom gradient overlay: face on top half remains fully visible and overlay-free */}
         <div className="md:hidden absolute inset-0 pointer-events-none z-10"
              style={{
-               background: "linear-gradient(to top, rgba(11,15,25,0.95) 0%, rgba(11,15,25,0.75) 30%, rgba(11,15,25,0.35) 60%, transparent 100%)"
+               background: "linear-gradient(to top, var(--theme-bg) 0%, color-mix(in srgb, var(--theme-bg) 75%, transparent) 30%, color-mix(in srgb, var(--theme-bg) 35%, transparent) 60%, transparent 100%)"
              }}
         />
       </motion.div>
@@ -616,8 +657,8 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
       {/* Gold Ambient Backlight Grid */}
       <div className="absolute inset-0 pointer-events-none z-10">
-        <div className="absolute top-[25%] left-[20%] w-[350px] h-[350px] rounded-full bg-[#D4A017] opacity-[0.02] blur-[120px]" />
-        <div className="absolute bottom-[25%] right-[20%] w-[450px] h-[450px] rounded-full bg-[#F6C453] opacity-[0.015] blur-[150px]" />
+        <div className="absolute top-[25%] left-[20%] w-[350px] h-[350px] rounded-full bg-gold opacity-[0.02] blur-[120px]" />
+        <div className="absolute bottom-[25%] right-[20%] w-[450px] h-[450px] rounded-full bg-gold-hover opacity-[0.015] blur-[150px]" />
       </div>
 
       {/* Unified Content Grid overlay (Desktop/Tablet/Mobile Layout) */}
@@ -647,7 +688,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
             {/* Typing Text */}
             <div className="hero-typewriter-container opacity-0 h-[48px] md:h-[60px] flex items-center justify-center lg:justify-start mb-[20px] md:mb-[28px]">
-              <span className="font-heading text-[28px] sm:text-[38px] lg:text-[42px] font-bold text-[#D4A017] cursor-blink pr-1">
+              <span className="font-heading text-[28px] sm:text-[38px] lg:text-[42px] font-bold text-gold cursor-blink pr-1">
                 {displayedRole}
               </span>
             </div>
@@ -657,7 +698,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
               {/* Gold Filled Button 1 */}
               <a
                 href="#projects"
-                className="col-span-2 hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-full md:w-auto h-[48px] md:h-[64px] rounded-[14px] md:rounded-[20px] text-[14px] md:text-[16px] font-heading font-semibold tracking-wide text-[#0B0F19] bg-gradient-to-r from-[#D4A017] to-[#F6C453] transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.4)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto whitespace-nowrap"
+                className="col-span-2 hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-2 w-full md:w-auto h-[48px] md:h-[64px] rounded-[14px] md:rounded-[20px] text-[14px] md:text-[16px] font-heading font-semibold tracking-wide text-bg-dark bg-gradient-to-r from-gold to-gold-hover transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_var(--gold-glow)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto whitespace-nowrap"
               >
                 Explore Projects
                 <ArrowUpRight className="w-4 h-4 md:w-3.5 md:h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -670,22 +711,22 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                 target="_blank"
                 download="Divesh_Matkar_Resume.pdf" 
                 rel="noopener noreferrer"
-                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-1.5 w-full md:w-auto h-[48px] md:h-[64px] rounded-[14px] md:rounded-[20px] text-[13px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto whitespace-nowrap"
+                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-1.5 w-full md:w-auto h-[48px] md:h-[64px] rounded-[14px] md:rounded-[20px] text-[13px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-gold/25 hover:border-gold/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_var(--gold-glow)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto whitespace-nowrap"
               >
-                <FileText className="w-4 h-4 text-[#D4A017] shrink-0" />
+                <FileText className="w-4 h-4 text-gold shrink-0" />
                 Resume
-                <div className="absolute inset-0 bg-[#D4A017]/10 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 -z-10" />
+                <div className="absolute inset-0 bg-gold/10 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 -z-10" />
               </a>
 
               {/* Glass Button 3 (Contact Me) */}
               <a
                 href="#contact"
                 rel="noopener noreferrer"
-                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-1.5 w-full md:w-auto h-[48px] md:h-[64px] rounded-[14px] md:rounded-[20px] text-[13px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-[#D4A017]/25 hover:border-[#D4A017]/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_rgba(212,160,23,0.3)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto whitespace-nowrap"
+                className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-1.5 w-full md:w-auto h-[48px] md:h-[64px] rounded-[14px] md:rounded-[20px] text-[13px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-gold/25 hover:border-gold/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_var(--gold-glow)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto whitespace-nowrap"
               >
-                <Mail className="w-4 h-4 text-[#D4A017] shrink-0" />
+                <Mail className="w-4 h-4 text-gold shrink-0" />
                 Contact Me
-                <div className="absolute inset-0 bg-[#D4A017]/10 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 -z-10" />
+                <div className="absolute inset-0 bg-gold/10 -translate-x-full group-hover:translate-x-0 transition-transform duration-300 -z-10" />
               </a>
             </div>
 
@@ -698,7 +739,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                 animate={{ y: [0, 6, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
               >
-                <ChevronDown className="w-4 h-4 text-[#D4A017]" />
+                <ChevronDown className="w-4 h-4 text-gold" />
               </motion.div>
             </div>
           </div>
@@ -716,11 +757,11 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
              left: "24px"
            }}>
         <button
-          className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 bg-black/80 border border-white/10 text-[#9CA3AF] hover:border-[#D4A017]/50 hover:text-white backdrop-blur-md cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
+          className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 bg-black/80 border border-white/10 text-[#9CA3AF] hover:border-gold/50 hover:text-white backdrop-blur-md cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
           aria-label="Chat with DM.AI"
           onClick={() => setIsChatOpen(true)}
         >
-          <Bot className="w-4.5 h-4.5 text-[#D4A017]" />
+          <Bot className="w-4.5 h-4.5 text-gold" />
         </button>
       </div>
 
@@ -734,7 +775,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <ChevronDown className="w-4 h-4 text-[#D4A017]" />
+          <ChevronDown className="w-4 h-4 text-gold" />
         </motion.div>
       </div>
 
@@ -749,8 +790,8 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
             onClick={handleToggleMute}
             className={`w-12 h-12 md:w-11 md:h-11 rounded-full flex items-center justify-center transition-all duration-300 bg-black/80 border backdrop-blur-md cursor-pointer ${
               isMuted
-                ? "border-white/10 text-[#9CA3AF] hover:border-[#D4A017]/50 hover:text-white"
-                : "border-[#D4A017] text-[#D4A017] shadow-[0_0_15px_rgba(212,160,23,0.4)]"
+                ? "border-white/10 text-[#9CA3AF] hover:border-gold/50 hover:text-white"
+                : "border-gold text-gold shadow-[0_0_15px_var(--gold-glow)]"
             }`}
             aria-label="Toggle Audio Voice"
           >
@@ -761,7 +802,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
             )}
           </button>
           {/* Tooltip */}
-          <span className="pointer-events-none absolute bottom-full mb-2 right-0 px-2.5 py-1 bg-black/95 border border-[#D4A017]/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
+          <span className="pointer-events-none absolute bottom-full mb-2 right-0 px-2.5 py-1 bg-black/95 border border-gold/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
             Toggle Voice
           </span>
         </div>
@@ -786,11 +827,11 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
               scale: isActivated ? 1 : 0,
             }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
-            className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 cursor-pointer"
+            whileHover={{ scale: 1.1, borderColor: "var(--theme-gold)" }}
+            className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-gold/25 shadow-[0_0_15px_var(--gold-glow)] hover:shadow-[0_0_25px_var(--gold-glow)] transition-colors duration-300 cursor-pointer"
           >
-            <FaLinkedin className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-[#F6C453] transition-colors" />
-            <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-[#D4A017]/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
+            <FaLinkedin className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-gold-hover transition-colors" />
+            <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-gold/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
               LinkedIn
             </span>
           </motion.a>
@@ -813,11 +854,11 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
               scale: isActivated ? 1 : 0,
             }}
             transition={{ duration: 0.8, delay: 1.0 }}
-            whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
-            className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 cursor-pointer"
+            whileHover={{ scale: 1.1, borderColor: "var(--theme-gold)" }}
+            className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-gold/25 shadow-[0_0_15px_var(--gold-glow)] hover:shadow-[0_0_25px_var(--gold-glow)] transition-colors duration-300 cursor-pointer"
           >
-            <SiLeetcode className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-[#F6C453] transition-colors" />
-            <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-[#D4A017]/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
+            <SiLeetcode className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-gold-hover transition-colors" />
+            <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-gold/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
               LeetCode
             </span>
           </motion.a>
@@ -840,11 +881,11 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
               scale: isActivated ? 1 : 0,
             }}
             transition={{ duration: 0.8, delay: 1.2 }}
-            whileHover={{ scale: 1.1, borderColor: "rgba(212, 160, 23, 0.8)" }}
-            className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-[#D4A017]/25 shadow-[0_0_15px_rgba(212, 160, 23, 0.1)] hover:shadow-[0_0_25px_rgba(212, 160, 23, 0.35)] transition-colors duration-300 cursor-pointer"
+            whileHover={{ scale: 1.1, borderColor: "var(--theme-gold)" }}
+            className="group relative w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center bg-black/60 backdrop-blur-md border border-gold/25 shadow-[0_0_15px_var(--gold-glow)] hover:shadow-[0_0_25px_var(--gold-glow)] transition-colors duration-300 cursor-pointer"
           >
-            <FaGithub className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-[#F6C453] transition-colors" />
-            <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-[#D4A017]/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
+            <FaGithub className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-[#9CA3AF] group-hover:text-gold-hover transition-colors" />
+            <span className="pointer-events-none absolute bottom-full mb-2.5 px-2 py-1 bg-black/95 border border-gold/25 text-[9px] text-[#F9FAFB] rounded-lg font-mono uppercase tracking-wider whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-md">
               GitHub
             </span>
           </motion.a>
@@ -865,12 +906,12 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative w-full max-w-lg h-[500px] flex flex-col rounded-3xl border border-[#D4A017]/30 bg-[#111827]/90 backdrop-blur-lg shadow-[0_0_50px_rgba(212,160,23,0.25)] overflow-hidden z-10"
+              className="relative w-full max-w-lg h-[500px] flex flex-col rounded-3xl border border-gold/30 bg-bg-secondary/90 backdrop-blur-lg shadow-[0_0_50px_var(--gold-glow)] overflow-hidden z-10"
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-6 py-4 border-[#D4A017]/10 bg-black/45 border-b">
+              <div className="flex items-center justify-between px-6 py-4 border-gold/10 bg-black/45 border-b">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#D4A017]/10 border border-[#D4A017]/30 flex items-center justify-center text-[#D4A017]">
+                  <div className="w-8 h-8 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-gold">
                     <Bot className="w-4.5 h-4.5 animate-pulse" />
                   </div>
                   <div>
@@ -886,14 +927,14 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                 
                 <button
                   onClick={() => setIsChatOpen(false)}
-                  className="w-8 h-8 rounded-full flex items-center justify-center border border-white/10 text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-[#D4A017]/40 transition-colors cursor-pointer"
+                  className="w-8 h-8 rounded-full flex items-center justify-center border border-white/10 text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-gold/40 transition-colors cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
 
               {/* Messages Scroll Area */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-4 font-sans text-xs scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#D4A017]/20 hover:scrollbar-thumb-[#D4A017]/40">
+              <div className="flex-1 overflow-y-auto p-6 space-y-4 font-sans text-xs scrollbar-thin scrollbar-track-transparent scrollbar-thumb-gold/20 hover:scrollbar-thumb-gold/40">
                 {chatMessages.map((msg, i) => (
                   <div
                     key={i}
@@ -902,8 +943,8 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                     <div
                       className={`max-w-[85%] rounded-2xl px-4 py-3 whitespace-pre-line leading-relaxed shadow-sm ${
                         msg.role === "user"
-                          ? "bg-[#D4A017] text-[#0B0F19] font-medium rounded-tr-none"
-                          : "bg-[#1F2937]/85 text-[#F9FAFB] border border-white/5 rounded-tl-none"
+                          ? "bg-gold text-bg-dark font-medium rounded-tr-none"
+                          : "bg-bg-card/85 text-[#F9FAFB] border border-white/5 rounded-tl-none"
                       }`}
                     >
                       {msg.content}
@@ -912,10 +953,10 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                 ))}
                 {isSending && (
                   <div className="flex justify-start">
-                    <div className="bg-[#1F2937]/85 text-[#9CA3AF] border border-white/5 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#D4A017] animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <div className="bg-bg-card/85 text-[#9CA3AF] border border-white/5 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 )}
@@ -924,7 +965,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
               {/* Suggestion Chips */}
               {chatMessages.length === 1 && (
-                <div className="px-6 py-2.5 flex flex-wrap gap-2 justify-center bg-black/10 border-t border-[#D4A017]/5">
+                <div className="px-6 py-2.5 flex flex-wrap gap-2 justify-center bg-black/10 border-t border-gold/5">
                   {[
                     "What are Divesh's skills?",
                     "Show me his projects",
@@ -933,7 +974,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                     <button
                       key={idx}
                       onClick={() => handleSendMessage(undefined, chip)}
-                      className="text-[10px] text-[#D4A017] border border-[#D4A017]/30 bg-black/40 hover:bg-[#D4A017] hover:text-[#0B0F19] px-3 py-1.5 rounded-full font-mono transition-all cursor-pointer"
+                      className="text-[10px] text-gold border border-gold/30 bg-black/40 hover:bg-gold hover:text-bg-dark px-3 py-1.5 rounded-full font-mono transition-all cursor-pointer"
                     >
                       {chip}
                     </button>
@@ -944,19 +985,19 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
               {/* Input Footer */}
               <form
                 onSubmit={handleSendMessage}
-                className="p-4 border-t border-[#D4A017]/10 bg-black/35 flex items-center gap-2"
+                className="p-4 border-t border-gold/10 bg-black/35 flex items-center gap-2"
               >
                 <input
                   type="text"
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   placeholder="Ask me about Divesh..."
-                  className="flex-1 px-4 py-2.5 rounded-xl border border-white/10 bg-[#0B0F19]/90 text-white text-xs font-sans placeholder-white/35 focus:outline-none focus:border-[#D4A017]/50 focus:ring-1 focus:ring-[#D4A017]/50 transition-all"
+                  className="flex-1 px-4 py-2.5 rounded-xl border border-white/10 bg-bg-dark/95 text-white text-xs font-sans placeholder-white/35 focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/50 transition-all"
                 />
                 <button
                   type="submit"
                   disabled={!chatInput.trim() || isSending}
-                  className="w-10 h-10 rounded-xl bg-gradient-to-r from-[#D4A017] to-[#F6C453] text-[#0B0F19] flex items-center justify-center hover:scale-105 transition-all disabled:opacity-50 disabled:scale-100 disabled:pointer-events-none cursor-pointer"
+                  className="w-10 h-10 rounded-xl bg-gradient-to-r from-gold to-gold-hover text-bg-dark flex items-center justify-center hover:scale-105 transition-all disabled:opacity-50 disabled:scale-100 disabled:pointer-events-none cursor-pointer"
                 >
                   <Send className="w-4 h-4" />
                 </button>
