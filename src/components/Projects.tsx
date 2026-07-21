@@ -144,13 +144,13 @@ export default function Projects() {
       ),
     },
     {
-      title: "CinePulse - Movie Recommendation System",
+      title: "CineMatch - AI Movie Recommendation System",
       category: "MACHINE LEARNING / RECOMMENDER SYSTEM",
       description:
-        "A content-based movie recommendation platform that delivers personalized movie suggestions through similarity analysis, REST APIs.",
-      tech: ["Python","Scikit-learn", "Pandas", "Machine Learning", "FastAPI", "Numpy"],
-      github: "https://github.com/Divesh455/movie-recommender-divesh",
-      demo: "https://github.com/Divesh455/movie-recommender-divesh",
+        "A content-based movie recommender built with Python, Scikit-learn, and FastAPI, providing personalized recommendations through machine learning and real-time TMDB integration.",
+      tech: ["Python","Scikit-learn", "Pandas", "Machine Learning", "FastAPI", "Numpy","TF-IDF","REST API","TMDB API"],
+      github: "https://github.com/Divesh455/CineMatch",
+      demo: "https://cinematch-movie-recommender-x539.onrender.com/",
       graphic: (
         <div className="absolute inset-0 bg-bg-dark overflow-hidden flex items-center justify-center p-6 border-b border-gold/10">
           <div className="relative w-full h-full flex flex-col justify-center items-center">
