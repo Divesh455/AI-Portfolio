@@ -30,7 +30,7 @@ export default function Contact() {
       const encodedText = encodeURIComponent(text);
       const whatsappUrl = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedText}`;
       window.open(whatsappUrl, "_blank");
-      
+
       setStatus("success");
       setName("");
       setEmail("");
@@ -91,7 +91,7 @@ export default function Contact() {
       <div className="absolute bottom-[20%] right-[-10%] w-[350px] h-[350px] rounded-full bg-gold-hover opacity-[0.02] blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        
+
         {/* Title Block */}
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold/10 bg-bg-card/35 text-gold text-xs font-heading font-semibold tracking-widest uppercase mb-4">
@@ -116,7 +116,7 @@ export default function Contact() {
               <p className="font-sans text-sm text-[#9CA3AF] leading-relaxed font-light">
                 Feel free to reach out via the form, or connect through social links below. I am available for contract architectures, full-time engineering roles, or consulting inquiries.
               </p>
-              
+
               <div className="space-y-4 pt-4">
                 <div className="flex items-center gap-4 text-sm text-[#9CA3AF]">
                   <div className="w-9 h-9 rounded-lg bg-bg-dark border border-gold/25 flex items-center justify-center text-gold">
@@ -163,9 +163,9 @@ export default function Contact() {
               </a>
 
               <a
-                href="/assets/Resume 5.pdf"
+                href="/assets/Divesh Matkar.pdf"
                 target="_blank"
-                download="Divesh_Matkar_Resume.pdf" 
+                download="Divesh_Matkar_Resume.pdf"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-bg-dark border border-white/5 text-xs font-heading font-semibold text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-gold/40 transition-all duration-300 hover:scale-[1.02]"
               >
@@ -183,11 +183,10 @@ export default function Contact() {
                 <button
                   type="button"
                   onClick={() => setDeliveryMethod("email")}
-                  className={`flex-1 py-2.5 rounded-lg text-xs font-heading font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                    deliveryMethod === "email"
+                  className={`flex-1 py-2.5 rounded-lg text-xs font-heading font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${deliveryMethod === "email"
                       ? "bg-gold text-bg-dark shadow-lg shadow-gold/10"
                       : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-bg-card/50"
-                  }`}
+                    }`}
                 >
                   <Mail className="w-3.5 h-3.5 shrink-0" />
                   <span>Email</span>
@@ -195,11 +194,10 @@ export default function Contact() {
                 <button
                   type="button"
                   onClick={() => setDeliveryMethod("whatsapp")}
-                  className={`flex-1 py-2.5 rounded-lg text-xs font-heading font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                    deliveryMethod === "whatsapp"
+                  className={`flex-1 py-2.5 rounded-lg text-xs font-heading font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${deliveryMethod === "whatsapp"
                       ? "bg-gold text-bg-dark shadow-lg shadow-gold/10"
                       : "text-[#9CA3AF] hover:text-[#F9FAFB] hover:bg-bg-card/50"
-                  }`}
+                    }`}
                 >
                   <FaWhatsapp className="w-4 h-4 shrink-0" />
                   <span>WhatsApp</span>

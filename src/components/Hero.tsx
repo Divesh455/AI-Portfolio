@@ -139,7 +139,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
     const isMobile = window.innerWidth < 768;
     const isTablet = window.innerWidth < 1024;
     const range = isMobile ? 65 : (isTablet ? 140 : 250);
-    
+
     // Generate completely independent random targets in 2D space for true random walk
     const targetX = (Math.random() - 0.5) * 2 * range;
     const targetY = (Math.random() - 0.5) * 2 * range;
@@ -169,7 +169,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
     const isTablet = window.innerWidth < 1024;
     const range = isMobile ? 65 : (isTablet ? 140 : 250);
     const minRange = isMobile ? 25 : (isTablet ? 50 : 80);
-    
+
     const signX = nx > 0 ? 1 : -1;
     const signY = ny > 0 ? 1 : -1;
 
@@ -523,33 +523,33 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
     if (!video) return;
 
     if (!isActivated) {
-        video.pause();
-        video.currentTime = 0;
-        return;
+      video.pause();
+      video.currentTime = 0;
+      return;
     }
 
     const playVideo = async () => {
-        try {
-            video.currentTime = 0;
-            video.muted = false;
-            video.volume = 1;
+      try {
+        video.currentTime = 0;
+        video.muted = false;
+        video.volume = 1;
 
-            await video.play();
+        await video.play();
 
-            setIsMuted(false);
-            setShowUnmutePrompt(false);
-        } catch (error) {
-            console.error(error);
-        }
+        setIsMuted(false);
+        setShowUnmutePrompt(false);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     playVideo();
 
     return () => {
-        video.pause();
+      video.pause();
     };
 
-}, [isActivated]);
+  }, [isActivated]);
 
   // Intersection Observer to pause/play video based on viewport visibility
   useEffect(() => {
@@ -600,7 +600,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
     if (!nextMutedState) {
       video.currentTime = 0; // Restart from the beginning when unmuted
-      video.play().catch(() => {});
+      video.play().catch(() => { });
       setShowUnmutePrompt(false);
     }
   };
@@ -617,7 +617,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
         Full-Screen Video Background:
         Covers the entire screen size (100vw x 100vh) under all screen widths
       */}
-      <motion.div 
+      <motion.div
         style={{ y: yBg }}
         className="absolute inset-0 w-full h-full pointer-events-none select-none z-0"
       >
@@ -643,9 +643,9 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
         {/* Mobile smooth bottom gradient overlay: face on top half remains fully visible and overlay-free */}
         <div className="md:hidden absolute inset-0 pointer-events-none z-10"
-             style={{
-               background: "linear-gradient(to top, var(--theme-bg) 0%, color-mix(in srgb, var(--theme-bg) 75%, transparent) 30%, color-mix(in srgb, var(--theme-bg) 35%, transparent) 60%, transparent 100%)"
-             }}
+          style={{
+            background: "linear-gradient(to top, var(--theme-bg) 0%, color-mix(in srgb, var(--theme-bg) 75%, transparent) 30%, color-mix(in srgb, var(--theme-bg) 35%, transparent) 60%, transparent 100%)"
+          }}
         />
       </motion.div>
 
@@ -663,16 +663,16 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
       {/* Unified Content Grid overlay (Desktop/Tablet/Mobile Layout) */}
       <div className="relative z-20 max-w-7xl mx-auto w-full px-6 md:px-12 flex flex-col justify-end md:justify-center h-full min-h-[100dvh] md:min-h-0 select-none pb-[calc(env(safe-area-inset-bottom)+80px)] md:pb-[80px] pointer-events-none"
-           style={{
-             paddingTop: "calc(env(safe-area-inset-top) + 80px)",
-             paddingBottom: "calc(env(safe-area-inset-bottom) + 80px)"
-           }}
+        style={{
+          paddingTop: "calc(env(safe-area-inset-top) + 80px)",
+          paddingBottom: "calc(env(safe-area-inset-bottom) + 80px)"
+        }}
       >
         {/* Spacer to push text content down to 50% viewport height on mobile */}
         <div className="h-[50vh] md:hidden block shrink-0" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full">
-          
+
           {/* Left Column Content (42% width / lg:col-span-5 on desktop, centered on mobile) */}
           <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left select-none max-w-[620px] mx-auto lg:mx-0 w-full">
 
@@ -707,9 +707,9 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
               {/* Glass Button 2 (Download Resume) */}
               <a
-                href="/assets/Resume 5.pdf"
+                href="/assets/Divesh Matkar.pdf"
                 target="_blank"
-                download="Divesh_Matkar_Resume.pdf" 
+                download="Divesh_Matkar_Resume.pdf"
                 rel="noopener noreferrer"
                 className="hero-btn opacity-0 group relative z-0 flex items-center justify-center gap-1.5 w-full md:w-auto h-[48px] md:h-[64px] rounded-[14px] md:rounded-[20px] text-[13px] md:text-[16px] font-heading font-semibold tracking-wide text-[#F9FAFB] bg-white/5 backdrop-blur-md border border-gold/25 hover:border-gold/60 hover:text-white transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_20px_var(--gold-glow)] overflow-hidden active:scale-95 md:px-8 pointer-events-auto whitespace-nowrap"
               >
@@ -752,10 +752,10 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
       {/* Chat Button (Bottom Left) */}
       <div className="absolute z-30 pointer-events-auto"
-           style={{
-             bottom: "calc(env(safe-area-inset-bottom) + 16px)",
-             left: "24px"
-           }}>
+        style={{
+          bottom: "calc(env(safe-area-inset-bottom) + 16px)",
+          left: "24px"
+        }}>
         <button
           className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 bg-black/80 border border-white/10 text-[#9CA3AF] hover:border-gold/50 hover:text-white backdrop-blur-md cursor-pointer shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
           aria-label="Chat with DM.AI"
@@ -767,7 +767,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
       {/* Down Scroll Indicator (Desktop/Tablet - responsive position) */}
       <div className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 opacity-60 hover:opacity-100 transition-opacity pointer-events-none"
-           style={{ bottom: "calc(env(safe-area-inset-bottom) + 16px)" }}>
+        style={{ bottom: "calc(env(safe-area-inset-bottom) + 16px)" }}>
         <span className="text-[10px] uppercase font-heading tracking-widest text-[#9CA3AF]">
           Scroll to Explore
         </span>
@@ -781,18 +781,17 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
 
       {/* Floating Audio Button (Bottom Right) */}
       <div className="absolute z-30 pointer-events-auto"
-           style={{
-             bottom: "calc(env(safe-area-inset-bottom) + 16px)",
-             right: "24px"
-           }}>
+        style={{
+          bottom: "calc(env(safe-area-inset-bottom) + 16px)",
+          right: "24px"
+        }}>
         <div className="group relative">
           <button
             onClick={handleToggleMute}
-            className={`w-12 h-12 md:w-11 md:h-11 rounded-full flex items-center justify-center transition-all duration-300 bg-black/80 border backdrop-blur-md cursor-pointer ${
-              isMuted
+            className={`w-12 h-12 md:w-11 md:h-11 rounded-full flex items-center justify-center transition-all duration-300 bg-black/80 border backdrop-blur-md cursor-pointer ${isMuted
                 ? "border-white/10 text-[#9CA3AF] hover:border-gold/50 hover:text-white"
                 : "border-gold text-gold shadow-[0_0_15px_var(--gold-glow)]"
-            }`}
+              }`}
             aria-label="Toggle Audio Voice"
           >
             {isMuted ? (
@@ -822,8 +821,8 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
             target="_blank"
             rel="noopener noreferrer"
             initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
-              opacity: isActivated ? 1 : 0, 
+            animate={{
+              opacity: isActivated ? 1 : 0,
               scale: isActivated ? 1 : 0,
             }}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -849,8 +848,8 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
             target="_blank"
             rel="noopener noreferrer"
             initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
-              opacity: isActivated ? 1 : 0, 
+            animate={{
+              opacity: isActivated ? 1 : 0,
               scale: isActivated ? 1 : 0,
             }}
             transition={{ duration: 0.8, delay: 1.0 }}
@@ -876,8 +875,8 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
             target="_blank"
             rel="noopener noreferrer"
             initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
-              opacity: isActivated ? 1 : 0, 
+            animate={{
+              opacity: isActivated ? 1 : 0,
               scale: isActivated ? 1 : 0,
             }}
             transition={{ duration: 0.8, delay: 1.2 }}
@@ -896,11 +895,11 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
       <AnimatePresence>
         {isChatOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-            <div 
-              className="absolute inset-0 cursor-default" 
-              onClick={() => setIsChatOpen(false)} 
+            <div
+              className="absolute inset-0 cursor-default"
+              onClick={() => setIsChatOpen(false)}
             />
-            
+
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -924,7 +923,7 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                     </span>
                   </div>
                 </div>
-                
+
                 <button
                   onClick={() => setIsChatOpen(false)}
                   className="w-8 h-8 rounded-full flex items-center justify-center border border-white/10 text-[#9CA3AF] hover:text-[#F9FAFB] hover:border-gold/40 transition-colors cursor-pointer"
@@ -941,11 +940,10 @@ export default function Hero({ isActivated = false }: { isActivated?: boolean })
                     className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[85%] rounded-2xl px-4 py-3 whitespace-pre-line leading-relaxed shadow-sm ${
-                        msg.role === "user"
+                      className={`max-w-[85%] rounded-2xl px-4 py-3 whitespace-pre-line leading-relaxed shadow-sm ${msg.role === "user"
                           ? "bg-gold text-bg-dark font-medium rounded-tr-none"
                           : "bg-bg-card/85 text-[#F9FAFB] border border-white/5 rounded-tl-none"
-                      }`}
+                        }`}
                     >
                       {msg.content}
                     </div>
