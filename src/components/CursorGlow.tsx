@@ -101,7 +101,7 @@ export default function CursorGlow() {
 
       {/* Custom Inner Dot Pointer */}
       <motion.div
-        className="pointer-events-none fixed top-0 left-0 w-2 h-2 rounded-full bg-gold z-[9999] mix-blend-difference"
+        className="pointer-events-none fixed top-0 left-0 w-2 h-2 rounded-full bg-gold z-[100000] mix-blend-difference"
         style={{
           x: cursorX,
           y: cursorY,
@@ -117,7 +117,7 @@ export default function CursorGlow() {
 
       {/* Custom Outer Ring Pointer */}
       <motion.div
-        className="pointer-events-none fixed top-0 left-0 w-7 h-7 rounded-full border border-gold z-[9999] mix-blend-difference"
+        className="pointer-events-none fixed top-0 left-0 w-7 h-7 rounded-full border border-gold z-[100000] mix-blend-difference"
         style={{
           x: ringX,
           y: ringY,

@@ -66,6 +66,109 @@ function TiltCard({ children, className }: { children: React.ReactNode; classNam
 export default function Projects() {
   const projectsList: Project[] = [
     {
+      title: "SkillCart",
+      category: "GENERATIVE AI / JOB RECOMMENDATION SYSTEM",
+      description:
+        "An AI-powered career platform that connects job seekers with relevant opportunities through intelligent job matching, resume management, and professional networking.",
+      tech: [
+        "React",
+        "Vite",
+        "Tailwind CSS",
+        "Java Spring Boot",
+        "Python",
+        "PostgreSQL",
+        "Qdrant",
+        "Gemini Embeddings",
+      ],
+      github: "https://github.com/Divesh455/SkillCart_Ai",
+      demo: "https://skill-cart.vercel.app",
+      graphic: (
+        <div className="absolute inset-0 bg-bg-dark overflow-hidden flex items-center justify-center p-6 border-b border-gold/10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--gold-glow)_0%,transparent_70%)] opacity-25" />
+          <div className="relative w-full h-full flex flex-col justify-center items-center">
+            {/* AI Match Radar & Network Nodes Mockup */}
+            <div className="relative w-44 h-24 rounded-xl border border-gold/25 bg-bg-secondary/40 flex flex-col justify-between p-3 overflow-hidden shadow-inner">
+              <div className="flex items-center justify-between border-b border-white/5 pb-1.5">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-[8px] font-mono text-[#9CA3AF]">VECTOR_MATCH: 98.4%</span>
+                </div>
+                <span className="text-[7px] font-mono text-gold font-bold px-1.5 py-0.5 rounded bg-gold/10 border border-gold/30">
+                  QDRANT
+                </span>
+              </div>
+              <div className="flex items-center justify-around py-1">
+                <div className="flex flex-col items-center">
+                  <div className="w-7 h-7 rounded-lg border border-gold/40 bg-gold/10 flex items-center justify-center text-[10px] font-mono text-gold-hover">
+                    CV
+                  </div>
+                  <span className="text-[7px] font-mono text-[#9CA3AF] mt-0.5">Resume</span>
+                </div>
+                <div className="flex-1 flex items-center justify-center px-2">
+                  <div className="w-full h-[1.5px] bg-gradient-to-r from-gold/30 via-gold to-gold/30 relative">
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-gold-hover animate-ping" />
+                  </div>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-7 h-7 rounded-lg border border-gold/40 bg-gold/10 flex items-center justify-center text-[10px] font-mono text-gold-hover">
+                    AI
+                  </div>
+                  <span className="text-[7px] font-mono text-[#9CA3AF] mt-0.5">Job Match</span>
+                </div>
+              </div>
+              <div className="text-[7px] font-mono text-gold/70 text-center truncate">
+                EMBEDDINGS: GEMINI-001 • TOP RECS IDENTIFIED
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "e-Netra",
+      category: "ARTIFICIAL INTELLIGENCE / RETINAL DISEASE SCREENING SYSTEM",
+      description:
+        "An AI-powered healthcare platform that analyzes retinal fundus images to detect diabetic retinopathy and other retinal abnormalities, providing AI-assisted screening results, explainable predictions, and automated medical report generation to support early diagnosis and clinical decision-making.",
+      tech: [
+        "React",
+        "Node.js",
+        "FastAPI",
+        "Python",
+        "TensorFlow",
+        "Deep Learning",
+        "Grad-CAM",
+        "Gemini API",
+      ],
+      github: "https://github.com/Divesh455/DrishtiAI-Backend",
+      demo: "#",
+      graphic: (
+        <div className="absolute inset-0 bg-bg-dark overflow-hidden flex items-center justify-center p-6 border-b border-gold/10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--gold-glow)_0%,transparent_75%)] opacity-20" />
+          <div className="relative w-full h-full flex flex-col justify-center items-center">
+            {/* Retinal Fundus & Scanning Reticle Mockup */}
+            <div className="relative w-28 h-28 rounded-full border border-gold/30 bg-bg-secondary/60 flex items-center justify-center overflow-hidden shadow-[0_0_20px_var(--gold-glow)]">
+              {/* Outer fundus ring lines */}
+              <div className="absolute inset-2 rounded-full border border-dashed border-gold/20" />
+              {/* Concentric scan circle */}
+              <div className="absolute w-12 h-12 rounded-full border border-gold/40 bg-gold/10 flex items-center justify-center">
+                <div className="w-4 h-4 rounded-full bg-gold-hover/80 animate-pulse" />
+              </div>
+              {/* Grad-CAM Heatmap overlay wave */}
+              <div className="absolute -top-1 -right-1 w-14 h-14 rounded-full bg-red-500/15 blur-sm" />
+              <div className="absolute -bottom-1 -left-1 w-12 h-12 rounded-full bg-emerald-500/15 blur-sm" />
+              {/* Target reticle crosshairs */}
+              <div className="absolute w-full h-[1px] bg-gold/20" />
+              <div className="absolute h-full w-[1px] bg-gold/20" />
+            </div>
+            <div className="mt-2 flex items-center gap-1.5 text-[8px] font-mono text-gold tracking-widest uppercase opacity-75">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              RETINAL SCAN • GRAD-CAM ACTIVE
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
       title: "MediAI - AI Healthcare Assistant",
       category: "Generative AI / Machine Learning",
       description:

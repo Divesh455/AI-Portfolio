@@ -25,6 +25,8 @@ At **XYLOFY AI**, Divesh works on:
 * Git-based collaboration and documentation
 
 ## Projects
+* **SkillCart:** AI-powered career platform & job recommendation system that connects job seekers with relevant opportunities through intelligent job matching, resume management, and professional networking. Built with React, Vite, Tailwind CSS, Java Spring Boot, Python, PostgreSQL, Qdrant, and Gemini Embeddings.
+* **e-Netra:** AI-powered retinal disease screening system that analyzes fundus images to detect diabetic retinopathy and retinal abnormalities, providing explainable Grad-CAM predictions and automated medical reports. Built with React, Node.js, FastAPI, Python, TensorFlow, Deep Learning, Grad-CAM, and Gemini API.
 * **MediAI:** AI Healthcare Assistant with disease prediction, AI chatbot, X-ray analysis, medical reports, and FastAPI backend.
 * **RAG AI Teaching Assistant:** Uses RAG, LLMs, embeddings, semantic search, and speech-to-text to answer questions from lecture videos.
 * **CinePulse:** Content-based Movie Recommendation System built with Machine Learning and FastAPI.
